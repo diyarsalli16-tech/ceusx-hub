@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CeusX | VIP Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; }
+        body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(120,0,255,0.1); }
+        input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; }
+        .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; }
+        
+        header { padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; }
+        header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; letter-spacing: 1px; }
+        .logout { color: var(--red); text-decoration: none; font-size: 11px; display: inline-block; margin-top: 5px; }
+
+        .tab-menu { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .tab-btn { background: transparent; color: #666; border: none; border-bottom: 2px solid transparent; padding: 10px 15px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s; }
+        .tab-btn.active { color: #fff; border-bottom-color: var(--xeno); }
+        
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .content { padding: 15px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* SOHBET KUTUSU - YENİ SES TASARIMI */
+        .chat-box { background: var(--panel); border-radius: 12px; border: 1px solid #222; height: 220px; display: flex; flex-direction: column; }
+        #chat-list { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .msg { background: #111; padding: 8px 12px; border-radius: 8px; font-size: 12px; border-left: 2px solid var(--xeno); word-wrap: break-word; }
+        .msg b { color: var(--accent); font-size: 11px; display: block; margin-bottom: 3px; }
+        
+        /* Özel HTML5 Audio Player Tasarımı (Sade) */
+        audio { height: 35px; width: 100%; outline: none; margin-top: 5px; border-radius: 5px; }
+        audio::-webkit-media-controls-panel { background-color: #222; }
+        audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-mute-button { filter: invert(1); }
+        audio::-webkit-media-controls-current-time-display, audio::-webkit-media-controls-time-remaining-display { color: #fff; }
+
+        .chat-input { padding: 8px; display: flex; gap: 6px; background: #0a0a0a; border-radius: 0 0 12px 12px; align-items: center; }
+        .chat-input input { flex: 1; padding: 10px; margin: 0; border: none; background: #111; color: #fff; border-radius: 8px; font-size: 13px; }
+        
+        .send-btn { background: #fff; border: none; border-radius: 8px; padding: 0 15px; font-weight: bold; color: #000; cursor: pointer; height: 100%; }
+        
+        /* 🎙️ YENİ: MİKROFON BUTONU */
+        .mic-btn { background: #222; border: 1px solid #333; border-radius: 8px; padding: 0 12px; font-size: 16px; cursor: pointer; color: #fff; transition: 0.3s; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .mic-btn.recording { background: var(--red); border-color: var(--red); animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* Diğer Kısımlar (Aynı) */
+        .search-area { background: var(--panel); padding: 20px; border-radius: 12px; border: 1px solid #222; text-align: center; }
+        .search-area input[type="text"] { border: 1px solid #333; text-align: center; margin-bottom: 10px; }
+        .search-btn { background: #fff; color: #000; font-weight: bold; width: 100%; padding: 15px; border: none; border-radius: 8px; cursor: pointer; }
+        .filter-box { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .filter-box input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--xeno); }
+        .filter-box label { font-size: 13px; color: #aaa; }
+
+        .script-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .card { background: var(--panel); border: 1px solid #222; border-radius: 12px; padding: 18px; position: relative; }
+        .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #fff; padding-right: 70px; }
+        .card p { font-size: 11px; color: #888; margin: 0 0 15px 0; }
+        .badge { position: absolute; top: 12px; right: 12px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; color: #000; background: var(--accent); }
+        .badge-key { background: #ffaa00; top: 35px; }
+        .badge-keyless { background: var(--accent); top: 35px; }
+        .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+        #loading-msg { display: none; text-align: center; color: var(--xeno); font-weight: bold; padding: 20px; }
+
+        .exec-container { background: radial-gradient(circle at top, #150a21 0%, #050505 80%); border: 1px solid #222; border-radius: 16px; padding: 40px 20px; text-align: center; margin-top: 10px; }
+        .exec-logo { font-size: 42px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--xeno); margin: 0; line-height: 1; }
+        .exec-sub { color: #888; font-size: 12px; margin-top: 10px; margin-bottom: 30px; letter-spacing: 2px; }
+        .dl-btn { background: #fff; color: #000; font-family: 'Orbitron'; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 0 20px rgba(255,255,255,0.2); width: 100%; max-width: 250px; }
+        .feat-list { margin-top: 40px; text-align: left; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 12px; border: 1px solid #222; }
+        .feat-list h4 { margin: 0 0 15px 0; color: #fff; font-family: 'Orbitron'; font-size: 14px; text-align: center; }
+        .feat-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 12px; color: #aaa; }
+        .feat-icon { color: var(--xeno); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    {% if not logged_in %}
+    <div class="auth-screen">
+        <div class="auth-box">
+            <h1 style="color:#fff; font-family:'Orbitron';">CEUS<span style="color:var(--xeno)">X</span></h1>
+            <input type="text" id="user" placeholder="Kullanıcı Adı">
+            <input type="password" id="pass" placeholder="Şifre">
+            <button class="btn-auth" style="background:#fff; color:#000;" onclick="auth('login')">SİSTEME GİR</button>
+            <button class="btn-auth" style="background:transparent; color:#fff; border:1px solid #333;" onclick="auth('register')">KAYIT OL</button>
+            <p id="error-msg" style="color:var(--red); font-size:11px; margin-top:10px;"></p>
+        </div>
+    </div>
+    {% endif %}
+
+    <header>
+        <h1>CEUS<span style="color:var(--xeno)">X</span></h1>
+        {% if logged_in %}
+            <span style="font-size:11px;">Aktif: {{ user }} | <a href="/logout" class="logout">Çıkış</a></span>
+        {% endif %}
+        
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab('scripts')">SCRIPT MOTORU</button>
+            <button class="tab-btn" onclick="switchTab('executor')">EXECUTOR</button>
+        </div>
+    </header>
+
+    <div class="content">
+        
+        <div id="tab-scripts" class="tab-content active">
+            <div class="chat-box">
+                <div id="chat-list"></div>
+                <div class="chat-input">
+                    <button id="mic-btn" class="mic-btn" onclick="toggleRecording()" title="Bas ve Konuş">🎙️</button>
+                    <input type="text" id="chat-msg" placeholder="Mesaj gönder..." onkeypress="if(event.key==='Enter') sendText()">
+                    <button class="send-btn" onclick="sendText()">➤</button>
+                </div>
+            </div>
+
+            <div class="search-area" style="margin-top: 20px;">
+                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:#fff;">VERİTABANI ARAMA</h3>
+                <input type="text" id="api-search" placeholder="Örn: Brookhaven, Blox Fruits..." onkeypress="if(event.key==='Enter') searchAPI()">
+                <div class="filter-box">
+                    <input type="checkbox" id="keyless-check">
+                    <label for="keyless-check">Sadece Keysiz Olanları Göster</label>
+                </div>
+                <button class="search-btn" style="margin-top: 10px;" onclick="searchAPI()">DOĞRULANMIŞ SCRIPT ARA</button>
+            </div>
+
+            <div id="loading-msg">Veriler Çekiliyor... ⏳</div>
+            <div class="script-grid" id="script-grid"></div>
+        </div>
+
+        <div id="tab-executor" class="tab-content">
+            <div class="exec-container">
+                <h1 class="exec-logo">CEUS<span style="color:var(--xeno)">X</span></h1>
+                <p class="exec-sub">ULTIMATE MOBILE EXECUTOR</p>
+                <button class="dl-btn" onclick="alert('v1.0 APK Dosyası hazırlanıyor kral!')">APK İNDİR</button>
+                <div class="feat-list">
+                    <h4>NEDEN CEUSX?</h4>
+                    <div class="feat-item"><span class="feat-icon">✦</span><span><b>Level 8 API:</b> Tüm scriptleri sorunsuz açar.</span></div>
+                    <div class="feat-item"><span class="feat-icon">✦</span><span><b>%100 Keysiz:</b> Reklam yok, direkt inject.</span></div>
+                    <div class="feat-item"><span class="feat-icon">✦</span><span><b>Anti-Ban:</b> Özel bypass sistemi.</span></div>
+                </div>
+                <p style="color: #444; font-size: 10px; margin-top: 30px; font-family:'Orbitron';">© 2026 CEUSX. %100 BAĞIMSIZ GELİŞTİRİCİ.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 🎙️ SES KAYIT MOTORU (WEB AUDIO API) ---
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        async function toggleRecording() {
+            const micBtn = document.getElementById('mic-btn');
+            
+            if (!isRecording) {
+                // Kayda Başla
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        // Ses kaydı bittiğinde Blob'a çevir ve Base64 yap
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        reader.onloadend = async () => {
+                            const base64Audio = reader.result;
+                            
+                            // Sunucuya SESLİ mesaj olarak gönder
+                            await fetch('/send_message', {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({ text: base64Audio, is_audio: true })
+                            });
+                            loadMsgs();
+                        };
+                        audioChunks = []; // Sıfırla
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    micBtn.classList.add('recording'); // Kırmızı yanıp sönme efekti
+                } catch (err) {
+                    alert("Kanka ses atabilmek için tarayıcıdan Mikrofona izin vermelisin!");
+                }
+            } else {
+                // Kaydı Durdur ve Gönder
+                mediaRecorder.stop();
+                isRecording = false;
+                micBtn.classList.remove('recording');
+            }
+        }
+
+        // Normal Yazı Gönderme
+        async function sendText() {
+            const i = document.getElementById('chat-msg'); 
+            if(!i.value.trim()) return;
+            await fetch('/send_message', { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({ text: i.value, is_audio: false }) 
+            });
+            i.value = ''; 
+            loadMsgs();
+        }
+
+        // 🌟 GÜNCELLENDİ: Mesajları Ekrana Çizme (Ses vs Yazı)
+        async function loadMsgs() {
+            const res = await fetch('/get_messages'); 
+            const data = await res.json();
+            const box = document.getElementById('chat-list');
+            
+            box.innerHTML = data.map(m => {
+                // Eğer mesaj is_audio=true ise <audio> etiketi koy, değilse normal yazı.
+                let content = m.is_audio ? 
+                    `<audio controls src="${m.text}"></audio>` : 
+                    m.text;
+                return `<div class="msg"><b>${m.user}</b>${content}</div>`;
+            }).join('');
+            
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // --- Diğer Sistemler (Sekme ve Arama) ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        async function searchAPI() {
+            const query = document.getElementById('api-search').value.trim();
+            const isKeyless = document.getElementById('keyless-check').checked;
+            const grid = document.getElementById('script-grid');
+            const loading = document.getElementById('loading-msg');
+            
+            if(!query) return;
+            grid.innerHTML = ''; loading.style.display = 'block';
+
+            try {
+                const url = '/api/search?q=' + encodeURIComponent(query) + '&keyless=' + isKeyless;
+                const res = await fetch(url); const data = await res.json();
+                loading.style.display = 'none';
+
+                if(data.success && data.scripts.length > 0) {
+                    let html = '';
+                    data.scripts.forEach((s, index) => {
+                        const keyBadge = s.has_key ? `<span class="badge badge-key">🔑 KEYLİ</span>` : `<span class="badge badge-keyless">🔓 KEYSİZ</span>`;
+                        html += `
+                            <div class="card">
+                                <span class="badge">✔️ GÜVENLİ</span> ${keyBadge}
+                                <h3>${s.title}</h3>
+                                <p><b style="color:#fff;">Oyun:</b> ${s.game}<br><br>${s.features.substring(0, 80)}...</p>
+                                <textarea id="raw-${index}" style="display:none;">${s.script}</textarea>
+                                <button class="copy-btn" onclick="copyId('raw-${index}')">KODU KOPYALA</button>
+                            </div>`;
+                    });
+                    grid.innerHTML = html;
+                } else { grid.innerHTML = `<p style="text-align:center; color:#888;">Sonuç bulunamadı kanka!</p>`; }
+            } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:#888;">Sunucuya bağlanılamadı.</p>`; }
+        }
+
+        function copyId(id) {
+            const el = document.createElement('textarea'); el.value = document.getElementById(id).value;
+            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            alert("✅ Script kopyalandı kanka!");
+        }
+
+        async function auth(type) {
+            const u = document.getElementById('user').value, p = document.getElementById('pass').value;
+            const res = await fetch('/' + type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: u, password: p}) });
+            const data = await res.json();
+            if(data.success) { if(type==='register') alert("Hesap açıldı!"); else location.reload(); }
+            else document.getElementById('error-msg').innerText = data.message;
+        }
+
+        if (document.getElementById('chat-list')) { loadMsgs(); setInterval(loadMsgs, 3000); }
+    </script>
+</body>
+</html>
