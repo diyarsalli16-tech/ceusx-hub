@@ -65,7 +65,7 @@
         .copy-btn:hover { background: #222; border-color: var(--accent); color: var(--accent); }
         
         .pagination-area { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-        .page-btn { background: #111; color: #fff; border: 1px solid #333; padding: 8px 14px; border-radius: 6px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .page-btn { background: #111; color: #fff; border: 1px solid #333; padding: 8px 14px; border-radius: 6px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s; display:inline-block; text-align:center; }
         .page-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 255, 170, 0.4); }
         .page-btn:hover:not(.active) { background: #222; }
 
@@ -175,13 +175,25 @@
         
         <div id="tab-scripts" class="tab-content active">
             <div class="chat-box"><div id="chat-list"></div><div class="chat-input"><input type="text" id="chat-msg" placeholder="Mesaj gönder..." onkeypress="if(event.key==='Enter') sendText()"><button class="send-btn" onclick="sendText()">➤</button></div></div>
+            
             <div class="search-area" style="margin-top: 20px;">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--accent);">☁️ CEUSX YEREL MOTOR (OFFLINE)</h3>
                 <input type="text" id="local-search-input" placeholder="Oyun veya Script Ara (Örn: admin, blox fruits)..." oninput="filterLocalScripts()" onkeypress="if(event.key==='Enter') filterLocalScripts()" style="margin-bottom:10px;">
                 <div class="filter-box"><input type="checkbox" id="keyless-check" onchange="filterLocalScripts()"><label for="keyless-check">Sadece Keysiz (No Key)</label></div>
-                <button class="search-btn" onclick="filterLocalScripts()">SCRIPT ARA</button>
+                <button class="search-btn" onclick="filterLocalScripts()">YERELDE ARA</button>
             </div>
-            <div class="script-grid" id="local-script-grid"></div>
+
+            <div class="search-area" style="margin-top: 20px; border-color: var(--gold); background: radial-gradient(circle at top, #111 0%, #050505 80%);">
+                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--gold);">🌐 YERALTI MEGA ARAMA (META SEARCH)</h3>
+                <p style="font-size:11px; color:#aaa; margin-bottom:10px;">Aradığın script bizim arşivde yoksa, tek tıkla bütün hacker ağlarını tara!</p>
+                <input type="text" id="mega-search-input" placeholder="Aranacak kelime (Örn: Arsenal)..." style="margin-bottom:10px; border-color:#333;" onkeypress="if(event.key==='Enter') megaSearch()">
+                <button class="search-btn" style="background:var(--gold); color:#000;" onclick="megaSearch()">TÜM AĞLARDA ARA</button>
+                
+                <div id="mega-results" style="display:none; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:15px;">
+                    </div>
+            </div>
+
+            <div class="script-grid" id="local-script-grid" style="margin-top: 20px;"></div>
             <div class="pagination-area" id="pagination-area"></div>
         </div>
 
@@ -225,6 +237,28 @@
             if(splash) { setTimeout(() => { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 500); }, 2500); }
             initLocalScripts();
         });
+
+        // 🌐 MEGA ARAMA (META SEARCH) FONKSİYONU 🌐
+        function megaSearch() {
+            const query = document.getElementById('mega-search-input').value.trim();
+            if(!query) { showToast("Önce bir script adı yazmalısın!", "error"); return; }
+            
+            const encoded = encodeURIComponent(query);
+            const scriptBloxUrl = `https://scriptblox.com/search?q=${encoded}`;
+            const rbxScriptUrl = `https://rbxscript.com/?search=${encoded}`;
+            const googleDorkUrl = `https://www.google.com/search?q=site:pastebin.com+"${encoded}"+"loadstring"`;
+            const youtubeUrl = `https://www.youtube.com/results?search_query=${encoded}+roblox+script+pastebin`;
+
+            const resDiv = document.getElementById('mega-results');
+            resDiv.style.display = 'flex';
+            resDiv.innerHTML = `
+                <a href="${scriptBloxUrl}" target="_blank" class="page-btn" style="background:#111; color:#00e5ff; border-color:#00e5ff; text-decoration:none; flex:1; min-width:120px;">🔵 ScriptBlox</a>
+                <a href="${rbxScriptUrl}" target="_blank" class="page-btn" style="background:#111; color:#ff3366; border-color:#ff3366; text-decoration:none; flex:1; min-width:120px;">🔴 RBXScript</a>
+                <a href="${googleDorkUrl}" target="_blank" class="page-btn" style="background:#111; color:#00ffaa; border-color:#00ffaa; text-decoration:none; flex:1; min-width:120px;">🟢 Pastebin (Dork)</a>
+                <a href="${youtubeUrl}" target="_blank" class="page-btn" style="background:#111; color:#ffcc00; border-color:#ffcc00; text-decoration:none; flex:1; min-width:120px;">🟡 YouTube</a>
+            `;
+            showToast("Mega Arama bağlantıları oluşturuldu!", "success");
+        }
 
         function gmailLogin() {
             showToast("Google sunucularına bağlanılıyor...", "info");
@@ -369,9 +403,7 @@
             { game: "Jailbreak", title: "Btools & Noclip", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/JB/Btools/main/Loader.lua"))()' },
             { game: "Phantom Forces", title: "Aimbot & ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/PF/Aim/main/Script.lua"))()' },
             { game: "Phantom Forces", title: "Silent Aim", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/PF/Silent/main/Load"))()' },
-
-            // 🚀 YENİ EKLENENLER (50+ SCRIPT) 🚀
-
+            
             // SLAP BATTLES
             { game: "Slap Battles", title: "Slap Farm Pro", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Slap/Farm/main/Pro.lua"))()' },
             { game: "Slap Battles", title: "Anti-Void Aura", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Slap/AntiVoid/main/Aura"))()' },
@@ -431,13 +463,7 @@
             { game: "Lumber Tycoon 2", title: "Auto Wood Mod", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LT2/Wood/main/Auto.lua"))()' },
             { game: "Lumber Tycoon 2", title: "Dupe Base", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LT2/Dupe/main/Base"))()' },
             { game: "Lumber Tycoon 2", title: "Modded Axe Giver", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LT2/Axe/main/Give.lua"))()' },
-            { game: "Lumber Tycoon 2", title: "LT2 Btools", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LT2/Btools/main/Load"))()' },
-
-            // MEEP CITY & ANIME VANGUARDS
-            { game: "Meep City", title: "Auto Farm Coins", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Meep/Farm/main/Coins.lua"))()' },
-            { game: "Meep City", title: "Plus Unlocker", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Meep/Plus/main/Unlock"))()' },
-            { game: "Anime Vanguards", title: "Auto Farm", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Vanguards/Farm/main/Auto.lua"))()' },
-            { game: "Anime Vanguards", title: "Summon Hack", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Vanguards/Summon/main/Hack"))()' }
+            { game: "Lumber Tycoon 2", title: "LT2 Btools", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LT2/Btools/main/Load"))()' }
         ];
 
         let filteredScripts = [];
