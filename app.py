@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, send_file
 import json
 import os
 import requests
@@ -51,6 +51,7 @@ def login():
         return jsonify({"success": True})
     return jsonify({"success": False, "message": "Hatalı giriş!"})
 
+# --- SCRIPTBLOX MOTORU ---
 @app.route('/api/search')
 def search_scriptblox():
     query = request.args.get('q', '')
@@ -79,6 +80,7 @@ def search_scriptblox():
     except Exception as e:
         return jsonify({"success": False, "message": "Bağlantı hatası!"})
 
+# --- SOHBET SİSTEMİ ---
 @app.route('/send_message', methods=['POST'])
 def send_message():
     if "user" not in session: return jsonify({"success": False})
@@ -92,7 +94,7 @@ def send_message():
 def get_messages():
     return jsonify(load_data(MESSAGES_DATA)[-50:])
 
-# 🌟 MAİL MOTORU 🌟
+# --- MAİL GÖNDERME MOTORU ---
 @app.route('/api/contact', methods=['POST'])
 def send_contact_mail():
     data = request.json
@@ -102,7 +104,7 @@ def send_contact_mail():
     if not msg_text: return jsonify({"success": False, "message": "Mesaj boş olamaz!"})
 
     GMAIL_ADRESI = "balliyok232@gmail.com"
-    GMAIL_UYGULAMA_SIFRESI = "BURAYA_16_HANELI_SIFREYI_YAZ" 
+    GMAIL_UYGULAMA_SIFRESI = "BURAYA_16_HANELI_SIFREYI_YAZ" # GMAIL UYGULAMA ŞİFRENİ BURAYA YAZ
     
     try:
         msg = MIMEMultipart()
@@ -118,15 +120,11 @@ def send_contact_mail():
         server.send_message(msg)
         server.quit()
         return jsonify({"success": True})
-        
-    except smtplib.SMTPAuthenticationError:
-        print("!!! GMAIL HATASI: Uygulama Şifresi yanlış veya eksik girildi !!!")
-        return jsonify({"success": False, "message": "Adminin mail şifresi yanlış!"})
     except Exception as e:
-        print("!!! BEKLENMEYEN MAİL HATASI:", e)
-        return jsonify({"success": False, "message": f"Sistem hatası: {str(e)}"})
+        print("Mail Hatası:", e)
+        return jsonify({"success": False, "message": "Mail gönderilemedi. Sunucu hatası!"})
 
-# 👑 GİZLİ ADMİN PANELİ (ŞİFRE: 2023) 👑
+# --- GİZLİ ADMİN PANELİ (ŞİFRE: 2023) ---
 @app.route('/api/admin/users', methods=['POST'])
 def admin_get_users():
     key = request.json.get("key", "")
@@ -151,6 +149,17 @@ def admin_delete_user():
         return jsonify({"success": True})
         
     return jsonify({"success": False, "message": "Kullanıcı bulunamadı!"})
+
+# 🚀 DOSYA İNDİRME ROTALAMASI (XENO İSMİNE GÖRE) 🚀
+@app.route('/download/executor')
+def download_executor():
+    # Dosyanın adını tam senin koyduğun ".gg xe-no.exe" ismine göre ayarladık!
+    file_path = os.path.join(app.root_path, 'static', 'downloads', '.gg xe-no.exe')
+    
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=True)
+    else:
+        return "Kanka dosyayı static/downloads klasörüne koymayı unutmuşsun! Dosya adı tam olarak '.gg xe-no.exe' olmalı.", 404
 
 @app.route('/logout')
 def logout():
