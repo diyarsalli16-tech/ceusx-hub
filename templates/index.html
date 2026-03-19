@@ -76,7 +76,6 @@
         .warning-banner { background: rgba(255, 51, 102, 0.1); border: 1px solid var(--red); padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 11px; color: #ddd; }
         .iban-box { background: #0a0a0a; padding: 12px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
 
-        /* ÖZEL OVERLAY MANTIKLARI (YASAL, SİLME) */
         .legal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
         .legal-dashboard { background: #0a0a0f; border: 2px solid var(--red); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(255, 51, 102, 0.3); }
         .legal-dashboard h2 { color: var(--red); font-family: 'Orbitron'; margin-top: 0; font-size: 22px; letter-spacing: 2px; }
@@ -91,22 +90,54 @@
         .ceus-toast.info { border-left-color: var(--game); }
         .toast-icon { font-size: 18px; }
 
+        /* 💳 ÖZEL KREDİ KARTI TEMALARI (PARODİ BANKALAR) 💳 */
         .cc-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 999999; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; flex-direction: column; padding: 20px; }
         .cc-wrapper { perspective: 1000px; width: 100%; max-width: 340px; }
-        .credit-card { width: 100%; height: 210px; background: linear-gradient(135deg, #111 0%, #000 100%); border: 1px solid #333; border-radius: 16px; padding: 20px; position: relative; box-shadow: 0 20px 50px rgba(0, 229, 255, 0.2); color: #fff; font-family: 'Orbitron', sans-serif; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-sizing: border-box; }
-        .credit-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 60%); pointer-events: none; }
+        
+        .credit-card { width: 100%; height: 210px; border-radius: 16px; padding: 20px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-sizing: border-box; font-family: 'Orbitron', sans-serif; transition: 0.5s; }
+        .credit-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%); pointer-events: none; }
+        
         .cc-top { display: flex; justify-content: space-between; align-items: flex-start; z-index: 2; }
         .cc-chip { width: 45px; height: 35px; background: linear-gradient(135deg, #e6c27a, #997a3d); border-radius: 6px; position: relative; border: 1px solid #554422; }
         .cc-chip::after { content: ''; position: absolute; top: 10px; bottom: 10px; left: 0; right: 0; border-top: 1px solid #554422; border-bottom: 1px solid #554422; }
-        .cc-logo { font-size: 22px; font-weight: 900; color: var(--game); font-style: italic; text-shadow: 0 0 10px var(--game); }
-        .cc-number { font-size: 18px; letter-spacing: 3px; z-index: 2; text-shadow: 1px 1px 2px #000; margin-top: 10px; color: #ddd; }
+        .cc-logo { font-size: 20px; font-weight: 900; font-style: italic; z-index: 2; }
+        .cc-number { font-size: 18px; letter-spacing: 3px; z-index: 2; text-shadow: 1px 1px 2px #000; margin-top: 10px; }
         .cc-bottom { display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; }
         .cc-name-box { display: flex; flex-direction: column; }
-        .cc-label { font-size: 8px; color: #888; font-family: 'Poppins'; margin-bottom: 2px; }
+        .cc-label { font-size: 8px; font-family: 'Poppins'; margin-bottom: 2px; opacity: 0.7; }
         .cc-name { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        .cc-bal { font-size: 18px; color: var(--game); font-weight: bold; text-shadow: 0 0 10px rgba(0,229,255,0.5); }
+        .cc-bal { font-size: 18px; font-weight: bold; }
+        
+        /* TEMA 1: STANDART */
+        .theme-default { background: linear-gradient(135deg, #111, #000); color: #fff; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2); }
+        .theme-default .cc-logo { color: var(--game); text-shadow: 0 0 10px var(--game); }
+        .theme-default .cc-bal { color: var(--game); text-shadow: 0 0 10px var(--game); }
+
+        /* TEMA 2: KAKBANK NEO */
+        .theme-kakbank { background: linear-gradient(135deg, #cc0033, #66001a); color: #fff; border: 1px solid #ff3366; box-shadow: 0 10px 30px rgba(255, 51, 102, 0.4); }
+        .theme-kakbank .cc-logo { color: #fff; text-shadow: 0 0 10px #ff3366; }
+        .theme-kakbank .cc-bal { color: #fff; }
+
+        /* TEMA 3: GARANTİSİZ BONUS */
+        .theme-garantisiz { background: linear-gradient(135deg, #009944, #003316); color: #fff; border: 1px solid #00ffaa; box-shadow: 0 10px 30px rgba(0, 255, 170, 0.4); }
+        .theme-garantisiz .cc-logo { color: #ccff00; text-shadow: 0 0 10px #ccff00; }
+        .theme-garantisiz .cc-bal { color: #ccff00; }
+
+        /* TEMA 4: AXPARAS BLACK */
+        .theme-axparas { background: linear-gradient(135deg, #1a1a1a, #000); color: #e6c27a; border: 1px solid #e6c27a; box-shadow: 0 10px 30px rgba(230, 194, 122, 0.3); }
+        .theme-axparas .cc-logo { color: #e6c27a; text-shadow: 0 0 10px #e6c27a; }
+        .theme-axparas .cc-bal { color: #e6c27a; }
+
         .btn-close-cc { margin-top: 30px; background: #222; color: #fff; padding: 12px 30px; border: 1px solid #444; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; }
         .btn-close-cc:hover { background: var(--red); border-color: var(--red); }
+
+        /* KART MARKETİ MODAL */
+        .market-card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .market-card h4 { margin: 0 0 5px 0; font-size: 14px; font-family: 'Orbitron'; }
+        .market-card p { margin: 0; font-size: 11px; color: #aaa; }
+        .btn-buy { background: var(--game); color: #000; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; font-family: 'Orbitron'; }
+        .btn-buy.owned { background: #333; color: #fff; }
+        .btn-buy.equipped { background: var(--accent); color: #000; }
     </style>
 </head>
 <body>
@@ -116,7 +147,7 @@
     <div id="legal-modal" class="legal-overlay">
         <div class="legal-dashboard">
             <h2>⚠️ YASAL UYARI</h2>
-            <p>Bu sayfadaki eğlence merkezinin <b>gerçek kumar, yasadışı bahis veya gerçek para sistemleriyle HİÇBİR ALAKASI YOKTUR!</b><br><br>Buradaki oyunlar tamamen sanal kredi (CeusCoin) ile oynanan, Roleplay (RP) ve eğlence amaçlı simülasyonlardır. Gerçek maddi değeri olan hiçbir işlem yapılamaz ve para çekilemez.</p>
+            <p>Bu sayfadaki eğlence merkezinin <b>gerçek kumar, yasadışı bahis veya gerçek para sistemleriyle HİÇBİR ALAKASI YOKTUR!</b><br><br>Buradaki oyunlar tamamen sanal kredi (CeusCoin) ile oynanan, Roleplay (RP) ve eğlence amaçlı simülasyonlardır.</p>
             <button class="btn-agree" onclick="acceptLegal()">KABUL EDİYORUM VE GİR</button>
         </div>
     </div>
@@ -132,12 +163,24 @@
         </div>
     </div>
 
+    <div id="market-modal" class="legal-overlay">
+        <div class="legal-dashboard" style="border-color: var(--game); max-width: 380px;">
+            <h2 style="color: var(--game);">💳 KART MARKETİ</h2>
+            <p style="margin-bottom: 15px;">Parodi bankalardan havalı kart temaları satın al. (Sadece RP içindir).</p>
+            
+            <div id="market-items" style="max-height: 300px; overflow-y: auto; padding-right: 5px;">
+                </div>
+
+            <button class="btn-agree" style="background: #222; color: #fff; margin-top: 15px;" onclick="closeCardMarket()">KAPAT</button>
+        </div>
+    </div>
+
     <div id="cc-modal" class="cc-overlay">
         <div class="cc-wrapper">
-            <div class="credit-card">
+            <div class="credit-card theme-default" id="the-credit-card">
                 <div class="cc-top">
                     <div class="cc-chip"></div>
-                    <div class="cc-logo">CEUS<span style="color:#fff;">X</span></div>
+                    <div class="cc-logo" id="card-logo-text">CEUS<span style="color:#fff;">X</span></div>
                 </div>
                 <div class="cc-number" id="card-display-number">**** **** **** ****</div>
                 <div class="cc-bottom">
@@ -152,7 +195,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn-close-cc" onclick="document.getElementById('cc-modal').style.display='none'">KAPAT</button>
+        <button class="btn-close-cc" onclick="document.getElementById('cc-modal').style.display='none'">CÜZDANA KOY</button>
     </div>
 
     {% if not logged_in %}
@@ -223,13 +266,6 @@
                     <p>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p>
                     <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')">KOPYALA</button>
                 </div>
-                <div class="card" style="border-color: var(--gold);">
-                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
-                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
-                    <h3>Unnamed ESP</h3>
-                    <p>En temiz ve asla kasmayan wallhack (duvar arkası görme).</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua\'))()')">KOPYALA</button>
-                </div>
             </div>
         </div>
 
@@ -238,14 +274,21 @@
                 <div class="coin-box">💰 BAKİYE: <span id="ceus-coins">100</span> COIN</div>
             </div>
             <div class="script-grid">
+                
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">💳 SANAL BANKA</h3>
                     <p>Maaşlarını yatır, sahte IBAN'la para gönder veya kartını gör!</p>
-                    <button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); margin-bottom:15px;" onclick="showCreditCard()">💳 KARTIMI GÖRÜNTÜLE</button>
+                    
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); padding:10px; font-size:11px;" onclick="showCreditCard()">KARTIMI GÖR</button>
+                        <button class="search-btn" style="background:var(--game); color:#000; padding:10px; font-size:11px;" onclick="openCardMarket()">KART MARKETİ</button>
+                    </div>
+                    
                     <div class="iban-box">
                         <span style="font-size:10px; color:#aaa;">IBAN NUMARAN:</span><br>
                         <b id="my-iban" style="color:#fff; font-family:monospace; font-size:14px; letter-spacing:1px;">TR99 ....</b>
                     </div>
+                    
                     <input type="text" id="transfer-target" placeholder="Alıcı IBAN veya İsim" style="margin-bottom:10px;">
                     <input type="number" id="transfer-amount" placeholder="Gönderilecek Miktar" style="margin-bottom:10px;">
                     <button class="search-btn" style="background:var(--game);" onclick="transferCoins()" id="btn-transfer">PARA GÖNDER</button>
@@ -298,7 +341,7 @@
                 <p class="exec-sub">GELİŞTİRİCİ: XENO EKİBİ | PARTNER: CEUSX</p>
                 <div style="background: rgba(255, 204, 0, 0.1); border: 1px solid var(--gold); padding: 15px; border-radius: 12px; margin-bottom: 25px;">
                     <p style="color: #ddd; font-size: 11px; line-height: 1.6; margin: 0;">
-                        ⚠️ <b>BİLGİLENDİRME:</b> Bu yazılım CeusX'e ait değildir. Dünyaca ünlü <b>Xeno Team</b> tarafından geliştirilmiştir. Bütün kredi Xeno ekibinindir!
+                        ⚠️ <b>BİLGİLENDİRME:</b> Bu yazılım CeusX'e ait değildir. Bütün kredi Xeno ekibinindir!
                     </p>
                 </div>
                 <button class="dl-btn" onclick="window.location.href='/download/executor'">XENO EXECUTOR İNDİR</button>
@@ -332,6 +375,7 @@
 
         function acceptLegal() { gamesWarned = true; document.getElementById('legal-modal').style.display = 'none'; switchTab('games'); }
 
+        // --- IBAN VE KREDİ KARTI SİSTEMİ ---
         let ceusCoins = localStorage.getItem('ceusCoins') ? parseInt(localStorage.getItem('ceusCoins')) : 100;
         document.getElementById('ceus-coins').innerText = ceusCoins;
 
@@ -350,11 +394,93 @@
             document.getElementById('card-display-bal').innerText = ceusCoins;
         }
 
+        // 🛒 YENİ: KART MARKETİ SİSTEMİ 🛒
+        const marketItems = [
+            { id: 'default', name: 'CeusX Standart', price: 0, color: '#00e5ff' },
+            { id: 'kakbank', name: 'Kakbank Neo', price: 500, color: '#ff3366' },
+            { id: 'garantisiz', name: 'GarantiSiz Bonus', price: 1000, color: '#00ffaa' },
+            { id: 'axparas', name: 'Axparas Centurion', price: 5000, color: '#e6c27a' }
+        ];
+
+        let ownedCards = JSON.parse(localStorage.getItem('ceusOwnedCards')) || ['default'];
+        let activeCard = localStorage.getItem('ceusActiveCard') || 'default';
+
+        function openCardMarket() {
+            document.getElementById('market-modal').style.display = 'flex';
+            renderMarket();
+        }
+
+        function closeCardMarket() {
+            document.getElementById('market-modal').style.display = 'none';
+        }
+
+        function renderMarket() {
+            const container = document.getElementById('market-items');
+            let html = '';
+            marketItems.forEach(item => {
+                let btnClass = "btn-buy";
+                let btnText = `SATIN AL (${item.price} ₵)`;
+                
+                if(activeCard === item.id) {
+                    btnClass += " equipped";
+                    btnText = "KUŞANILDI";
+                } else if(ownedCards.includes(item.id)) {
+                    btnClass += " owned";
+                    btnText = "KULLAN";
+                }
+
+                html += `
+                    <div class="market-card" style="border-left: 3px solid ${item.color};">
+                        <div>
+                            <h4 style="color:${item.color}">${item.name}</h4>
+                            <p>${item.price === 0 ? 'Bedava' : item.price + ' Coin'}</p>
+                        </div>
+                        <button class="${btnClass}" onclick="buyOrEquipCard('${item.id}', ${item.price}, '${item.name}')">${btnText}</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function buyOrEquipCard(themeId, price, name) {
+            if(ownedCards.includes(themeId)) {
+                activeCard = themeId;
+                localStorage.setItem('ceusActiveCard', themeId);
+                showToast(`${name} kartını kuşandın!`, "info");
+                renderMarket();
+            } else {
+                if(ceusCoins >= price) {
+                    ceusCoins -= price;
+                    updateCoins();
+                    ownedCards.push(themeId);
+                    localStorage.setItem('ceusOwnedCards', JSON.stringify(ownedCards));
+                    activeCard = themeId;
+                    localStorage.setItem('ceusActiveCard', themeId);
+                    showToast(`${name} başarıyla satın alındı!`, "success");
+                    renderMarket();
+                } else {
+                    showToast("Fakirsin kanka, bu karta paran yetmez!", "error");
+                }
+            }
+        }
+
+        // KART GÖSTERİMİ (TEMA UYGULAMA)
         function showCreditCard() {
             let uname = document.getElementById('current-username') ? document.getElementById('current-username').innerText : "GİZLİ KULLANICI";
             document.getElementById('card-display-name').innerText = uname;
             document.getElementById('card-display-number').innerText = localStorage.getItem('ceusCard');
             document.getElementById('card-display-bal').innerText = ceusCoins;
+            
+            // Temayı Uygula
+            const cardEl = document.getElementById('the-credit-card');
+            const logoEl = document.getElementById('card-logo-text');
+            cardEl.className = 'credit-card theme-' + activeCard;
+            
+            if(activeCard === 'kakbank') logoEl.innerHTML = "KAKBANK";
+            else if(activeCard === 'garantisiz') logoEl.innerHTML = "GARANTİ<span style='color:#fff'>SİZ</span>";
+            else if(activeCard === 'axparas') logoEl.innerHTML = "AXPARAS";
+            else logoEl.innerHTML = "CEUS<span style='color:#fff;'>X</span>";
+
             document.getElementById('cc-modal').style.display = 'flex';
         }
 
@@ -362,11 +488,9 @@
             const target = document.getElementById('transfer-target').value.trim();
             const amount = parseInt(document.getElementById('transfer-amount').value);
             const btn = document.getElementById('btn-transfer');
-
             if(!target) { showToast("Alıcı IBAN veya isim boş olamaz!", "error"); return; }
             if(isNaN(amount) || amount <= 0) { showToast("Geçerli bir miktar girmelisin!", "error"); return; }
             if(amount > ceusCoins) { showToast("Bankanda o kadar paran yok fakir!", "error"); return; }
-
             btn.innerText = "İŞLENİYOR..."; btn.style.opacity = "0.5"; btn.disabled = true;
             setTimeout(() => {
                 ceusCoins -= amount; updateCoins();
@@ -433,10 +557,7 @@
             } catch(e) { showToast("Sunucuya bağlanılamadı!", "error"); }
         }
 
-        // 🩸 YENİ: KULLANICI İNFAZ (SİLME) MANTIĞI 🩸
-        let currentAdminKey = "";
-        let userToDelete = "";
-
+        let currentAdminKey = ""; let userToDelete = "";
         async function loginAdmin() {
             const key = document.getElementById('admin-key-input').value.trim();
             if(!key) return;
@@ -445,54 +566,21 @@
             if(data.success) { currentAdminKey = key; document.getElementById('admin-login-area').style.display = 'none'; document.getElementById('admin-panel-area').style.display = 'block'; renderAdminUsers(data.users); showToast("Admin Paneline Giriş Yapıldı!", "success"); }
             else { showToast("Yanlış Admin Şifresi!", "error"); }
         }
-
         function renderAdminUsers(users) {
             const grid = document.getElementById('admin-users-grid');
             if(users.length === 0) { grid.innerHTML = `<p style="text-align:center;">Kimse yok.</p>`; return; }
             let html = '';
-            users.forEach(u => { 
-                // Sil tuşuna basınca artık confirm() değil, bizim özel modal açılıyor
-                html += `<div class="admin-card"><div><h4>👤 ${u.username}</h4><p>🔑 Şifre: <b style="color:var(--accent);">${u.password}</b></p></div><button class="btn-delete" onclick="openDeleteModal('${u.username}')">SİL</button></div>`; 
-            });
+            users.forEach(u => { html += `<div class="admin-card"><div><h4>👤 ${u.username}</h4><p>🔑 Şifre: <b style="color:var(--accent);">${u.password}</b></p></div><button class="btn-delete" onclick="openDeleteModal('${u.username}')">SİL</button></div>`; });
             grid.innerHTML = html;
         }
-
-        // İnfaz Ekranını Aç
-        function openDeleteModal(username) {
-            userToDelete = username;
-            document.getElementById('delete-modal-text').innerHTML = `<b style="color:var(--accent); font-size:16px;">${username}</b> adlı kullanıcıyı kalıcı olarak silmek istediğine emin misin? Bu işlem geri alınamaz!`;
-            document.getElementById('delete-modal').style.display = 'flex';
-        }
-
-        // İnfaz Ekranını Kapat
-        function closeDeleteModal() {
-            document.getElementById('delete-modal').style.display = 'none';
-            userToDelete = "";
-        }
-
-        // Kullanıcıyı Harbi Harbi Sil (API)
+        function openDeleteModal(username) { userToDelete = username; document.getElementById('delete-modal-text').innerHTML = `<b style="color:var(--accent); font-size:16px;">${username}</b> adlı kullanıcıyı kalıcı olarak silmek istediğine emin misin?`; document.getElementById('delete-modal').style.display = 'flex'; }
+        function closeDeleteModal() { document.getElementById('delete-modal').style.display = 'none'; userToDelete = ""; }
         async function confirmDelete() {
             if(!userToDelete) return;
-            
-            const res = await fetch('/api/admin/delete_user', { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'}, 
-                body: JSON.stringify({ key: currentAdminKey, username: userToDelete }) 
-            });
+            const res = await fetch('/api/admin/delete_user', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey, username: userToDelete }) });
             const data = await res.json();
-            
-            if(data.success) { 
-                showToast(`${userToDelete} kullanıcısı acımadan silindi!`, "info"); 
-                closeDeleteModal();
-                
-                // Listeyi arka planda sessizce yenile
-                const resUpdate = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey }) });
-                const dataUpdate = await resUpdate.json();
-                renderAdminUsers(dataUpdate.users);
-            } else {
-                showToast("Kullanıcı silinemedi!", "error");
-                closeDeleteModal();
-            }
+            if(data.success) { showToast(`${userToDelete} kullanıcısı acımadan silindi!`, "info"); closeDeleteModal(); const resUpdate = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey }) }); const dataUpdate = await resUpdate.json(); renderAdminUsers(dataUpdate.users); }
+            else { showToast("Kullanıcı silinemedi!", "error"); closeDeleteModal(); }
         }
 
         async function sendText() {
@@ -512,10 +600,8 @@
             const u = document.getElementById('user').value, p = document.getElementById('pass').value;
             const res = await fetch('/' + type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: u, password: p}) });
             const data = await res.json();
-            if(data.success) { 
-                if(type==='register') showToast("Hesap açıldı, giriş yapabilirsin!", "success"); 
-                else { showToast("Sisteme bağlanılıyor...", "success"); setTimeout(()=>location.reload(), 1500); }
-            } else showToast(data.message, "error");
+            if(data.success) { if(type==='register') showToast("Hesap açıldı, giriş yapabilirsin!", "success"); else { showToast("Sisteme bağlanılıyor...", "success"); setTimeout(()=>location.reload(), 1500); } } 
+            else showToast(data.message, "error");
         }
         if (document.getElementById('chat-list')) { loadMsgs(); setInterval(loadMsgs, 3000); }
     </script>
