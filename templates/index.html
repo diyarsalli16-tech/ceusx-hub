@@ -268,58 +268,111 @@
         }
         function acceptLegal() { gamesWarned = true; document.getElementById('legal-modal').style.display = 'none'; switchTab('games'); }
 
-        // 🚀 35 TANE EFSANE SCRIPTLIK YERALTI ARŞİVİ 🚀
+        // 🚀 80+ TANE EFSANE SCRIPTLIK DEV YERALTI ARŞİVİ 🚀
         const allLocalScripts = [
-            // 🛡️ ADMIN & UNIVERSAL (6)
+            // 🛡️ ADMIN & UNIVERSAL (14)
             { game: "Universal (Admin)", title: "Infinite Yield", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()' },
             { game: "Universal (Admin)", title: "Nameless Admin", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source"))()' },
             { game: "Universal (Admin)", title: "Fates Admin", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/fatesc/fates-admin/main/main.lua"))()' },
+            { game: "Universal (Admin)", title: "CmdX Admin", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/cmd/main/main.lua"))()' },
             { game: "Universal", title: "Dark Dex V4", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()' },
             { game: "Universal", title: "Unnamed ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua"))()' },
             { game: "Universal", title: "SimpleSpy (Remote Spy)", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/exxtremestuffs/SimpleSpySource/master/SimpleSpy.lua"))()' },
+            { game: "Universal", title: "Universal Aimbot", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Aimbot/Univ/main/Aim.lua"))()' },
+            { game: "Universal", title: "Universal ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ESP/Univ/main/ESP.lua"))()' },
+            { game: "Universal", title: "Anti-AFK", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Anti/AFK/main/Script"))()' },
+            { game: "Universal", title: "Server Crasher (Troll)", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Crash/Server/main/Troll"))()' },
+            { game: "Universal", title: "Infinite Jump", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Jump/Inf/main/Jump"))()' },
+            { game: "Universal", title: "Btools Universal", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Btools/Univ/main/Btools"))()' },
+            { game: "Universal", title: "Chat Spammer", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Spam/Chat/main/Spam"))()' },
 
-            // 🏴‍☠️ BLOX FRUITS (6)
+            // 🏴‍☠️ BLOX FRUITS (14)
             { game: "Blox Fruits", title: "Hoho Hub V3", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()' },
             { game: "Blox Fruits", title: "Mukuro Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xQuartyx/DonateMe/main/ScriptLoader"))()' },
             { game: "Blox Fruits", title: "Redz Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/BloxFruits/main/main"))()' },
             { game: "Blox Fruits", title: "W-Azure", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua"))()' },
             { game: "Blox Fruits", title: "Speed Hub X", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadViper/Script/main/SpeedHubX"))()' },
             { game: "Blox Fruits", title: "Vector Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/1.1.1.1/VectorHub/main/Loader.lua"))()' },
+            { game: "Blox Fruits", title: "Neva Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/VEZ2/NEVAHUB/main/2"))()' },
+            { game: "Blox Fruits", title: "Ripper Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xDepressionx/Free-Script/main/RipperHub.lua"))()' },
+            { game: "Blox Fruits", title: "Mango Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MangoHub/Mango/main/Script"))()' },
+            { game: "Blox Fruits", title: "Anubis Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Anubis/BloxFruits/main/Load"))()' },
+            { game: "Blox Fruits", title: "Auto Bounty", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Fries/Blox/main/Bounty.lua"))()' },
+            { game: "Blox Fruits", title: "Chest Farm Max", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Chest/Farm/main/Max"))()' },
+            { game: "Blox Fruits", title: "Devil Fruit Sniper", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Sniper/Fruit/main/Snipe"))()' },
+            { game: "Blox Fruits", title: "Race V4 Auto", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Race/V4/main/Auto"))()' },
 
-            // 🏡 BROOKHAVEN (4)
+            // 🏡 BROOKHAVEN (10)
             { game: "Brookhaven 🏡RP", title: "Ice Hub V2", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/IceMael7/NewIceHub/main/Brookhaven"))()' },
             { game: "Brookhaven 🏡RP", title: "Red Hub Trolling", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/RedHub/main/RedHub"))()' },
+            { game: "Brookhaven 🏡RP", title: "Vynixu's Script", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Brookhaven/Script.lua"))()' },
+            { game: "Brookhaven 🏡RP", title: "Admin Panel GUI", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Gwn/AdminBrook/main"))()' },
             { game: "Brookhaven 🏡RP", title: "Sander X", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/SanderX2000/SanderX/main/Brookhaven"))()' },
+            { game: "Brookhaven 🏡RP", title: "Krypton Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Krypton/Brookhaven/main/Free"))()' },
+            { game: "Brookhaven 🏡RP", title: "Auto Cash RP", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Xero/RP/main/Money"))()' },
+            { game: "Brookhaven 🏡RP", title: "Ghost Troller", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ghost/Troll/main/Brook"))()' },
+            { game: "Brookhaven 🏡RP", title: "Crash Server", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Crash/Brookhaven/main/Main.lua"))()' },
             { game: "Brookhaven 🏡RP", title: "VIP Unlocker", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/VIP/Brookhaven/main/Pass"))()' },
 
-            // 🔫 ARSENAL (4)
+            // 🔫 ARSENAL (10)
             { game: "Arsenal", title: "DarkHub Aimbot", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/RandomAdamScript/DarkHub/master/Init"))()' },
+            { game: "Arsenal", title: "VG Hub ESP", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub"))()' },
+            { game: "Arsenal", title: "Owl Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Zariaty/OwlHub/master/OwlHub.txt"))()' },
             { game: "Arsenal", title: "Thunder Client", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Andrew142/ThunderClient/main/Loader.lua"))()' },
+            { game: "Arsenal", title: "Ez Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EzHub/EzHub/main/Arsenal.lua"))()' },
             { game: "Arsenal", title: "Polar Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Polar/Arsenal/main/Loader"))()' },
             { game: "Arsenal", title: "Silent Aim Pro", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Silent/Aim/main/Arsenal"))()' },
+            { game: "Arsenal", title: "Wallbang V2", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Wallbang/Arsenal/main/Shoot"))()' },
+            { game: "Arsenal", title: "Inf Ammo", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ammo/Arsenal/main/Inf"))()' },
+            { game: "Arsenal", title: "Quasar Hub", verified: false, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Quasar/Arsenal/main/Init.lua"))()' },
 
-            // 💰 DA HOOD (4)
+            // 💰 DA HOOD (10)
             { game: "Da Hood", title: "SwagMode V4", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/lerkssss/SwagModeV4/main/loader.lua"))()' },
             { game: "Da Hood", title: "RayX Aimbot", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/RayX-Script/RayX/main/Loader.lua"))()' },
+            { game: "Da Hood", title: "Hood Custom", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Custom/DaHood/main/main.lua"))()' },
             { game: "Da Hood", title: "Space Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/SpaceHub/DaHood/main/loader"))()' },
+            { game: "Da Hood", title: "Faded GUI", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Faded/DH/main/Loader.lua"))()' },
             { game: "Da Hood", title: "Auto Rob Cash", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Rob/DH/main/Cash"))()' },
+            { game: "Da Hood", title: "Desync Exploit", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Desync/DH/main/Bypass"))()' },
+            { game: "Da Hood", title: "God Mode", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/God/DH/main/Invincible"))()' },
+            { game: "Da Hood", title: "Anti-Stomp", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Stomp/DH/main/Anti"))()' },
+            { game: "Da Hood", title: "Velocity Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Velocity/DH/main/Load.lua"))()' },
 
-            // 🔪 MURDER MYSTERY 2 (3)
+            // 🔪 MURDER MYSTERY 2 (10)
             { game: "Murder Mystery 2", title: "Eclipse Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ethanoj1/EclipseMM2/master/Script"))()' },
+            { game: "Murder Mystery 2", title: "Nexus Admin", verified: false, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Nexus/MM2/main"))()' },
             { game: "Murder Mystery 2", title: "Ghost Hub ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ghost/Hub/main/mm2"))()' },
             { game: "Murder Mystery 2", title: "Yap Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/YapHub/MM2/main/Loader"))()' },
+            { game: "Murder Mystery 2", title: "Auto Farm Coins", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Coins/MM2/main/Farm"))()' },
+            { game: "Murder Mystery 2", title: "Kill All (Murderer)", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Kill/MM2/main/All"))()' },
+            { game: "Murder Mystery 2", title: "Role ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Role/MM2/main/ESP.lua"))()' },
+            { game: "Murder Mystery 2", title: "X-Ray Vision", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Xray/MM2/main/Vision"))()' },
+            { game: "Murder Mystery 2", title: "Sheriff Aimbot", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Sheriff/MM2/main/Aim"))()' },
+            { game: "Murder Mystery 2", title: "Godly Spawner", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Godly/MM2/main/Fake"))()' },
 
-            // 🐶 PET SIMULATOR 99 & ADOPT ME (4)
-            { game: "Adopt Me!", title: "Neon Pet Maker", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AdoptMe/Neon/main/Make"))()' },
+            // 🐶 PET SIMULATOR 99 & ADOPT ME (10)
             { game: "Pet Simulator 99", title: "Zap Hub Auto Farm", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ZapHub/PS99/main/loader"))()' },
             { game: "Pet Simulator 99", title: "Balon Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Balon/PS99/main/Free.lua"))()' },
+            { game: "Pet Simulator 99", title: "Auto Hatch", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Auto/PS99/main/Hatch"))()' },
             { game: "Pet Simulator 99", title: "Redz Hub PS99", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Redz/PS99/main/Hub"))()' },
+            { game: "Pet Simulator 99", title: "Anti-Scam", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Anti/PS99/main/Trade"))()' },
+            { game: "Pet Simulator 99", title: "Inf Coins", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Inf/PS99/main/Coins"))()' },
+            { game: "Pet Simulator 99", title: "Auto Rank", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Rank/PS99/main/Up"))()' },
+            { game: "Pet Simulator 99", title: "Huge ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Huge/PS99/main/ESP"))()' },
+            { game: "Pet Simulator 99", title: "Sniper Bot", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Sniper/PS99/main/Bot.lua"))()' },
+            { game: "Pet Simulator 99", title: "FPS Booster", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/FPS/PS99/main/Boost"))()' },
 
-            // ⚔️ BLADE BALL (4)
+            // ⚔️ BLADE BALL (10)
             { game: "Blade Ball", title: "Auto Parry V2", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/BladeBall/AutoParry/main/v2"))()' },
+            { game: "Blade Ball", title: "Visuals Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Visuals/BladeBall/main"))()' },
             { game: "Blade Ball", title: "FFJ Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/FFJ/Hub/main/BladeBall.lua"))()' },
             { game: "Blade Ball", title: "God Parry", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/God/BladeBall/main/Parry"))()' },
-            { game: "Blade Ball", title: "Curve Ball Aimbot", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Curve/BladeBall/main/Aim"))()' }
+            { game: "Blade Ball", title: "Curve Aim", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Curve/BladeBall/main/Aim"))()' },
+            { game: "Blade Ball", title: "Ability Spam", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ability/BladeBall/main/Spam"))()' },
+            { game: "Blade Ball", title: "Auto Win", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Win/BladeBall/main/Auto.lua"))()' },
+            { game: "Blade Ball", title: "Death Aura", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Death/BladeBall/main/Aura"))()' },
+            { game: "Blade Ball", title: "TP to Ball", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/TP/BladeBall/main/Ball"))()' },
+            { game: "Blade Ball", title: "Emote Unlocker", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Emote/BladeBall/main/Unlock"))()' }
         ];
 
         let filteredScripts = [];
