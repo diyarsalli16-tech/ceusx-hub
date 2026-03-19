@@ -71,6 +71,7 @@ def search_scriptblox():
                     results.append({
                         "title": s.get("title", "İsimsiz"),
                         "game": s.get("game", {}).get("name", "Bilinmeyen Oyun"),
+                        "features": s.get("features", "Özellik belirtilmemiş."),
                         "script": s.get("script", ""),
                         "has_key": has_key
                     })
@@ -91,7 +92,7 @@ def send_message():
 def get_messages():
     return jsonify(load_data(MESSAGES_DATA)[-50:])
 
-# 🌟 GÜNCELLENDİ: MAİL MOTORU (HATA BİLDİRİMLİ) 🌟
+# 🌟 MAİL MOTORU 🌟
 @app.route('/api/contact', methods=['POST'])
 def send_contact_mail():
     data = request.json
@@ -100,9 +101,6 @@ def send_contact_mail():
     
     if not msg_text: return jsonify({"success": False, "message": "Mesaj boş olamaz!"})
 
-    # ==============================================================
-    # KANKA DİKKAT: BURAYA NORMAL MAİL ŞİFRENİ DEĞİL, GOOGLE'IN VERDİĞİ 16 HANELİ ŞİFREYİ YAZACAKSIN
-    # ==============================================================
     GMAIL_ADRESI = "balliyok232@gmail.com"
     GMAIL_UYGULAMA_SIFRESI = "BURAYA_16_HANELI_SIFREYI_YAZ" 
     
@@ -111,7 +109,7 @@ def send_contact_mail():
         msg['From'] = GMAIL_ADRESI
         msg['To'] = GMAIL_ADRESI 
         msg['Subject'] = f"CeusX İletişim | Gönderen: {user}"
-        msg.attach(MIMEText(msg_text, 'plain', 'utf-8')) # Türkçe karakter desteği eklendi
+        msg.attach(MIMEText(msg_text, 'plain', 'utf-8'))
         
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
@@ -123,16 +121,16 @@ def send_contact_mail():
         
     except smtplib.SMTPAuthenticationError:
         print("!!! GMAIL HATASI: Uygulama Şifresi yanlış veya eksik girildi !!!")
-        return jsonify({"success": False, "message": "Adminin mail şifresi yanlış (Terminali kontrol et)!"})
+        return jsonify({"success": False, "message": "Adminin mail şifresi yanlış!"})
     except Exception as e:
         print("!!! BEKLENMEYEN MAİL HATASI:", e)
         return jsonify({"success": False, "message": f"Sistem hatası: {str(e)}"})
 
-# 👑 GÜNCELLENDİ: GİZLİ ADMİN PANELİ (ŞİFRE: ceusx_patron) 👑
+# 👑 GİZLİ ADMİN PANELİ (ŞİFRE: 2023) 👑
 @app.route('/api/admin/users', methods=['POST'])
 def admin_get_users():
     key = request.json.get("key", "")
-    if key != "ceusx_patron": return jsonify({"success": False, "message": "Geçersiz Admin Şifresi!"})
+    if key != "2023": return jsonify({"success": False, "message": "Geçersiz Admin Şifresi!"})
     
     users = load_data(USER_DATA)
     user_list = [{"username": k, "password": v} for k, v in users.items()]
@@ -144,7 +142,7 @@ def admin_delete_user():
     key = data.get("key", "")
     username_to_delete = data.get("username", "")
     
-    if key != "ceusx_patron": return jsonify({"success": False})
+    if key != "2023": return jsonify({"success": False})
     
     users = load_data(USER_DATA)
     if username_to_delete in users:
