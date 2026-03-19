@@ -40,6 +40,7 @@
         
         .search-area { background: var(--panel); padding: 20px; border-radius: 12px; border: 1px solid #222; text-align: center; }
         .search-btn { background: var(--accent); color: #000; font-weight: bold; width: 100%; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 14px; transition: 0.2s; }
+        .search-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .filter-box { margin: 10px 0 15px 0; display: flex; align-items: center; justify-content: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; border: 1px solid #222; }
         .filter-box input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
@@ -71,13 +72,13 @@
         .dl-btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
 
         .coin-box { background: #111; border: 1px solid var(--game); color: var(--game); padding: 10px; border-radius: 8px; display: inline-block; font-family: 'Orbitron'; font-size: 16px; font-weight: bold; margin-bottom: 20px; }
-        .game-msg { font-size: 12px; font-weight: bold; height: 15px; margin-top: 10px; }
         .warning-banner { background: rgba(0, 229, 255, 0.1); border: 1px solid var(--game); padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 11px; color: #ddd; }
         .iban-box { background: #0a0a0a; padding: 12px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
 
+        /* OVERLAY MODALLAR */
         .legal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
-        .legal-dashboard { background: #0a0a0f; border: 2px solid var(--game); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(0, 229, 255, 0.3); }
-        .legal-dashboard h2 { color: var(--game); font-family: 'Orbitron'; margin-top: 0; font-size: 22px; letter-spacing: 2px; }
+        .legal-dashboard { background: #0a0a0f; border: 2px solid var(--red); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(255, 51, 102, 0.3); }
+        .legal-dashboard h2 { color: var(--red); font-family: 'Orbitron'; margin-top: 0; font-size: 22px; letter-spacing: 2px; }
         .legal-dashboard p { font-size: 12px; color: #ccc; line-height: 1.6; margin-bottom: 20px; }
         .btn-agree { background: var(--game); color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Orbitron'; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .btn-agree:hover { background: #fff; box-shadow: 0 0 20px var(--game); }
@@ -89,7 +90,7 @@
         .ceus-toast.info { border-left-color: var(--game); }
         .toast-icon { font-size: 18px; }
 
-        /* KART MARKETİ */
+        /* KART MARKETİ VE KART TEMALARI */
         .market-card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
         .market-card h4 { margin: 0 0 5px 0; font-size: 14px; font-family: 'Orbitron'; }
         .market-card p { margin: 0; font-size: 11px; color: #aaa; }
@@ -97,7 +98,6 @@
         .btn-buy.owned { background: #333; color: #fff; }
         .btn-buy.equipped { background: var(--accent); color: #000; }
 
-        /* KREDİ KARTI TEMALARI */
         .cc-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 999999; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; flex-direction: column; padding: 20px; }
         .cc-wrapper { perspective: 1000px; width: 100%; max-width: 340px; }
         .credit-card { width: 100%; height: 210px; border-radius: 16px; padding: 20px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-sizing: border-box; font-family: 'Orbitron', sans-serif; transition: 0.5s; }
@@ -128,6 +128,8 @@
         /* SENARYO BUTONLARI */
         .scen-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; font-size: 12px; font-family: 'Poppins'; text-align: left; cursor: pointer; transition: 0.2s; width: 100%; }
         .scen-btn:hover { background: #222; border-color: var(--game); }
+        
+        #cooldown-timer { font-size: 11px; color: var(--red); font-weight: bold; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
@@ -135,8 +137,8 @@
     <div id="toast-container"></div>
 
     <div id="legal-modal" class="legal-overlay">
-        <div class="legal-dashboard">
-            <h2>🕵️ GÖREV MERKEZİ</h2>
+        <div class="legal-dashboard" style="border-color: var(--game);">
+            <h2 style="color:var(--game);">🕵️ GÖREV MERKEZİ</h2>
             <p>Sokak görevlerini tamamla, patronun gözüne gir ve cüzdanını doldur! Buradaki hikayeler tamamen Roleplay (RP) amaçlıdır. Mantıklı düşün ve parayı kap.</p>
             <button class="btn-agree" onclick="acceptLegal()">GÖREVLERE BAŞLA</button>
         </div>
@@ -259,7 +261,7 @@
         <div id="tab-games" class="tab-content">
             
             <div class="warning-banner" style="border-color: var(--game); background: rgba(0, 229, 255, 0.1);">
-                ⚠️ <b>BİLGİLENDİRME:</b> Buradaki senaryolar tamamen zeka ve mantık testi amaçlıdır. Şans veya kumar faktörü bulunmaz.
+                ⚠️ <b>BİLGİLENDİRME:</b> Buradaki senaryolar tamamen zeka ve mantık testi amaçlıdır.
             </div>
 
             <div style="text-align:center;">
@@ -288,15 +290,15 @@
                 </div>
 
                 <div class="card" style="border-color: var(--game); text-align:center;">
-                    <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🕵️ SOKAK GÖREVLERİ (RP)</h3>
-                    <p>Doğru mantığı kur, görevi tamamla ve parayı kap!</p>
+                    <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🕵️ SOKAK GÖREVLERİ</h3>
+                    <p>Doğru mantığı kur, görevi tamamla ve parayı kap! <br><i>(Her 2 dakikada maksimum 3 görev alabilirsin)</i></p>
                     
                     <div id="scenario-container" style="background:#0a0a0a; padding:15px; border-radius:8px; border:1px solid #333; margin-top:15px;">
                         <p id="scenario-text" style="font-size:13px; font-weight:bold; color:#fff; line-height:1.5; margin-top:0;">Hazırsan yeni bir görev al.</p>
                         
-                        <div id="scenario-options" style="display:flex; flex-direction:column; gap:8px; margin-top:15px;">
-                            </div>
+                        <div id="scenario-options" style="display:flex; flex-direction:column; gap:8px; margin-top:15px;"></div>
 
+                        <p id="cooldown-timer"></p>
                         <button id="btn-new-scenario" class="search-btn" style="background:var(--game); margin-top:15px;" onclick="loadScenario()">YENİ GÖREV AL</button>
                     </div>
                 </div>
@@ -384,76 +386,100 @@
             document.getElementById('card-display-bal').innerText = ceusCoins;
         }
 
-        // 🕵️ YENİ: SOKAK SENARYOLARI (RP GÖREVLERİ) 🕵️
+        // 🕵️ 20 EFSANE SENARYO VE COOLDOWN SİSTEMİ 🕵️
         const scenarios = [
-            {
-                q: "Köprüde bir kedi mahsur kaldı ve rüzgar çok sert. Kedi korkudan titriyor. Ne yaparsın?",
-                opts: ["Hızlıca koşup ensesinden yakalarım", "Yere salam koyup yavaşça beklerim", "Aşağı inip itfaiyeyi ararım"],
-                correct: 1, reward: 50,
-                successMsg: "Harika hamle! Kedi yemeğe geldi ve onu güvenle kurtardın. Patron ödülünü yolladı.",
-                failMsg: "Yanlış karar! Kedi korkup kaçtı, görev başarısız."
-            },
-            {
-                q: "VIP bir müşterinin Lambo'sunu park etmen istendi. Hangi park yeri mantıklı?",
-                opts: ["Gölge olsun diye büyük ağacın altı", "Mekanın giriş kapısının tam önü (Yasak Park)", "Kameraların doğrudan gördüğü VIP köşesi"],
-                correct: 2, reward: 100,
-                successMsg: "Zekice! Araba güvende ve müşteri sana 100 Coin bahşiş verdi.",
-                failMsg: "Kovuldun! Patron bu hatana çok sinirlendi."
-            },
-            {
-                q: "Sokakta yürürken yerde içi para dolu, kimliksiz bir cüzdan buldun. Çevrede kamera var. Ne yaparsın?",
-                opts: ["Cüzdanı alıp hızlıca ara sokağa kaçarım", "Olduğu yerde bırakır, hiç dokunmam", "Cüzdanı alıp en yakın karakola teslim ederim"],
-                correct: 2, reward: 75,
-                successMsg: "Dürüstlük kazandırdı! Polis memuru dürüstlüğün için sana özel bir ödül verdi.",
-                failMsg: "Yanlış hamle kanka! Kameralara yakalandın ve başın derde girdi."
-            },
-            {
-                q: "Bilgisayarına bir hacker sızmaya çalışıyor. Ekranında garip kodlar akıyor. İlk hamlen nedir?",
-                opts: ["İnternet kablosunu (Ethernet) anında çekerim", "Antivirüs programını açıp tarama başlatırım", "Bilgisayarı yeniden başlatırım"],
-                correct: 0, reward: 150,
-                successMsg: "Tam bir uzmansın! İnterneti keserek bağlantısını anında kopardın. Dosyaların kurtuldu.",
-                failMsg: "Çok yavaş kaldın! O sırada hacker bütün şifrelerini çaldı bile."
-            }
+            { q: "Köprüde bir kedi mahsur kaldı ve rüzgar çok sert. Ne yaparsın?", opts: ["Hızlıca koşup ensesinden yakalarım", "Yere salam koyup yavaşça beklerim", "Aşağı inip itfaiyeyi ararım"], correct: 1, reward: 50 },
+            { q: "VIP bir müşterinin Lambo'sunu park etmen istendi. Neresi mantıklı?", opts: ["Gölge diye ağacın altı", "Mekanın giriş kapısının önü", "Kameraların gördüğü VIP köşesi"], correct: 2, reward: 100 },
+            { q: "Sokakta içi para dolu cüzdan buldun. Çevrede kamera var.", opts: ["Alıp hızlıca kaçarım", "Olduğu yerde bırakırım", "Karakola teslim ederim"], correct: 2, reward: 75 },
+            { q: "PC'ne bir hacker sızıyor. Ekrandan kodlar akıyor. İlk hamlen?", opts: ["İnternet kablosunu çekerim", "Antivirüs açarım", "Bilgisayarı kapatıp açarım"], correct: 0, reward: 150 },
+            { q: "Sokakta biri USB bellek uzattı 'İçinde 1 Bitcoin var' dedi.", opts: ["Alır çöpe atarım", "Hemen PC'me takarım", "İnternet kafede denerim"], correct: 0, reward: 80 },
+            { q: "Discord'dan biri 'Oyunumu test et, al bu .exe'yi' dedi.", opts: ["İndirip açarım", "Engelleyip spam bildiririm", "Sanal makinede kendi hesabımla açarım"], correct: 1, reward: 60 },
+            { q: "Mafya senden çalıntı arabayı boyamanı istedi ama polis peşinde.", opts: ["Arabayı terk edip kaçarım", "Hemen boyacıya sürerim", "Polisle çatışırım"], correct: 0, reward: 120 },
+            { q: "Kripto borsasında bir coin %500 arttı. Herkes 'Fırsatı kaçırma' diyor.", opts: ["Tüm paramı basarım", "Kredi çeker girerim", "FOMO'ya kapılmam, uzak dururum"], correct: 2, reward: 100 },
+            { q: "Karanlık sokakta iki grup kavga ediyor, oradan geçmen lazım.", opts: ["Yolumu değiştirip uzun yoldan giderim", "Aralarından havalıca yürürüm", "Kavgayı ayırırım"], correct: 0, reward: 70 },
+            { q: "Kafede bedava Wi-Fi buldun, bankaya girmen gerek.", opts: ["Bedava Wi-Fi'ye bağlanırım", "Kendi hücresel verimi kullanırım", "Wi-Fi'ye bağlanıp VPN açarım"], correct: 1, reward: 90 },
+            { q: "Eski dostun arayıp acil borç istedi ama sesi garip.", opts: ["Hemen parayı yollarım", "Görüntülü arayıp teyit ederim", "Başka bir arkadaştan yollatırım"], correct: 1, reward: 110 },
+            { q: "Yolda takım elbiseli biri bayıldı. Çevrede kimse yok.", opts: ["Cebini karıştırırım", "Uzaktan ambulansı arayıp beklerim", "Bilmeden suni teneffüs yaparım"], correct: 1, reward: 85 },
+            { q: "Sitenize devasa bir DDOS saldırısı var.", opts: ["Cloudflare korumasını Max yaparım", "Sunucunun fişini çekerim", "Geri onlara saldırırım"], correct: 0, reward: 200 },
+            { q: "İnternette 'Sadece şifreni gir, 1000 Coin kazan' yazıyor.", opts: ["Hemen katılırım", "Şikayet ederim (Phishing)", "Şifre girip sonra değiştiririm"], correct: 1, reward: 50 },
+            { q: "Eve polis geldi 'PC'ni alacağım' dedi ama kimliği yok.", opts: ["Buyur abi derim", "PC'yi camdan atarım", "Kapıyı kapatıp 155'i ararım"], correct: 2, reward: 130 },
+            { q: "Kod yazıyorsun, 3 saattir hata veriyor çözemedin.", opts: ["Klavyeyi kırarım", "Kodu tamamen silerim", "Biraz hava alıp dinlenirim"], correct: 2, reward: 60 },
+            { q: "Roblox'ta biri 'Bedava Robux atacağım, şifreni ver' diyor.", opts: ["İnanmam ve engellerim", "Veririm", "Sahte şifre verip denerim"], correct: 0, reward: 40 },
+            { q: "İndirdiğin script tamamen şifreli (obfuscated) kodlarla dolu.", opts: ["Ana hesabımda açarım", "Antivirüsü kapatırım", "Güvenmem ve çalıştırmam"], correct: 2, reward: 95 },
+            { q: "Kafenin tuvaletinde son model telefon buldun.", opts: ["Kasaya teslim ederim", "Alıp satarım", "Sahibini bekleyip para isterim"], correct: 0, reward: 75 },
+            { q: "Gece SMS geldi: 'Şifreniz değiştirildi'. Ama sen yapmadın.", opts: ["Resmi siteye girip kontrol ederim", "SMS'teki linke tıklarım", "Umursamam uyurum"], correct: 0, reward: 140 }
         ];
 
         let currentScenarioIndex = -1;
+        let taskCount = parseInt(localStorage.getItem('ceusTaskCount')) || 0;
+        let taskTimer = parseInt(localStorage.getItem('ceusTaskTimer')) || 0;
 
         function loadScenario() {
-            // Rastgele bir senaryo seç
+            const now = new Date().getTime();
+            
+            // 2 Dakika (120,000 ms) geçtiyse limiti sıfırla
+            if (now - taskTimer > 120000) {
+                taskCount = 0;
+                taskTimer = now;
+                localStorage.setItem('ceusTaskTimer', taskTimer);
+                localStorage.setItem('ceusTaskCount', taskCount);
+            }
+
+            // Eğer 2 dakika içinde 3 görevi doldurduysa engelle
+            if (taskCount >= 3) {
+                let kalan = Math.ceil((120000 - (now - taskTimer)) / 1000);
+                showToast(`Çok yoruldun patron! Dinlenmen lazım. Yeni görev için ${kalan} saniye bekle.`, "error");
+                
+                // Sayacı ekranda göster
+                document.getElementById('cooldown-timer').style.display = 'block';
+                document.getElementById('cooldown-timer').innerText = `⏳ Bekleme Süresi: ${kalan} sn`;
+                return;
+            }
+
+            document.getElementById('cooldown-timer').style.display = 'none';
             currentScenarioIndex = Math.floor(Math.random() * scenarios.length);
             const s = scenarios[currentScenarioIndex];
             
             document.getElementById('scenario-text').innerText = s.q;
             
             const btnContainer = document.getElementById('scenario-options');
-            btnContainer.innerHTML = ''; // Eski butonları sil
+            btnContainer.innerHTML = ''; 
             
             s.opts.forEach((optText, index) => {
                 btnContainer.innerHTML += `<button class="scen-btn" onclick="answerScenario(${index})">${optText}</button>`;
             });
 
-            document.getElementById('btn-new-scenario').style.display = 'none'; // Yeni görev butonunu gizle
+            document.getElementById('btn-new-scenario').style.display = 'none'; 
         }
 
         function answerScenario(selectedIndex) {
             const s = scenarios[currentScenarioIndex];
             const btnContainer = document.getElementById('scenario-options');
             
-            if (selectedIndex === s.correct) {
-                ceusCoins += s.reward;
-                updateCoins();
-                document.getElementById('scenario-text').innerHTML = `<span style="color:var(--accent);">✅ BAŞARILI:</span> ${s.successMsg} <br><br><b>KAZANÇ: +${s.reward} Coin</b>`;
-                showToast("Görev Başarılı!", "success");
-            } else {
-                document.getElementById('scenario-text').innerHTML = `<span style="color:var(--red);">❌ BAŞARISIZ:</span> ${s.failMsg}`;
-                showToast("Görev başarısız oldu...", "error");
+            // Görev yapıldı say, sayacı artır
+            taskCount++;
+            localStorage.setItem('ceusTaskCount', taskCount);
+            
+            // Eğer bu periyottaki ilk görevse, sayacı şimdi başlat ki süre adaletli olsun
+            if(taskCount === 1) {
+                taskTimer = new Date().getTime();
+                localStorage.setItem('ceusTaskTimer', taskTimer);
             }
 
-            btnContainer.innerHTML = ''; // Seçenekleri gizle
-            document.getElementById('btn-new-scenario').style.display = 'block'; // Yeni görev al butonunu geri getir
+            if (selectedIndex === s.correct) {
+                ceusCoins += s.reward; updateCoins();
+                document.getElementById('scenario-text').innerHTML = `<span style="color:var(--accent);">✅ DOĞRU KARAR:</span> Patron bu zekanı beğendi.<br><br><b>KAZANÇ: +${s.reward} Coin</b>`;
+                showToast(`Görev Başarılı! +${s.reward} ₵`, "success");
+            } else {
+                document.getElementById('scenario-text').innerHTML = `<span style="color:var(--red);">❌ YANLIŞ KARAR:</span> Sokaklar affetmez kanka. Çuvalladın!`;
+                showToast("Yanlış hamle, görev iptal!", "error");
+            }
+
+            btnContainer.innerHTML = ''; 
+            document.getElementById('btn-new-scenario').style.display = 'block'; 
         }
 
-        // KART MARKETİ
+        // --- MARKET, KART VE TRANSFER SİSTEMLERİ ---
         const marketItems = [
             { id: 'default', name: 'CeusX Standart', price: 0, color: '#00e5ff' },
             { id: 'kakbank', name: 'Kakbank Neo', price: 500, color: '#ff3366' },
@@ -473,15 +499,7 @@
                 let btnClass = "btn-buy"; let btnText = `SATIN AL (${item.price} ₵)`;
                 if(activeCard === item.id) { btnClass += " equipped"; btnText = "KUŞANILDI"; } 
                 else if(ownedCards.includes(item.id)) { btnClass += " owned"; btnText = "KULLAN"; }
-
-                html += `
-                    <div class="market-card" style="border-left: 3px solid ${item.color};">
-                        <div>
-                            <h4 style="color:${item.color}">${item.name}</h4>
-                            <p>${item.price === 0 ? 'Bedava' : item.price + ' Coin'}</p>
-                        </div>
-                        <button class="${btnClass}" onclick="buyOrEquipCard('${item.id}', ${item.price}, '${item.name}')">${btnText}</button>
-                    </div>`;
+                html += `<div class="market-card" style="border-left: 3px solid ${item.color};"><div><h4 style="color:${item.color}">${item.name}</h4><p>${item.price === 0 ? 'Bedava' : item.price + ' Coin'}</p></div><button class="${btnClass}" onclick="buyOrEquipCard('${item.id}', ${item.price}, '${item.name}')">${btnText}</button></div>`;
             });
             container.innerHTML = html;
         }
@@ -496,52 +514,37 @@
                     localStorage.setItem('ceusOwnedCards', JSON.stringify(ownedCards));
                     activeCard = themeId; localStorage.setItem('ceusActiveCard', themeId);
                     showToast(`${name} başarıyla satın alındı!`, "success"); renderMarket();
-                } else { showToast("Fakirsin kanka, bu karta paran yetmez!", "error"); }
+                } else { showToast("Bu karta paran yetmez!", "error"); }
             }
         }
 
         function showCreditCard() {
             let uname = document.getElementById('current-username') ? document.getElementById('current-username').innerText : "GİZLİ KULLANICI";
-            document.getElementById('card-display-name').innerText = uname;
-            document.getElementById('card-display-number').innerText = localStorage.getItem('ceusCard');
-            document.getElementById('card-display-bal').innerText = ceusCoins;
-            
-            const cardEl = document.getElementById('the-credit-card');
-            const logoEl = document.getElementById('card-logo-text');
+            document.getElementById('card-display-name').innerText = uname; document.getElementById('card-display-number').innerText = localStorage.getItem('ceusCard'); document.getElementById('card-display-bal').innerText = ceusCoins;
+            const cardEl = document.getElementById('the-credit-card'); const logoEl = document.getElementById('card-logo-text');
             cardEl.className = 'credit-card theme-' + activeCard;
-            
-            if(activeCard === 'kakbank') logoEl.innerHTML = "KAKBANK";
-            else if(activeCard === 'garantisiz') logoEl.innerHTML = "GARANTİ<span style='color:#fff'>SİZ</span>";
-            else if(activeCard === 'axparas') logoEl.innerHTML = "AXPARAS";
-            else logoEl.innerHTML = "CEUS<span style='color:#fff;'>X</span>";
-
+            if(activeCard === 'kakbank') logoEl.innerHTML = "KAKBANK"; else if(activeCard === 'garantisiz') logoEl.innerHTML = "GARANTİ<span style='color:#fff'>SİZ</span>"; else if(activeCard === 'axparas') logoEl.innerHTML = "AXPARAS"; else logoEl.innerHTML = "CEUS<span style='color:#fff;'>X</span>";
             document.getElementById('cc-modal').style.display = 'flex';
         }
 
         function transferCoins() {
-            const target = document.getElementById('transfer-target').value.trim();
-            const amount = parseInt(document.getElementById('transfer-amount').value);
-            const btn = document.getElementById('btn-transfer');
-            if(!target) { showToast("Alıcı IBAN veya isim boş olamaz!", "error"); return; }
-            if(isNaN(amount) || amount <= 0) { showToast("Geçerli bir miktar girmelisin!", "error"); return; }
-            if(amount > ceusCoins) { showToast("Bankanda o kadar paran yok fakir!", "error"); return; }
+            const target = document.getElementById('transfer-target').value.trim(); const amount = parseInt(document.getElementById('transfer-amount').value); const btn = document.getElementById('btn-transfer');
+            if(!target) { showToast("Alıcı IBAN boş olamaz!", "error"); return; }
+            if(isNaN(amount) || amount <= 0) { showToast("Geçerli miktar gir!", "error"); return; }
+            if(amount > ceusCoins) { showToast("Bakiyen yetersiz!", "error"); return; }
             btn.innerText = "İŞLENİYOR..."; btn.style.opacity = "0.5"; btn.disabled = true;
             setTimeout(() => {
-                ceusCoins -= amount; updateCoins();
-                showToast(`${amount} Coin başarıyla ${target} kişisine gönderildi!`, "success");
+                ceusCoins -= amount; updateCoins(); showToast(`${amount} Coin, ${target} kişisine gönderildi!`, "success");
                 document.getElementById('transfer-target').value = ''; document.getElementById('transfer-amount').value = '';
                 btn.innerText = "PARA GÖNDER"; btn.style.opacity = "1"; btn.disabled = false;
             }, 1200); 
         }
 
-        function copyId(id) { const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Script başarıyla panoya kopyalandı!", "success"); }
-        function copyRaw(text) { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Onaylı elit script kopyalandı!", "success"); }
+        function copyId(id) { const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Script panoya kopyalandı!", "success"); }
+        function copyRaw(text) { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Onaylı script kopyalandı!", "success"); }
 
         async function searchAPI() {
-            const query = document.getElementById('api-search').value.trim();
-            const isKeyless = document.getElementById('keyless-check').checked;
-            const grid = document.getElementById('script-grid');
-            const loading = document.getElementById('loading-msg');
+            const query = document.getElementById('api-search').value.trim(); const isKeyless = document.getElementById('keyless-check').checked; const grid = document.getElementById('script-grid'); const loading = document.getElementById('loading-msg');
             if(!query) return; grid.innerHTML = ''; loading.style.display = 'block';
             try {
                 const url = '/api/search?q=' + encodeURIComponent(query) + '&keyless=' + isKeyless;
@@ -590,7 +593,7 @@
             if(!userToDelete) return;
             const res = await fetch('/api/admin/delete_user', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey, username: userToDelete }) });
             const data = await res.json();
-            if(data.success) { showToast(`${userToDelete} kullanıcısı acımadan silindi!`, "info"); closeDeleteModal(); const resUpdate = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey }) }); const dataUpdate = await resUpdate.json(); renderAdminUsers(dataUpdate.users); }
+            if(data.success) { showToast(`${userToDelete} acımadan silindi!`, "info"); closeDeleteModal(); const resUpdate = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey }) }); const dataUpdate = await resUpdate.json(); renderAdminUsers(dataUpdate.users); }
             else { showToast("Kullanıcı silinemedi!", "error"); closeDeleteModal(); }
         }
 
