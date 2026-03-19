@@ -52,7 +52,7 @@
         .card p { font-size: 11px; color: #888; margin: 0 0 15px 0; }
         
         .badge { position: absolute; top: 12px; right: 12px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; color: #000; background: var(--accent); }
-        .badge-verified { background: var(--accent); }
+        .badge-verified { background: var(--gold); }
         .badge-key { background: #ffaa00; top: 35px; }
         .badge-keyless { background: var(--accent); top: 35px; }
         
@@ -95,6 +95,7 @@
         
         <div class="tab-menu">
             <button class="tab-btn active" onclick="switchTab('scripts')">MOTOR</button>
+            <button class="tab-btn" onclick="switchTab('trusted')" style="color: var(--gold); border-color: var(--gold);">⭐ ONAYLI</button>
             <button class="tab-btn" onclick="switchTab('contact')">İLETİŞİM</button>
             <button class="tab-btn" style="color:var(--red);" onclick="switchTab('admin')">👑 ADMİN</button>
             <button class="tab-btn" onclick="switchTab('executor')">EXECUTOR</button>
@@ -126,6 +127,45 @@
             <div class="script-grid" id="script-grid"></div>
         </div>
 
+        <div id="tab-trusted" class="tab-content">
+            <div class="section-header" style="text-align:center; color:var(--gold); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">🌟 CEUSX ELİT ARŞİVİ</div>
+            
+            <div class="script-grid">
+                <div class="card" style="border-color: var(--gold);">
+                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Infinite Yield</h3>
+                    <p><b>Oyun:</b> Universal (Her oyun)<br>En sağlam admin scripti. Fly, Noclip, Speed her şey içinde.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/Edgeiy/InfiniteYield/master/source\\\'))()')">KOPYALA</button>
+                </div>
+
+                <div class="card" style="border-color: var(--gold);">
+                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Vape V4</h3>
+                    <p><b>Oyun:</b> BedWars / Universal<br>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\\\', true))()')">KOPYALA</button>
+                </div>
+
+                <div class="card" style="border-color: var(--gold);">
+                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Unnamed ESP</h3>
+                    <p><b>Oyun:</b> Universal<br>En temiz ve asla kasmayan wallhack (duvar arkası görme).</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua\\\'))()')">KOPYALA</button>
+                </div>
+
+                <div class="card" style="border-color: var(--gold);">
+                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Dark Dex V4</h3>
+                    <p><b>Oyun:</b> Universal<br>Geliştiriciler için oyun dosyası gezgini. Her zaman çalışır.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/infyiff/backup/main/dex.lua\\\'))()')">KOPYALA</button>
+                </div>
+            </div>
+            <p style="text-align:center; color:#555; font-size:10px; margin-top:20px;">Bu sayfadaki scriptler CeusX tarafından güvenli kabul edilmiştir.</p>
+        </div>
+
         <div id="tab-contact" class="tab-content">
             <div class="search-area" style="border-color: #333;">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:#fff;">📩 ADMİNE MESAJ GÖNDER</h3>
@@ -147,8 +187,7 @@
 
             <div id="admin-panel-area" style="display:none;">
                 <div class="section-header" style="text-align:center; color:var(--red); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">👑 KULLANICI VERİTABANI</div>
-                <div class="script-grid" id="admin-users-grid">
-                    </div>
+                <div class="script-grid" id="admin-users-grid"></div>
             </div>
         </div>
 
@@ -174,10 +213,22 @@
             }
         }
 
+        // --- GENEL KOPYALAMA ---
         function copyId(id) {
             const el = document.createElement('textarea'); el.value = document.getElementById(id).value;
             document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
             alert("✅ Script kopyalandı!");
+        }
+
+        // --- ONAYLANANLAR İÇİN DİREKT KOPYALAMA ---
+        function copyRaw(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("✅ Onaylı script kopyalandı kanka!");
         }
 
         async function searchAPI() {
@@ -202,7 +253,7 @@
             } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sunucu hatası!</p>`; }
         }
 
-        // --- 📩 İLETİŞİM / MAİL GÖNDERME ---
+        // --- 📩 İLETİŞİM ---
         async function sendContact() {
             const name = document.getElementById('contact-name').value.trim();
             const msg = document.getElementById('contact-message').value.trim();
