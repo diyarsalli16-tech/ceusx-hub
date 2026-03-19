@@ -48,9 +48,8 @@
         .card p { font-size: 11px; color: #888; margin: 0 0 15px 0; }
         
         .badge { position: absolute; top: 12px; right: 12px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; color: #000; background: var(--accent); }
-        .badge-verified { background: var(--gold); }
         .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
-        #loading-msg, #vip-loading-msg { display: none; text-align: center; color: var(--xeno); font-weight: bold; padding: 20px; }
+        #loading-msg { display: none; text-align: center; color: var(--xeno); font-weight: bold; padding: 20px; }
 
         .exec-container { background: radial-gradient(circle at top, #150a21 0%, #050505 80%); border: 1px solid #222; border-radius: 16px; padding: 40px 20px; text-align: center; margin-top: 10px; }
         .exec-logo { font-size: 42px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--xeno); margin: 0; line-height: 1; }
@@ -109,14 +108,19 @@
 
         <div id="tab-vipsearch" class="tab-content">
             <div class="search-area" style="border-color: var(--gold);">
-                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--gold);">🌟 VIP VERİTABANI</h3>
-                <p style="font-size: 11px; color:#aaa; margin-bottom:15px;">Özel ve kaliteli arşivlerdeki en sağlam scriptleri burada bulabilirsin.</p>
-                <input type="text" id="vip-search" placeholder="Örn: Brookhaven, Rivals..." onkeypress="if(event.key==='Enter') searchVIP()">
-                <button class="search-btn" style="background:var(--gold); color:#000; margin-top: 10px;" onclick="searchVIP()">VİP SCRIPT ARA</button>
+                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--gold);">🌟 HASANEFENC CANLI BAĞLANTI</h3>
+                <p style="font-size: 11px; color:#aaa; margin-bottom:15px;">Arama yaptığında sonuçlar anında sitemizin içindeki gizli pencerede açılır.</p>
+                <input type="text" id="vip-search" placeholder="Örn: Brookhaven, TSB..." onkeypress="if(event.key==='Enter') searchVIP()">
+                <button class="search-btn" style="background:var(--gold); color:#000; margin-top: 10px;" onclick="searchVIP()">HASANEFENC'DE ARA</button>
             </div>
 
-            <div id="vip-loading-msg">VIP Arşiv taranıyor, bekle kanka... ⏳</div>
-            <div class="script-grid" id="vip-grid"></div>
+            <div id="iframe-container" style="display:none; margin-top:20px; border: 2px solid var(--gold); border-radius: 12px; overflow:hidden; height: 500px; background: #fff; position: relative;">
+                <iframe id="hasan-frame" src="" style="width:100%; height:100%; border:none;"></iframe>
+            </div>
+            
+            <div id="fallback-link" style="display:none; text-align:center; margin-top:10px;">
+                <p style="font-size: 11px; color:#888;">Eğer üstteki kutu beyaz kalırsa (güvenlik engeli), <a id="direct-link" href="#" target="_blank" style="color:var(--gold); font-weight:bold;">Buraya Tıklayarak</a> aramayı yeni sekmede açabilirsin.</p>
+            </div>
         </div>
 
         <div id="tab-executor" class="tab-content">
@@ -175,43 +179,25 @@
             } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:#888;">Hata!</p>`; }
         }
 
-        // --- 2. 🌟 VIP ARAMA (ARKA KAPIDAN HASANEFENC'YE BAĞLI) 🌟 ---
-        async function searchVIP() {
+        // --- 2. 🌟 VIP ARAMA (HASANEFENC CANLI IFRAME) 🌟 ---
+        function searchVIP() {
             const query = document.getElementById('vip-search').value.trim();
-            const grid = document.getElementById('vip-grid');
-            const loading = document.getElementById('vip-loading-msg');
             if(!query) return;
             
-            grid.innerHTML = ''; 
-            loading.style.display = 'block';
+            // Senin yakaladığın URL yapısı (Örn: /home/search/brookhaven)
+            const safeQuery = encodeURIComponent(query.toLowerCase());
+            const targetUrl = "https://www.hasanefenc.com/home/search/" + safeQuery;
             
-            try {
-                const res = await fetch('/api/hasanefenc?q=' + encodeURIComponent(query)); 
-                const data = await res.json();
-                loading.style.display = 'none';
-                
-                if(data.success && data.scripts.length > 0) {
-                    let html = '';
-                    data.scripts.forEach((s, index) => {
-                        html += `
-                            <div class="card" style="border-color: var(--gold);">
-                                <span class="badge badge-verified">⭐ VIP SCRIPT</span>
-                                <h3>${s.title}</h3>
-                                <p><b style="color:#fff;">Oyun:</b> ${s.game}</p>
-                                <textarea id="vip-raw-${index}" style="display:none;">${s.script}</textarea>
-                                <button class="copy-btn" style="background: var(--gold); color: #000;" onclick="copyId('vip-raw-${index}')">KODU KOPYALA</button>
-                            </div>`;
-                    });
-                    grid.innerHTML = html;
-                } else { 
-                    grid.innerHTML = `<p style="text-align:center; color:var(--red);">${data.message || 'VIP arşivde bu oyuna ait script yok kanka!'}</p>`; 
-                }
-            } catch(e) { 
-                loading.style.display = 'none'; 
-                grid.innerHTML = `<p style="text-align:center; color:var(--red);">Veritabanına bağlanılamadı!</p>`; 
-            }
+            // Pencereyi (iframe) göster ve linki içine göm
+            document.getElementById('iframe-container').style.display = 'block';
+            document.getElementById('hasan-frame').src = targetUrl;
+            
+            // Acil durum linkini güncelle
+            document.getElementById('fallback-link').style.display = 'block';
+            document.getElementById('direct-link').href = targetUrl;
         }
 
+        // --- SOHBET VE GİRİŞ ---
         async function sendText() {
             const i = document.getElementById('chat-msg');
             if(!i.value.trim()) return;
