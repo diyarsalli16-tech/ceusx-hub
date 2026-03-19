@@ -12,14 +12,15 @@
         .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(120,0,255,0.1); }
         input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box;}
+        textarea { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
         .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; }
         
         header { padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; }
         header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; letter-spacing: 1px; }
         .logout { color: var(--red); text-decoration: none; font-size: 11px; display: inline-block; margin-top: 5px; }
 
-        .tab-menu { display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-        .tab-btn { background: transparent; color: #666; border: none; border-bottom: 2px solid transparent; padding: 10px 15px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s; }
+        .tab-menu { display: flex; justify-content: center; gap: 5px; margin-top: 15px; flex-wrap: wrap; }
+        .tab-btn { background: transparent; color: #666; border: none; border-bottom: 2px solid transparent; padding: 8px 10px; cursor: pointer; font-weight: bold; font-size: 11px; transition: 0.3s; }
         .tab-btn.active { color: #fff; border-bottom-color: var(--accent); }
         
         .tab-content { display: none; animation: fadeIn 0.3s; }
@@ -32,18 +33,15 @@
         #chat-list { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         .msg { background: #111; padding: 8px 12px; border-radius: 8px; font-size: 12px; border-left: 2px solid var(--accent); word-wrap: break-word; }
         .msg b { color: var(--accent); font-size: 11px; display: block; margin-bottom: 3px; }
-        audio { height: 35px; width: 100%; outline: none; margin-top: 5px; border-radius: 5px; }
         
         .chat-input { padding: 8px; display: flex; gap: 6px; background: #0a0a0a; border-radius: 0 0 12px 12px; align-items: center; }
         .chat-input input { flex: 1; padding: 10px; margin: 0; border: none; background: #111; color: #fff; border-radius: 8px; font-size: 13px; }
         .send-btn { background: #fff; border: none; border-radius: 8px; padding: 0 15px; font-weight: bold; color: #000; cursor: pointer; height: 100%; }
         
         .search-area { background: var(--panel); padding: 20px; border-radius: 12px; border: 1px solid #222; text-align: center; }
-        .search-area input[type="text"] { border: 1px solid #333; text-align: center; margin-bottom: 10px; width: 100%; box-sizing: border-box; background: #000; color: #fff; border-radius: 8px; padding: 12px; }
+        .search-area input[type="text"], .search-area input[type="password"] { border: 1px solid #333; text-align: center; margin-bottom: 10px; width: 100%; box-sizing: border-box; background: #000; color: #fff; border-radius: 8px; padding: 12px; }
         .search-btn { background: var(--accent); color: #000; font-weight: bold; width: 100%; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 14px; transition: 0.2s; }
-        .search-btn:active { transform: scale(0.98); }
         
-        /* KEYSİZ FİLTRESİ KUTUCUĞU */
         .filter-box { margin: 10px 0 15px 0; display: flex; align-items: center; justify-content: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; border: 1px solid #222; }
         .filter-box input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
         .filter-box label { font-size: 13px; font-weight: bold; color: #aaa; cursor: pointer; }
@@ -59,7 +57,13 @@
         .badge-keyless { background: var(--accent); top: 35px; }
         
         .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; font-size: 12px; transition: 0.2s; }
-        .copy-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+        
+        /* ADMİN KARTLARI */
+        .admin-card { background: #110000; border: 1px solid var(--red); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .admin-card h4 { margin: 0; color: #fff; font-size: 14px; }
+        .admin-card p { margin: 5px 0 0 0; color: #aaa; font-size: 11px; }
+        .btn-delete { background: var(--red); color: #fff; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; }
+
         #loading-msg { display: none; text-align: center; color: var(--accent); font-weight: bold; padding: 20px; font-family: 'Orbitron'; }
 
         .exec-container { background: radial-gradient(circle at top, #150a21 0%, #050505 80%); border: 1px solid #222; border-radius: 16px; padding: 40px 20px; text-align: center; margin-top: 10px; }
@@ -86,11 +90,13 @@
     <header>
         <h1>CEUS<span style="color:var(--xeno)">X</span></h1>
         {% if logged_in %}
-            <span style="font-size:11px;">Aktif: {{ user }} | <a href="/logout" class="logout">Çıkış</a></span>
+            <span style="font-size:11px;">Aktif: <span id="current-username">{{ user }}</span> | <a href="/logout" class="logout">Çıkış</a></span>
         {% endif %}
         
         <div class="tab-menu">
-            <button class="tab-btn active" onclick="switchTab('scripts')">SCRIPT MOTORU</button>
+            <button class="tab-btn active" onclick="switchTab('scripts')">MOTOR</button>
+            <button class="tab-btn" onclick="switchTab('contact')">İLETİŞİM</button>
+            <button class="tab-btn" style="color:var(--red);" onclick="switchTab('admin')">👑 ADMİN</button>
             <button class="tab-btn" onclick="switchTab('executor')">EXECUTOR</button>
         </div>
     </header>
@@ -107,19 +113,43 @@
             </div>
 
             <div class="search-area" style="margin-top: 20px;">
-                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--accent);">☁️ SCRIPTBLOX VERİTABANI</h3>
-                <input type="text" id="api-search" placeholder="Örn: Brookhaven, Blox Fruits..." onkeypress="if(event.key==='Enter') searchAPI()">
-                
+                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--accent);">☁️ SCRIPTBLOX</h3>
+                <input type="text" id="api-search" placeholder="Örn: Brookhaven..." onkeypress="if(event.key==='Enter') searchAPI()">
                 <div class="filter-box">
                     <input type="checkbox" id="keyless-check">
-                    <label for="keyless-check">Sadece Keysiz (No Key) Olanları Göster</label>
+                    <label for="keyless-check">Sadece Keysiz (No Key)</label>
                 </div>
-
-                <button class="search-btn" onclick="searchAPI()">DOĞRULANMIŞ SCRIPT ARA</button>
+                <button class="search-btn" onclick="searchAPI()">SCRIPT ARA</button>
             </div>
 
-            <div id="loading-msg">Veritabanı taranıyor... ⏳</div>
+            <div id="loading-msg">Taranıyor... ⏳</div>
             <div class="script-grid" id="script-grid"></div>
+        </div>
+
+        <div id="tab-contact" class="tab-content">
+            <div class="search-area" style="border-color: #333;">
+                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:#fff;">📩 ADMİNE MESAJ GÖNDER</h3>
+                <p style="font-size:11px; color:#aaa; margin-bottom:15px;">Şikayet, öneri veya script isteklerini buraya yaz. Doğrudan yöneticinin e-postasına düşer.</p>
+                <input type="text" id="contact-name" placeholder="Kullanıcı Adın / Discord Adın">
+                <textarea id="contact-message" rows="5" placeholder="Mesajını buraya yaz kanka..."></textarea>
+                <button class="search-btn" style="background:#fff; color:#000;" onclick="sendContact()">MAİL GÖNDER</button>
+                <p id="contact-status" style="display:none; margin-top:10px; font-size:12px; font-weight:bold;"></p>
+            </div>
+        </div>
+
+        <div id="tab-admin" class="tab-content">
+            <div id="admin-login-area" class="search-area" style="border-color: var(--red);">
+                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--red);">🔒 YETKİLİ GİRİŞİ</h3>
+                <input type="password" id="admin-key-input" placeholder="Gizli Admin Şifresi..." onkeypress="if(event.key==='Enter') loginAdmin()">
+                <button class="search-btn" style="background:var(--red); color:#fff;" onclick="loginAdmin()">VERİTABANINA ERİŞ</button>
+                <p id="admin-error" style="color:var(--red); font-size:11px; margin-top:10px; display:none;">Geçersiz anahtar!</p>
+            </div>
+
+            <div id="admin-panel-area" style="display:none;">
+                <div class="section-header" style="text-align:center; color:var(--red); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">👑 KULLANICI VERİTABANI</div>
+                <div class="script-grid" id="admin-users-grid">
+                    </div>
+            </div>
         </div>
 
         <div id="tab-executor" class="tab-content">
@@ -127,7 +157,6 @@
                 <h1 class="exec-logo">CEUS<span style="color:var(--xeno)">X</span></h1>
                 <p class="exec-sub">ULTIMATE MOBILE EXECUTOR</p>
                 <button class="dl-btn" onclick="alert('v1.0 APK Dosyası hazırlanıyor kral!')">APK İNDİR</button>
-                <p style="color: #444; font-size: 10px; margin-top: 30px; font-family:'Orbitron';">© 2026 CEUSX. %100 BAĞIMSIZ GELİŞTİRİCİ.</p>
             </div>
         </div>
 
@@ -139,62 +168,138 @@
             event.target.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
+
+            if(tabId === 'contact' && document.getElementById('current-username')) {
+                document.getElementById('contact-name').value = document.getElementById('current-username').innerText;
+            }
         }
 
         function copyId(id) {
-            const el = document.createElement('textarea');
-            el.value = document.getElementById(id).value;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            alert("✅ Script kopyalandı kanka!");
+            const el = document.createElement('textarea'); el.value = document.getElementById(id).value;
+            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            alert("✅ Script kopyalandı!");
         }
 
-        // --- SCRIPTBLOX ARAMASI (KEYSİZ FİLTRELİ) ---
         async function searchAPI() {
             const query = document.getElementById('api-search').value.trim();
-            const isKeyless = document.getElementById('keyless-check').checked; // Checkbox durumu
+            const isKeyless = document.getElementById('keyless-check').checked;
             const grid = document.getElementById('script-grid');
             const loading = document.getElementById('loading-msg');
-            
             if(!query) return;
-            grid.innerHTML = ''; 
-            loading.style.display = 'block';
-            
+            grid.innerHTML = ''; loading.style.display = 'block';
             try {
-                // Linkin sonuna keyless true veya false yolluyoruz
                 const url = '/api/search?q=' + encodeURIComponent(query) + '&keyless=' + isKeyless;
-                const res = await fetch(url); 
-                const data = await res.json();
-                
+                const res = await fetch(url); const data = await res.json();
                 loading.style.display = 'none';
-                
                 if(data.success && data.scripts.length > 0) {
                     let html = '';
                     data.scripts.forEach((s, index) => {
                         const keyBadge = s.has_key ? `<span class="badge badge-key">🔑 KEYLİ</span>` : `<span class="badge badge-keyless">🔓 KEYSİZ</span>`;
-                        html += `
-                            <div class="card">
-                                <span class="badge badge-verified">✔️ DOĞRULANDI</span>
-                                ${keyBadge}
-                                <h3>${s.title}</h3>
-                                <p><b style="color:#fff;">Oyun:</b> ${s.game}<br><br>${s.features.substring(0, 100)}...</p>
-                                <textarea id="raw-${index}" style="display:none;">${s.script}</textarea>
-                                <button class="copy-btn" onclick="copyId('raw-${index}')">KODU KOPYALA</button>
-                            </div>`;
+                        html += `<div class="card"><span class="badge badge-verified">✔️ DOĞRULANDI</span>${keyBadge}<h3>${s.title}</h3><p><b style="color:#fff;">Oyun:</b> ${s.game}<br><br>${s.features || 'Detay yok.'}</p><textarea id="raw-${index}" style="display:none;">${s.script}</textarea><button class="copy-btn" onclick="copyId('raw-${index}')">KODU KOPYALA</button></div>`;
                     });
                     grid.innerHTML = html;
-                } else { 
-                    grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sonuç bulunamadı kanka! Belki filtreyi kapatıp denemelisin.</p>`; 
+                } else { grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sonuç bulunamadı!</p>`; }
+            } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sunucu hatası!</p>`; }
+        }
+
+        // --- 📩 İLETİŞİM / MAİL GÖNDERME ---
+        async function sendContact() {
+            const name = document.getElementById('contact-name').value.trim();
+            const msg = document.getElementById('contact-message').value.trim();
+            const status = document.getElementById('contact-status');
+            
+            if(!name || !msg) {
+                status.style.display = 'block'; status.style.color = 'var(--red)';
+                status.innerText = "Kanka ismini ve mesajını boş bırakma!"; return;
+            }
+            
+            status.style.display = 'block'; status.style.color = 'var(--accent)';
+            status.innerText = "Gönderiliyor... ⏳";
+            
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ username: name, message: msg })
+                });
+                const data = await res.json();
+                if(data.success) {
+                    status.style.color = 'var(--accent)'; status.innerText = "✅ Mesajın admine başarıyla iletildi!";
+                    document.getElementById('contact-message').value = '';
+                } else {
+                    status.style.color = 'var(--red)'; status.innerText = "❌ Hata: " + data.message;
                 }
-            } catch(e) { 
-                loading.style.display = 'none'; 
-                grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sunucu bağlantı hatası!</p>`; 
+            } catch(e) {
+                status.style.color = 'var(--red)'; status.innerText = "❌ Sunucuya bağlanılamadı!";
             }
         }
 
-        // SOHBET VE GİRİŞ SİSTEMİ
+        // --- 👑 ADMİN PANELİ ---
+        let currentAdminKey = "";
+
+        async function loginAdmin() {
+            const key = document.getElementById('admin-key-input').value.trim();
+            const errorMsg = document.getElementById('admin-error');
+            
+            if(!key) return;
+            
+            const res = await fetch('/api/admin/users', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ key: key })
+            });
+            const data = await res.json();
+            
+            if(data.success) {
+                currentAdminKey = key;
+                document.getElementById('admin-login-area').style.display = 'none';
+                document.getElementById('admin-panel-area').style.display = 'block';
+                renderAdminUsers(data.users);
+            } else {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = data.message;
+            }
+        }
+
+        function renderAdminUsers(users) {
+            const grid = document.getElementById('admin-users-grid');
+            if(users.length === 0) {
+                grid.innerHTML = `<p style="text-align:center; color:#aaa;">Veritabanında henüz kimse yok.</p>`;
+                return;
+            }
+            
+            let html = '';
+            users.forEach(u => {
+                html += `
+                    <div class="admin-card">
+                        <div>
+                            <h4>👤 ${u.username}</h4>
+                            <p>🔑 Şifre: <b style="color:var(--accent); font-family:monospace; font-size:13px;">${u.password}</b></p>
+                        </div>
+                        <button class="btn-delete" onclick="deleteUser('${u.username}')">SİL</button>
+                    </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        async function deleteUser(username) {
+            if(!confirm(`⚠️ '${username}' adlı kullanıcıyı kalıcı olarak silmek istiyor musun?`)) return;
+            
+            const res = await fetch('/api/admin/delete_user', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ key: currentAdminKey, username: username })
+            });
+            const data = await res.json();
+            
+            if(data.success) {
+                alert(`✅ Kullanıcı silindi!`);
+                const resUpdate = await fetch('/api/admin/users', {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ key: currentAdminKey })
+                });
+                const dataUpdate = await resUpdate.json();
+                renderAdminUsers(dataUpdate.users);
+            }
+        }
+
         async function sendText() {
             const i = document.getElementById('chat-msg');
             if(!i.value.trim()) return;
