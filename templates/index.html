@@ -74,8 +74,9 @@
         .game-slot { font-size: 40px; letter-spacing: 10px; margin: 15px 0; background: #000; padding: 10px; border-radius: 10px; border: 2px solid #333; }
         .game-msg { font-size: 12px; font-weight: bold; height: 15px; margin-top: 10px; }
         .warning-banner { background: rgba(255, 51, 102, 0.1); border: 1px solid var(--red); padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 11px; color: #ddd; }
-        .iban-box { background: #111; padding: 12px; border-radius: 8px; border: 1px dashed var(--game); margin-bottom: 15px; }
+        .iban-box { background: #0a0a0a; padding: 12px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
 
+        /* ÖZEL OVERLAY MANTIKLARI (YASAL, SİLME) */
         .legal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
         .legal-dashboard { background: #0a0a0f; border: 2px solid var(--red); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(255, 51, 102, 0.3); }
         .legal-dashboard h2 { color: var(--red); font-family: 'Orbitron'; margin-top: 0; font-size: 22px; letter-spacing: 2px; }
@@ -83,13 +84,29 @@
         .btn-agree { background: var(--game); color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Orbitron'; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .btn-agree:hover { background: #fff; box-shadow: 0 0 20px var(--game); }
 
-        /* 🚀 YENİ: ÖZEL TOAST BİLDİRİM SİSTEMİ 🚀 */
         #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; }
         .ceus-toast { background: rgba(10, 10, 15, 0.95); border-left: 4px solid var(--accent); color: #fff; padding: 15px 20px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); backdrop-filter: blur(5px); }
         .ceus-toast.show { transform: translateX(0); }
         .ceus-toast.error { border-left-color: var(--red); }
         .ceus-toast.info { border-left-color: var(--game); }
         .toast-icon { font-size: 18px; }
+
+        .cc-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 999999; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeIn 0.3s; flex-direction: column; padding: 20px; }
+        .cc-wrapper { perspective: 1000px; width: 100%; max-width: 340px; }
+        .credit-card { width: 100%; height: 210px; background: linear-gradient(135deg, #111 0%, #000 100%); border: 1px solid #333; border-radius: 16px; padding: 20px; position: relative; box-shadow: 0 20px 50px rgba(0, 229, 255, 0.2); color: #fff; font-family: 'Orbitron', sans-serif; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-sizing: border-box; }
+        .credit-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 60%); pointer-events: none; }
+        .cc-top { display: flex; justify-content: space-between; align-items: flex-start; z-index: 2; }
+        .cc-chip { width: 45px; height: 35px; background: linear-gradient(135deg, #e6c27a, #997a3d); border-radius: 6px; position: relative; border: 1px solid #554422; }
+        .cc-chip::after { content: ''; position: absolute; top: 10px; bottom: 10px; left: 0; right: 0; border-top: 1px solid #554422; border-bottom: 1px solid #554422; }
+        .cc-logo { font-size: 22px; font-weight: 900; color: var(--game); font-style: italic; text-shadow: 0 0 10px var(--game); }
+        .cc-number { font-size: 18px; letter-spacing: 3px; z-index: 2; text-shadow: 1px 1px 2px #000; margin-top: 10px; color: #ddd; }
+        .cc-bottom { display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; }
+        .cc-name-box { display: flex; flex-direction: column; }
+        .cc-label { font-size: 8px; color: #888; font-family: 'Poppins'; margin-bottom: 2px; }
+        .cc-name { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .cc-bal { font-size: 18px; color: var(--game); font-weight: bold; text-shadow: 0 0 10px rgba(0,229,255,0.5); }
+        .btn-close-cc { margin-top: 30px; background: #222; color: #fff; padding: 12px 30px; border: 1px solid #444; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; }
+        .btn-close-cc:hover { background: var(--red); border-color: var(--red); }
     </style>
 </head>
 <body>
@@ -99,13 +116,43 @@
     <div id="legal-modal" class="legal-overlay">
         <div class="legal-dashboard">
             <h2>⚠️ YASAL UYARI</h2>
-            <p>
-                Bu sayfadaki eğlence merkezinin <b>gerçek kumar, yasadışı bahis veya gerçek para sistemleriyle HİÇBİR ALAKASI YOKTUR!</b>
-                <br><br>
-                Buradaki oyunlar tamamen sanal kredi (CeusCoin) ile oynanan, Roleplay (RP) ve eğlence amaçlı simülasyonlardır. Gerçek maddi değeri olan hiçbir işlem yapılamaz ve para çekilemez.
-            </p>
+            <p>Bu sayfadaki eğlence merkezinin <b>gerçek kumar, yasadışı bahis veya gerçek para sistemleriyle HİÇBİR ALAKASI YOKTUR!</b><br><br>Buradaki oyunlar tamamen sanal kredi (CeusCoin) ile oynanan, Roleplay (RP) ve eğlence amaçlı simülasyonlardır. Gerçek maddi değeri olan hiçbir işlem yapılamaz ve para çekilemez.</p>
             <button class="btn-agree" onclick="acceptLegal()">KABUL EDİYORUM VE GİR</button>
         </div>
+    </div>
+
+    <div id="delete-modal" class="legal-overlay">
+        <div class="legal-dashboard" style="border-color: var(--red); max-width: 320px;">
+            <h2 style="font-size: 18px;">⚠️ KULLANICIYI SİL</h2>
+            <p id="delete-modal-text" style="font-size: 13px;">Bu kullanıcıyı silmek istediğine emin misin?</p>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn-agree" style="background: #222; color: #fff; border: 1px solid #444;" onclick="closeDeleteModal()">İPTAL ET</button>
+                <button class="btn-agree" style="background: var(--red); color: #fff;" onclick="confirmDelete()">ACIMADAN SİL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cc-modal" class="cc-overlay">
+        <div class="cc-wrapper">
+            <div class="credit-card">
+                <div class="cc-top">
+                    <div class="cc-chip"></div>
+                    <div class="cc-logo">CEUS<span style="color:#fff;">X</span></div>
+                </div>
+                <div class="cc-number" id="card-display-number">**** **** **** ****</div>
+                <div class="cc-bottom">
+                    <div class="cc-name-box">
+                        <span class="cc-label">KART SAHİBİ</span>
+                        <span class="cc-name" id="card-display-name">BİLİNMEYEN</span>
+                    </div>
+                    <div class="cc-name-box" style="align-items:flex-end;">
+                        <span class="cc-label">BAKİYE</span>
+                        <span class="cc-bal"><span id="card-display-bal">0</span> ₵</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn-close-cc" onclick="document.getElementById('cc-modal').style.display='none'">KAPAT</button>
     </div>
 
     {% if not logged_in %}
@@ -146,7 +193,6 @@
                     <button class="send-btn" onclick="sendText()">➤</button>
                 </div>
             </div>
-
             <div class="search-area" style="margin-top: 20px;">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--accent);">☁️ SCRIPTBLOX</h3>
                 <input type="text" id="api-search" placeholder="Örn: Brookhaven..." onkeypress="if(event.key==='Enter') searchAPI()">
@@ -156,7 +202,6 @@
                 </div>
                 <button class="search-btn" onclick="searchAPI()">SCRIPT ARA</button>
             </div>
-
             <div id="loading-msg">Taranıyor... ⏳</div>
             <div class="script-grid" id="script-grid"></div>
         </div>
@@ -192,19 +237,18 @@
             <div style="text-align:center;">
                 <div class="coin-box">💰 BAKİYE: <span id="ceus-coins">100</span> COIN</div>
             </div>
-
             <div class="script-grid">
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">💳 SANAL BANKA</h3>
-                    <p>Maaşlarını buraya yatır, arkadaşlarına sahte IBAN'la para gönder!</p>
+                    <p>Maaşlarını yatır, sahte IBAN'la para gönder veya kartını gör!</p>
+                    <button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); margin-bottom:15px;" onclick="showCreditCard()">💳 KARTIMI GÖRÜNTÜLE</button>
                     <div class="iban-box">
-                        <span style="font-size:10px; color:#aaa;">BİREYSEL SANAL IBAN NUMARAN:</span><br>
+                        <span style="font-size:10px; color:#aaa;">IBAN NUMARAN:</span><br>
                         <b id="my-iban" style="color:#fff; font-family:monospace; font-size:14px; letter-spacing:1px;">TR99 ....</b>
                     </div>
                     <input type="text" id="transfer-target" placeholder="Alıcı IBAN veya İsim" style="margin-bottom:10px;">
                     <input type="number" id="transfer-amount" placeholder="Gönderilecek Miktar" style="margin-bottom:10px;">
-                    <button class="search-btn" style="background:var(--game);" onclick="transferCoins()">PARA GÖNDER</button>
-                    <div class="game-msg" id="transfer-msg" style="height:auto; padding-top:5px;"></div>
+                    <button class="search-btn" style="background:var(--game);" onclick="transferCoins()" id="btn-transfer">PARA GÖNDER</button>
                 </div>
 
                 <div class="card" style="border-color: var(--game); text-align:center;">
@@ -212,7 +256,6 @@
                     <p>Her çevirme 10 Coin. 3 Eşleşme = 100 Coin, 2 Eşleşme = 20 Coin!</p>
                     <div class="game-slot" id="slot-display">🍒 🍒 🍒</div>
                     <button class="search-btn" style="background:var(--game);" onclick="playSlots()">ÇEVİR (10 Coin)</button>
-                    <div class="game-msg" id="slot-msg"></div>
                 </div>
 
                 <div class="card" style="border-color: var(--game); text-align:center;">
@@ -223,7 +266,6 @@
                         <button class="copy-btn" style="background:#222;" onclick="playCoinflip('Yazı')">YAZI</button>
                         <button class="copy-btn" style="background:#222;" onclick="playCoinflip('Tura')">TURA</button>
                     </div>
-                    <div class="game-msg" id="cf-msg"></div>
                 </div>
             </div>
         </div>
@@ -235,7 +277,6 @@
                 <input type="text" id="contact-name" placeholder="Kullanıcı Adın / Discord Adın">
                 <textarea id="contact-message" rows="5" placeholder="Mesajını buraya yaz kanka..."></textarea>
                 <button class="search-btn" style="background:#fff; color:#000;" onclick="sendContact()">MAİL GÖNDER</button>
-                <p id="contact-status" style="display:none; margin-top:10px; font-size:12px; font-weight:bold;"></p>
             </div>
         </div>
 
@@ -267,122 +308,99 @@
     </div>
 
     <script>
-        // 🚀 ÖZEL TOAST BİLDİRİM FONKSİYONU 🚀
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `ceus-toast ${type}`;
-            
-            let icon = '✅';
-            if (type === 'error') icon = '❌';
-            if (type === 'info') icon = 'ℹ️';
-
+            let icon = '✅'; if (type === 'error') icon = '❌'; if (type === 'info') icon = 'ℹ️';
             toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
             container.appendChild(toast);
-
-            // Animasyon için hafif gecikme
             setTimeout(() => toast.classList.add('show'), 10);
-
-            // 3 Saniye sonra sil
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400); // Animasyon bitince HTML'den kaldır
-            }, 3000);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
         }
 
         let gamesWarned = false;
 
         function switchTab(tabId) {
-            if (tabId === 'games' && !gamesWarned) {
-                document.getElementById('legal-modal').style.display = 'flex';
-                return; 
-            }
+            if (tabId === 'games' && !gamesWarned) { document.getElementById('legal-modal').style.display = 'flex'; return; }
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
-            
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
-
-            if(tabId === 'contact' && document.getElementById('current-username')) {
-                document.getElementById('contact-name').value = document.getElementById('current-username').innerText;
-            }
+            if(tabId === 'contact' && document.getElementById('current-username')) { document.getElementById('contact-name').value = document.getElementById('current-username').innerText; }
         }
 
-        function acceptLegal() {
-            gamesWarned = true; 
-            document.getElementById('legal-modal').style.display = 'none'; 
-            switchTab('games'); 
-        }
+        function acceptLegal() { gamesWarned = true; document.getElementById('legal-modal').style.display = 'none'; switchTab('games'); }
 
         let ceusCoins = localStorage.getItem('ceusCoins') ? parseInt(localStorage.getItem('ceusCoins')) : 100;
         document.getElementById('ceus-coins').innerText = ceusCoins;
 
         let myIban = localStorage.getItem('ceusIban');
+        let myCardNum = localStorage.getItem('ceusCard');
         if(!myIban) {
-            let r1 = Math.floor(1000 + Math.random() * 9000);
-            let r2 = Math.floor(1000 + Math.random() * 9000);
-            myIban = `TR99 0000 ${r1} 1234 ${r2} 55`;
-            localStorage.setItem('ceusIban', myIban);
+            let r1 = Math.floor(1000 + Math.random() * 9000); let r2 = Math.floor(1000 + Math.random() * 9000);
+            myIban = `TR99 0000 ${r1} 1234 ${r2} 55`; myCardNum = `4321 ${r1} ${r2} 9988`; 
+            localStorage.setItem('ceusIban', myIban); localStorage.setItem('ceusCard', myCardNum);
         }
         document.getElementById('my-iban').innerText = myIban;
 
         function updateCoins() {
             document.getElementById('ceus-coins').innerText = ceusCoins;
             localStorage.setItem('ceusCoins', ceusCoins);
+            document.getElementById('card-display-bal').innerText = ceusCoins;
+        }
+
+        function showCreditCard() {
+            let uname = document.getElementById('current-username') ? document.getElementById('current-username').innerText : "GİZLİ KULLANICI";
+            document.getElementById('card-display-name').innerText = uname;
+            document.getElementById('card-display-number').innerText = localStorage.getItem('ceusCard');
+            document.getElementById('card-display-bal').innerText = ceusCoins;
+            document.getElementById('cc-modal').style.display = 'flex';
         }
 
         function transferCoins() {
             const target = document.getElementById('transfer-target').value.trim();
             const amount = parseInt(document.getElementById('transfer-amount').value);
-            const msg = document.getElementById('transfer-msg');
+            const btn = document.getElementById('btn-transfer');
 
-            if(!target) { msg.style.color = 'var(--red)'; msg.innerText = "Alıcı IBAN boş olamaz!"; return; }
-            if(isNaN(amount) || amount <= 0) { msg.style.color = 'var(--red)'; msg.innerText = "Geçerli miktar gir!"; return; }
-            if(amount > ceusCoins) { msg.style.color = 'var(--red)'; msg.innerText = "Bakiyen yetersiz!"; return; }
+            if(!target) { showToast("Alıcı IBAN veya isim boş olamaz!", "error"); return; }
+            if(isNaN(amount) || amount <= 0) { showToast("Geçerli bir miktar girmelisin!", "error"); return; }
+            if(amount > ceusCoins) { showToast("Bankanda o kadar paran yok fakir!", "error"); return; }
 
-            ceusCoins -= amount; updateCoins();
-            msg.style.color = 'var(--accent)'; 
-            msg.innerText = `✅ BAŞARILI! ${amount} Coin, [${target}] alıcısına başarıyla gönderildi.`;
-            document.getElementById('transfer-target').value = ''; document.getElementById('transfer-amount').value = '';
+            btn.innerText = "İŞLENİYOR..."; btn.style.opacity = "0.5"; btn.disabled = true;
+            setTimeout(() => {
+                ceusCoins -= amount; updateCoins();
+                showToast(`${amount} Coin başarıyla ${target} kişisine gönderildi!`, "success");
+                document.getElementById('transfer-target').value = ''; document.getElementById('transfer-amount').value = '';
+                btn.innerText = "PARA GÖNDER"; btn.style.opacity = "1"; btn.disabled = false;
+            }, 1200); 
         }
 
         function playSlots() {
-            const msg = document.getElementById('slot-msg');
-            if(ceusCoins < 10) { msg.style.color = 'var(--red)'; msg.innerText = "Fakirsin kanka, coin bitmiş!"; return; }
+            if(ceusCoins < 10) { showToast("Bakiye yetersiz!", "error"); return; }
             ceusCoins -= 10;
             const items = ['🍒', '🍋', '💎', '🔔', '🎰'];
-            let r1 = items[Math.floor(Math.random()*items.length)];
-            let r2 = items[Math.floor(Math.random()*items.length)];
-            let r3 = items[Math.floor(Math.random()*items.length)];
+            let r1 = items[Math.floor(Math.random()*items.length)]; let r2 = items[Math.floor(Math.random()*items.length)]; let r3 = items[Math.floor(Math.random()*items.length)];
             document.getElementById('slot-display').innerText = r1 + ' ' + r2 + ' ' + r3;
-            if(r1 === r2 && r2 === r3) { ceusCoins += 100; msg.style.color = 'var(--gold)'; msg.innerText = "JACKPOT! +100 Coin!"; showToast("JACKPOT KAZANDIN!", "success"); }
-            else if(r1 === r2 || r2 === r3 || r1 === r3) { ceusCoins += 20; msg.style.color = 'var(--game)'; msg.innerText = "Ufak kazanç! +20 Coin!"; }
-            else { msg.style.color = 'var(--red)'; msg.innerText = "Kaybettin!"; }
+            if(r1 === r2 && r2 === r3) { ceusCoins += 100; showToast("JACKPOT KAZANDIN!", "success"); }
+            else if(r1 === r2 || r2 === r3 || r1 === r3) { ceusCoins += 20; showToast("Güzel çevirme! 20 Coin Kazandın.", "info"); }
+            else { showToast("Maalesef kaybettin, tekrar dene.", "error"); }
             updateCoins();
         }
 
         function playCoinflip(choice) {
-            const betInput = document.getElementById('cf-bet').value;
-            const msg = document.getElementById('cf-msg');
-            const bet = parseInt(betInput);
-            if(isNaN(bet) || bet <= 0) { msg.style.color = 'var(--red)'; msg.innerText = "Geçerli bahis gir!"; return; }
-            if(bet > ceusCoins) { msg.style.color = 'var(--red)'; msg.innerText = "Paran yetersiz!"; return; }
+            const betInput = document.getElementById('cf-bet').value; const bet = parseInt(betInput);
+            if(isNaN(bet) || bet <= 0) { showToast("Geçerli bir bahis girmelisin!", "error"); return; }
+            if(bet > ceusCoins) { showToast("O kadar paran yok!", "error"); return; }
             ceusCoins -= bet;
             const result = Math.random() < 0.5 ? 'Yazı' : 'Tura';
-            if(choice === result) { ceusCoins += bet * 2; msg.style.color = 'var(--accent)'; msg.innerText = `Sonuç: ${result}. Kazandın! +${bet*2} Coin`; showToast(`Tebrikler! ${bet*2} Coin kazandın.`, "success"); }
-            else { msg.style.color = 'var(--red)'; msg.innerText = `Sonuç: ${result}. Kaybettin!`; }
+            if(choice === result) { ceusCoins += bet * 2; showToast(`Tebrikler! ${bet*2} Coin kazandın.`, "success"); }
+            else { showToast(`Para '${result}' geldi... Kaybettin!`, "error"); }
             updateCoins();
         }
 
-        // ESKİ ALERT'LERİN TOAST'A DÖNÜŞTÜRÜLMÜŞ HALİ
-        function copyId(id) { 
-            const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); 
-            showToast("Script başarıyla panoya kopyalandı!", "success"); // YENİ
-        }
-        function copyRaw(text) { 
-            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); 
-            showToast("Onaylı elit script kopyalandı!", "success"); // YENİ
-        }
+        function copyId(id) { const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Script başarıyla panoya kopyalandı!", "success"); }
+        function copyRaw(text) { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Onaylı elit script kopyalandı!", "success"); }
 
         async function searchAPI() {
             const query = document.getElementById('api-search').value.trim();
@@ -404,40 +422,77 @@
         }
 
         async function sendContact() {
-            const name = document.getElementById('contact-name').value.trim();
-            const msg = document.getElementById('contact-message').value.trim();
-            const status = document.getElementById('contact-status');
-            if(!name || !msg) { status.style.display = 'block'; status.style.color = 'var(--red)'; status.innerText = "Boş bırakma!"; return; }
-            status.style.display = 'block'; status.style.color = 'var(--accent)'; status.innerText = "Gönderiliyor...";
+            const name = document.getElementById('contact-name').value.trim(); const msg = document.getElementById('contact-message').value.trim();
+            if(!name || !msg) { showToast("Lütfen tüm alanları doldur!", "error"); return; }
+            showToast("Mesaj gönderiliyor, lütfen bekle...", "info");
             try {
                 const res = await fetch('/api/contact', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ username: name, message: msg }) });
                 const data = await res.json();
-                if(data.success) { status.style.color = 'var(--accent)'; status.innerText = "✅ İletildi!"; document.getElementById('contact-message').value = ''; showToast("Mesajın adminlere ulaştı kral!", "success"); }
-                else { status.style.color = 'var(--red)'; status.innerText = "❌ Hata!"; showToast("Mesaj gönderilirken hata oluştu.", "error"); }
-            } catch(e) { status.style.color = 'var(--red)'; status.innerText = "❌ Bağlantı koptu!"; showToast("Sunucuyla bağlantı koptu.", "error"); }
+                if(data.success) { showToast("Mesajın adminlere başarıyla iletildi!", "success"); document.getElementById('contact-message').value = ''; }
+                else { showToast("Mail gönderilemedi!", "error"); }
+            } catch(e) { showToast("Sunucuya bağlanılamadı!", "error"); }
         }
 
+        // 🩸 YENİ: KULLANICI İNFAZ (SİLME) MANTIĞI 🩸
         let currentAdminKey = "";
+        let userToDelete = "";
+
         async function loginAdmin() {
             const key = document.getElementById('admin-key-input').value.trim();
             if(!key) return;
             const res = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: key }) });
             const data = await res.json();
-            if(data.success) { currentAdminKey = key; document.getElementById('admin-login-area').style.display = 'none'; document.getElementById('admin-panel-area').style.display = 'block'; renderAdminUsers(data.users); showToast("Admin Paneline Başarıyla Giriş Yapıldı!", "success"); }
+            if(data.success) { currentAdminKey = key; document.getElementById('admin-login-area').style.display = 'none'; document.getElementById('admin-panel-area').style.display = 'block'; renderAdminUsers(data.users); showToast("Admin Paneline Giriş Yapıldı!", "success"); }
             else { showToast("Yanlış Admin Şifresi!", "error"); }
         }
+
         function renderAdminUsers(users) {
             const grid = document.getElementById('admin-users-grid');
             if(users.length === 0) { grid.innerHTML = `<p style="text-align:center;">Kimse yok.</p>`; return; }
             let html = '';
-            users.forEach(u => { html += `<div class="admin-card"><div><h4>👤 ${u.username}</h4><p>🔑 Şifre: <b style="color:var(--accent);">${u.password}</b></p></div><button class="btn-delete" onclick="deleteUser('${u.username}')">SİL</button></div>`; });
+            users.forEach(u => { 
+                // Sil tuşuna basınca artık confirm() değil, bizim özel modal açılıyor
+                html += `<div class="admin-card"><div><h4>👤 ${u.username}</h4><p>🔑 Şifre: <b style="color:var(--accent);">${u.password}</b></p></div><button class="btn-delete" onclick="openDeleteModal('${u.username}')">SİL</button></div>`; 
+            });
             grid.innerHTML = html;
         }
-        async function deleteUser(username) {
-            if(!confirm(`Silinsin mi: ${username}?`)) return;
-            const res = await fetch('/api/admin/delete_user', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey, username: username }) });
+
+        // İnfaz Ekranını Aç
+        function openDeleteModal(username) {
+            userToDelete = username;
+            document.getElementById('delete-modal-text').innerHTML = `<b style="color:var(--accent); font-size:16px;">${username}</b> adlı kullanıcıyı kalıcı olarak silmek istediğine emin misin? Bu işlem geri alınamaz!`;
+            document.getElementById('delete-modal').style.display = 'flex';
+        }
+
+        // İnfaz Ekranını Kapat
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').style.display = 'none';
+            userToDelete = "";
+        }
+
+        // Kullanıcıyı Harbi Harbi Sil (API)
+        async function confirmDelete() {
+            if(!userToDelete) return;
+            
+            const res = await fetch('/api/admin/delete_user', { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({ key: currentAdminKey, username: userToDelete }) 
+            });
             const data = await res.json();
-            if(data.success) { showToast(`${username} kullanıcısı silindi!`, "info"); loginAdmin(); }
+            
+            if(data.success) { 
+                showToast(`${userToDelete} kullanıcısı acımadan silindi!`, "info"); 
+                closeDeleteModal();
+                
+                // Listeyi arka planda sessizce yenile
+                const resUpdate = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey }) });
+                const dataUpdate = await resUpdate.json();
+                renderAdminUsers(dataUpdate.users);
+            } else {
+                showToast("Kullanıcı silinemedi!", "error");
+                closeDeleteModal();
+            }
         }
 
         async function sendText() {
@@ -453,25 +508,15 @@
             box.innerHTML = data.map(m => `<div class="msg"><b>${m.user}</b>${m.text}</div>`).join('');
             box.scrollTop = box.scrollHeight;
         }
-
-        // GİRİŞ / KAYIT İŞLEMLERİ (TOAST GÜNCELLEMESİ)
         async function auth(type) {
             const u = document.getElementById('user').value, p = document.getElementById('pass').value;
             const res = await fetch('/' + type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: u, password: p}) });
             const data = await res.json();
-            
             if(data.success) { 
-                if(type === 'register') {
-                    showToast("Hesabın başarıyla açıldı kanka!", "success");
-                } else {
-                    showToast(`Hoş geldin ${u}, sisteme bağlanılıyor...`, "success");
-                    setTimeout(() => location.reload(), 1500); // Bildirimi okuması için biraz bekleyip sayfayı yenile
-                }
-            } else { 
-                showToast(data.message, "error");
-            }
+                if(type==='register') showToast("Hesap açıldı, giriş yapabilirsin!", "success"); 
+                else { showToast("Sisteme bağlanılıyor...", "success"); setTimeout(()=>location.reload(), 1500); }
+            } else showToast(data.message, "error");
         }
-
         if (document.getElementById('chat-list')) { loadMsgs(); setInterval(loadMsgs, 3000); }
     </script>
 </body>
