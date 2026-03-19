@@ -9,7 +9,6 @@
         :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; --game: #00e5ff; }
         body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
         
-        /* GİRİŞ EKRANI */
         #intro-splash { position: fixed; inset: 0; background: var(--bg); z-index: 9999999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; transition: opacity 0.5s ease-out; }
         .intro-logo { font-size: 50px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--accent); margin-bottom: 20px; }
         .intro-text { color: var(--red); font-size: 14px; max-width: 350px; font-weight: bold; border: 1px dashed var(--red); padding: 15px; border-radius: 8px; background: rgba(255, 51, 102, 0.1); }
@@ -35,7 +34,6 @@
 
         .content { padding: 15px; display: flex; flex-direction: column; gap: 20px; }
 
-        /* SOHBET KUTUSU */
         .chat-box { background: var(--panel); border-radius: 12px; border: 1px solid #222; height: 220px; display: flex; flex-direction: column; }
         #chat-list { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         .msg { background: #111; padding: 8px 12px; border-radius: 8px; font-size: 12px; border-left: 2px solid var(--accent); word-wrap: break-word; }
@@ -48,12 +46,15 @@
         .search-btn { background: var(--accent); color: #000; font-weight: bold; width: 100%; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 14px; transition: 0.2s; }
         .search-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
+        .filter-box { margin: 10px 0 15px 0; display: flex; align-items: center; justify-content: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; border: 1px solid #222; }
+        .filter-box input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+        .filter-box label { font-size: 13px; font-weight: bold; color: #aaa; cursor: pointer; }
+
         .script-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
         .card { background: var(--panel); border: 1px solid #222; border-radius: 12px; padding: 18px; position: relative; }
         .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #fff; padding-right: 70px; }
         .card p { font-size: 11px; color: #888; margin: 0 0 15px 0; }
         
-        /* ROZETLER (BADGE) */
         .badge { position: absolute; top: 12px; right: 12px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; color: #000; }
         .badge-verified { background: var(--accent); }
         .badge-unverified { background: #555; color: #fff; }
@@ -63,13 +64,11 @@
         .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; font-size: 12px; transition: 0.2s; }
         .copy-btn:hover { background: #222; border-color: var(--accent); color: var(--accent); }
         
-        /* SAYFALAMA (PAGINATION) */
         .pagination-area { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
         .page-btn { background: #111; color: #fff; border: 1px solid #333; padding: 8px 14px; border-radius: 6px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .page-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 255, 170, 0.4); }
         .page-btn:hover:not(.active) { background: #222; }
 
-        /* ADMİN KARTLARI */
         .admin-card { background: #110000; border: 1px solid var(--red); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .admin-card h4 { margin: 0; color: #fff; font-size: 14px; }
         .admin-card p { margin: 5px 0 0 0; color: #aaa; font-size: 11px; }
@@ -81,7 +80,6 @@
         .dl-btn { background: var(--gold); color: #000; font-family: 'Orbitron'; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 0 20px rgba(255,204,0,0.2); width: 100%; max-width: 250px; transition: 0.3s; }
         .dl-btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
 
-        /* TOAST BİLDİRİMLERİ */
         #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; }
         .ceus-toast { background: rgba(10, 10, 15, 0.95); border-left: 4px solid var(--accent); color: #fff; padding: 15px 20px; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); backdrop-filter: blur(5px); }
         .ceus-toast.show { transform: translateX(0); }
@@ -89,29 +87,55 @@
         .ceus-toast.info { border-left-color: var(--game); }
         .toast-icon { font-size: 18px; }
 
-        /* GİZLEME SINIFLARI */
         .legal-overlay, .cc-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
         .legal-dashboard { background: #0a0a0f; border: 2px solid var(--red); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(255, 51, 102, 0.3); }
         .btn-agree { background: var(--game); color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Orbitron'; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.3s; }
         .btn-agree:hover { background: #fff; box-shadow: 0 0 20px var(--game); }
+        
         .coin-box { background: #111; border: 1px solid var(--game); color: var(--game); padding: 10px; border-radius: 8px; display: inline-block; font-family: 'Orbitron'; font-size: 16px; font-weight: bold; margin-bottom: 20px; }
+        .scen-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; font-size: 12px; font-family: 'Poppins'; text-align: left; cursor: pointer; transition: 0.2s; width: 100%; }
+        .scen-btn:hover { background: #222; border-color: var(--game); }
+
+        .cc-wrapper { perspective: 1000px; width: 100%; max-width: 340px; }
+        .credit-card { width: 100%; height: 210px; border-radius: 16px; padding: 20px; position: relative; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-sizing: border-box; font-family: 'Orbitron', sans-serif; transition: 0.5s; }
+        .cc-top { display: flex; justify-content: space-between; align-items: flex-start; z-index: 2; }
+        .cc-chip { width: 45px; height: 35px; background: linear-gradient(135deg, #e6c27a, #997a3d); border-radius: 6px; position: relative; border: 1px solid #554422; }
+        .cc-logo { font-size: 20px; font-weight: 900; font-style: italic; z-index: 2; }
+        .cc-number { font-size: 18px; letter-spacing: 3px; z-index: 2; text-shadow: 1px 1px 2px #000; margin-top: 10px; }
+        .cc-bottom { display: flex; justify-content: space-between; align-items: flex-end; z-index: 2; }
+        .cc-name-box { display: flex; flex-direction: column; }
+        .cc-label { font-size: 8px; font-family: 'Poppins'; margin-bottom: 2px; opacity: 0.7; }
+        .cc-name { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .cc-bal { font-size: 18px; font-weight: bold; }
+        
+        .theme-default { background: linear-gradient(135deg, #111, #000); color: #fff; border: 1px solid #333; }
+        .theme-default .cc-logo, .theme-default .cc-bal { color: var(--game); }
+        .theme-kakbank { background: linear-gradient(135deg, #cc0033, #66001a); color: #fff; border: 1px solid #ff3366; }
+        .theme-garantisiz { background: linear-gradient(135deg, #009944, #003316); color: #fff; border: 1px solid #00ffaa; }
+        .theme-axparas { background: linear-gradient(135deg, #1a1a1a, #000); color: #e6c27a; border: 1px solid #e6c27a; }
+        .btn-close-cc { margin-top: 30px; background: #222; color: #fff; padding: 12px 30px; border: 1px solid #444; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; }
+        
+        .market-card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .market-card h4 { margin: 0 0 5px 0; font-size: 14px; font-family: 'Orbitron'; }
+        .market-card p { margin: 0; font-size: 11px; color: #aaa; }
+        .btn-buy { background: var(--game); color: #000; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; font-family: 'Orbitron'; }
+        .btn-buy.owned { background: #333; color: #fff; }
+        .btn-buy.equipped { background: var(--accent); color: #000; }
     </style>
 </head>
 <body>
 
     <div id="intro-splash">
         <div class="intro-logo">CEUS<span style="color:var(--xeno)">X</span></div>
-        <div class="intro-text">
-            ⚠️ YASAL BİLGİLENDİRME ⚠️<br><br>
-            Siteye kaydolduğunuzda, çıktıktan sonra hesabınız kalıcı olarak SİLİNİR. Veritabanımızda hiçbir IP, Log veya kişisel bilginiz tutulmaz.<br><br>
-            <span style="color:#fff;">%100 YERALTI GİZLİLİĞİ.</span>
-        </div>
+        <div class="intro-text">⚠️ YASAL BİLGİLENDİRME ⚠️<br><br>Siteye kaydolduğunuzda, çıktıktan sonra hesabınız kalıcı olarak SİLİNİR. Veritabanımızda hiçbir IP, Log veya kişisel bilginiz tutulmaz.<br><br><span style="color:#fff;">%100 YERALTI GİZLİLİĞİ.</span></div>
     </div>
 
     <div id="toast-container"></div>
 
     <div id="legal-modal" class="legal-overlay"><div class="legal-dashboard" style="border-color: var(--game);"><h2 style="color:var(--game);">🕵️ GÖREV MERKEZİ</h2><p>Sokak görevlerini tamamla, patronun gözüne gir ve cüzdanını doldur!</p><button class="btn-agree" onclick="acceptLegal()">GÖREVLERE BAŞLA</button></div></div>
-    <div id="delete-modal" class="legal-overlay"><div class="legal-dashboard" style="border-color: var(--red); max-width: 320px;"><h2 style="font-size: 18px;">⚠️ KULLANICIYI SİL</h2><p id="delete-modal-text" style="font-size: 13px;">Bu kullanıcıyı silmek istediğine emin misin?</p><div style="display: flex; gap: 10px; margin-top: 20px;"><button class="btn-agree" style="background: #222; color: #fff; border: 1px solid #444;" onclick="closeDeleteModal()">İPTAL ET</button><button class="btn-agree" style="background: var(--red); color: #fff;" onclick="confirmDelete()">ACIMADAN SİL</button></div></div></div>
+    <div id="delete-modal" class="legal-overlay"><div class="legal-dashboard" style="border-color: var(--red); max-width: 320px;"><h2 style="font-size: 18px;">⚠️ KULLANICIYI SİL</h2><p id="delete-modal-text" style="font-size: 13px;">Emin misin?</p><div style="display: flex; gap: 10px; margin-top: 20px;"><button class="btn-agree" style="background: #222; color: #fff; border: 1px solid #444;" onclick="closeDeleteModal()">İPTAL ET</button><button class="btn-agree" style="background: var(--red); color: #fff;" onclick="confirmDelete()">ACIMADAN SİL</button></div></div></div>
+    <div id="market-modal" class="legal-overlay"><div class="legal-dashboard" style="border-color: var(--game); max-width: 380px;"><h2 style="color: var(--game);">💳 KART MARKETİ</h2><p style="margin-bottom: 15px;">Yeni kart temaları satın al.</p><div id="market-items" style="max-height: 300px; overflow-y: auto; padding-right: 5px;"></div><button class="btn-agree" style="background: #222; color: #fff; margin-top: 15px;" onclick="closeCardMarket()">KAPAT</button></div></div>
+    <div id="cc-modal" class="cc-overlay"><div class="cc-wrapper"><div class="credit-card theme-default" id="the-credit-card"><div class="cc-top"><div class="cc-chip"></div><div class="cc-logo" id="card-logo-text">CEUS<span style="color:#fff;">X</span></div></div><div class="cc-number" id="card-display-number">**** **** **** ****</div><div class="cc-bottom"><div class="cc-name-box"><span class="cc-label">KART SAHİBİ</span><span class="cc-name" id="card-display-name">BİLİNMEYEN</span></div><div class="cc-name-box" style="align-items:flex-end;"><span class="cc-label">BAKİYE</span><span class="cc-bal"><span id="card-display-bal">0</span> ₵</span></div></div></div></div><button class="btn-close-cc" onclick="document.getElementById('cc-modal').style.display='none'">CÜZDANA KOY</button></div>
 
     {% if not logged_in %}
     <div class="auth-screen">
@@ -150,7 +174,6 @@
     <div class="content">
         
         <div id="tab-scripts" class="tab-content active">
-            
             <div class="chat-box">
                 <div id="chat-list"></div>
                 <div class="chat-input">
@@ -161,38 +184,36 @@
 
             <div class="search-area" style="margin-top: 20px;">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--accent);">☁️ CEUSX YEREL MOTOR (OFFLINE)</h3>
-                <input type="text" id="local-search-input" placeholder="Oyun veya Script Ara (Örn: Blox Fruits)..." oninput="filterLocalScripts()" style="margin-bottom:0;">
+                <input type="text" id="local-search-input" placeholder="Oyun veya Script Ara (Örn: Blox Fruits)..." oninput="filterLocalScripts()" onkeypress="if(event.key==='Enter') filterLocalScripts()" style="margin-bottom:10px;">
+                
+                <div class="filter-box">
+                    <input type="checkbox" id="keyless-check" onchange="filterLocalScripts()">
+                    <label for="keyless-check">Sadece Keysiz (No Key)</label>
+                </div>
+                
+                <button class="search-btn" onclick="filterLocalScripts()">SCRIPT ARA</button>
             </div>
 
             <div class="script-grid" id="local-script-grid"></div>
-
             <div class="pagination-area" id="pagination-area"></div>
-
         </div>
 
         <div id="tab-trusted" class="tab-content">
             <div class="section-header" style="text-align:center; color:var(--gold); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">🌟 CEUSX ELİT ARŞİVİ</div>
             <div class="script-grid">
-                <div class="card" style="border-color: var(--gold);">
-                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
-                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
-                    <h3>Infinite Yield</h3>
-                    <p>En sağlam admin scripti. Fly, Noclip, Speed her şey içinde.</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Edgeiy/InfiniteYield/master/source\'))()')">KOPYALA</button>
-                </div>
-                <div class="card" style="border-color: var(--gold);">
-                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
-                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
-                    <h3>Vape V4</h3>
-                    <p>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')">KOPYALA</button>
-                </div>
+                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Infinite Yield</h3><p>En sağlam admin scripti. Fly, Noclip, Speed her şey içinde.</p><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Edgeiy/InfiniteYield/master/source\'))()')">KOPYALA</button></div>
+                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Vape V4</h3><p>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')">KOPYALA</button></div>
             </div>
         </div>
 
         <div id="tab-games" class="tab-content">
             <div style="text-align:center;"><div class="coin-box">💰 BAKİYE: <span id="ceus-coins">100</span> COIN</div></div>
             <div class="script-grid">
+                <div class="card" style="border-color: var(--game); text-align:center;">
+                    <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">💳 SANAL BANKA</h3>
+                    <div style="display:flex; gap:10px; margin-bottom:15px;"><button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); padding:10px; font-size:11px;" onclick="showCreditCard()">KARTIMI GÖR</button><button class="search-btn" style="background:var(--game); color:#000; padding:10px; font-size:11px;" onclick="openCardMarket()">KART MARKETİ</button></div>
+                    <div style="background: rgba(255, 51, 102, 0.1); border: 1px dashed var(--red); padding: 15px; border-radius: 8px; margin-top: 10px;"><h4 style="color: var(--red); font-family: 'Orbitron'; margin: 0 0 5px 0; font-size:14px;">⚠️ SİSTEM ARIZALI</h4><p style="font-size: 11px; color: #ccc; margin: 0;">Banka sunucuları hacklendi! Transfer işlemleri kapalı.</p></div>
+                </div>
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🕵️ SOKAK GÖREVLERİ</h3>
                     <p>Doğru mantığı kur, görevi tamamla ve parayı kap!</p>
@@ -205,43 +226,15 @@
             </div>
         </div>
 
-        <div id="tab-contact" class="tab-content">
-            <div class="search-area" style="border-color: #333;">
-                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:#fff;">📩 ADMİNE MESAJ GÖNDER</h3>
-                <input type="text" id="contact-name" placeholder="Kullanıcı Adın / Discord Adın">
-                <textarea id="contact-message" rows="5" placeholder="Mesajını buraya yaz kanka..."></textarea>
-                <button class="search-btn" style="background:#fff; color:#000;" onclick="sendContact()">MAİL GÖNDER</button>
-            </div>
-        </div>
-
-        <div id="tab-admin" class="tab-content">
-            <div id="admin-login-area" class="search-area" style="border-color: var(--red);">
-                <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--red);">🔒 YETKİLİ GİRİŞİ</h3>
-                <input type="password" id="admin-key-input" placeholder="Gizli Admin Şifresi..." onkeypress="if(event.key==='Enter') loginAdmin()">
-                <button class="search-btn" style="background:var(--red); color:#fff;" onclick="loginAdmin()">VERİTABANINA ERİŞ</button>
-            </div>
-            <div id="admin-panel-area" style="display:none;">
-                <div class="script-grid" id="admin-users-grid"></div>
-            </div>
-        </div>
-
-        <div id="tab-executor" class="tab-content">
-            <div class="exec-container">
-                <h1 class="exec-logo">XE<span style="color:var(--gold)">NO</span></h1>
-                <p class="exec-sub">GELİŞTİRİCİ: XENO EKİBİ | PARTNER: CEUSX</p>
-                <button class="dl-btn" onclick="window.location.href='/download/executor'">XENO EXECUTOR İNDİR</button>
-            </div>
-        </div>
-
+        <div id="tab-contact" class="tab-content"><div class="search-area" style="border-color: #333;"><h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:#fff;">📩 ADMİNE MESAJ GÖNDER</h3><input type="text" id="contact-name" placeholder="Kullanıcı Adın / Discord Adın"><textarea id="contact-message" rows="5" placeholder="Mesajını buraya yaz kanka..."></textarea><button class="search-btn" style="background:#fff; color:#000;" onclick="sendContact()">MAİL GÖNDER</button></div></div>
+        <div id="tab-admin" class="tab-content"><div id="admin-login-area" class="search-area" style="border-color: var(--red);"><h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--red);">🔒 YETKİLİ GİRİŞİ</h3><input type="password" id="admin-key-input" placeholder="Gizli Admin Şifresi..." onkeypress="if(event.key==='Enter') loginAdmin()"><button class="search-btn" style="background:var(--red); color:#fff;" onclick="loginAdmin()">VERİTABANINA ERİŞ</button></div><div id="admin-panel-area" style="display:none;"><div class="script-grid" id="admin-users-grid"></div></div></div>
+        <div id="tab-executor" class="tab-content"><div class="exec-container"><h1 class="exec-logo">XE<span style="color:var(--gold)">NO</span></h1><p class="exec-sub">GELİŞTİRİCİ: XENO EKİBİ | PARTNER: CEUSX</p><button class="dl-btn" onclick="window.location.href='/download/executor'">XENO EXECUTOR İNDİR</button></div></div>
     </div>
 
     <script>
-        // --- SPLASH & GMAIL ---
         window.addEventListener('load', () => {
             const splash = document.getElementById('intro-splash');
             if(splash) { setTimeout(() => { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 500); }, 2500); }
-            
-            // Sayfa yüklendiğinde yerel scriptleri çiz
             initLocalScripts();
         });
 
@@ -256,7 +249,6 @@
             }, 1500);
         }
 
-        // --- BİLDİRİM VE SEKME ---
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container'); const toast = document.createElement('div');
             toast.className = `ceus-toast ${type}`;
@@ -276,7 +268,7 @@
         }
         function acceptLegal() { gamesWarned = true; document.getElementById('legal-modal').style.display = 'none'; switchTab('games'); }
 
-        // 🚀 YENİ: YEREL SCRIPT VERİTABANI (OFFLINE) 🚀
+        // 🚀 40+ SCRİPTLİK DEV YEREL VERİTABANI 🚀
         const allLocalScripts = [
             // BLOX FRUITS
             { game: "Blox Fruits", title: "Hoho Hub V3", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()' },
@@ -286,51 +278,66 @@
             { game: "Blox Fruits", title: "Atherhub Auto Farm", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://rawscripts.net/raw/Atherhub"))()' },
             { game: "Blox Fruits", title: "Zen Hub Max", verified: false, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Kaizenofficiall/ZenHub/main/Loader"))()' },
             { game: "Blox Fruits", title: "Speed Hub X", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadViper/Script/main/SpeedHubX"))()' },
+            { game: "Blox Fruits", title: "Neva Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/VEZ2/NEVAHUB/main/2"))()' },
+            { game: "Blox Fruits", title: "Ripper Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xDepressionx/Free-Script/main/RipperHub.lua"))()' },
+            { game: "Blox Fruits", title: "Vector Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/1.1.1.1/VectorHub/main/Loader.lua"))()' },
             
             // BROOKHAVEN
             { game: "Brookhaven 🏡RP", title: "Ice Hub V2", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/IceMael7/NewIceHub/main/Brookhaven"))()' },
             { game: "Brookhaven 🏡RP", title: "Red Hub Trolling", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/RedHub/main/RedHub"))()' },
             { game: "Brookhaven 🏡RP", title: "Vynixu's Script", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Brookhaven/Script.lua"))()' },
             { game: "Brookhaven 🏡RP", title: "Admin Panel GUI", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Gwn/AdminBrook/main"))()' },
+            { game: "Brookhaven 🏡RP", title: "Sander X", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/SanderX2000/SanderX/main/Brookhaven"))()' },
 
             // ARSENAL
             { game: "Arsenal", title: "DarkHub Aimbot", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/RandomAdamScript/DarkHub/master/Init"))()' },
             { game: "Arsenal", title: "VG Hub ESP", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub"))()' },
             { game: "Arsenal", title: "Owl Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Zariaty/OwlHub/master/OwlHub.txt"))()' },
+            { game: "Arsenal", title: "Thunder Client", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Andrew142/ThunderClient/main/Loader.lua"))()' },
+            { game: "Arsenal", title: "Ez Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EzHub/EzHub/main/Arsenal.lua"))()' },
             
             // DA HOOD
             { game: "Da Hood", title: "SwagMode V4", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/lerkssss/SwagModeV4/main/loader.lua"))()' },
             { game: "Da Hood", title: "RayX Aimbot", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/RayX-Script/RayX/main/Loader.lua"))()' },
             { game: "Da Hood", title: "Hood Custom", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Custom/DaHood/main/main.lua"))()' },
+            { game: "Da Hood", title: "Space Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/SpaceHub/DaHood/main/loader"))()' },
+            { game: "Da Hood", title: "Faded GUI", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Faded/DH/main/Loader.lua"))()' },
 
             // MURDER MYSTERY 2
             { game: "Murder Mystery 2", title: "Eclipse Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ethanoj1/EclipseMM2/master/Script"))()' },
             { game: "Murder Mystery 2", title: "Nexus Admin", verified: false, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Nexus/MM2/main"))()' },
             { game: "Murder Mystery 2", title: "Ghost Hub ESP", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Ghost/Hub/main/mm2"))()' },
+            { game: "Murder Mystery 2", title: "Yap Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/YapHub/MM2/main/Loader"))()' },
 
-            // ADOPT ME & PET SIM
+            // PET SIMULATOR 99 & ADOPT ME
             { game: "Adopt Me!", title: "Auto Cash Farm", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AdoptMe/Farm/main"))()' },
             { game: "Pet Simulator 99", title: "Zap Hub Auto Farm", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ZapHub/PS99/main/loader"))()' },
+            { game: "Pet Simulator 99", title: "Balon Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Balon/PS99/main/Free.lua"))()' },
             
             // BLADE BALL
             { game: "Blade Ball", title: "Auto Parry V2", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/BladeBall/AutoParry/main/v2"))()' },
             { game: "Blade Ball", title: "Visuals Hub", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Visuals/BladeBall/main"))()' },
+            { game: "Blade Ball", title: "FFJ Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/FFJ/Hub/main/BladeBall.lua"))()' },
 
-            // BEDWARS
+            // BEDWARS & KING LEGACY & JAILBREAK
             { game: "BedWars", title: "Vape V4", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()' },
-            { game: "BedWars", title: "Alsploit", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Alsploit/Bedwars/main/Loader.lua"))()' }
+            { game: "BedWars", title: "Alsploit", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Alsploit/Bedwars/main/Loader.lua"))()' },
+            { game: "King Legacy", title: "Xero Hub", verified: true, keyless: false, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Xero/KingLegacy/main/Loader.lua"))()' },
+            { game: "King Legacy", title: "Anubis Hub", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Anubis/KingLegacy/main/Free"))()' },
+            { game: "Jailbreak", title: "Auto Rob V2", verified: false, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Jailbreak/AutoRob/main/v2.lua"))()' },
+            { game: "Jailbreak", title: "Btools & Noclip", verified: true, keyless: true, script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/JB/Btools/main/Loader.lua"))()' }
         ];
 
         let filteredScripts = [];
         let currentPage = 1;
-        const itemsPerPage = 6; // Her sayfada 6 script
+        const itemsPerPage = 6; 
 
         function initLocalScripts() {
-            filteredScripts = allLocalScripts; // Başlangıçta hepsi
+            filteredScripts = allLocalScripts;
             renderLocalScripts();
         }
 
-        // Arama kutusuna yazı yazıldıkça çalışan filtre
+        // 🔧 ARAMA BUTONUNA VE INPUTA BAĞLI ÇALIŞAN FİLTRELEME FONKSİYONU 🔧
         function filterLocalScripts() {
             const query = document.getElementById('local-search-input').value.toLowerCase().trim();
             const isKeylessCheck = document.getElementById('keyless-check').checked;
@@ -341,7 +348,7 @@
                 return matchQuery && matchKeyless;
             });
 
-            currentPage = 1; // Aramada hep 1. sayfaya dön
+            currentPage = 1; 
             renderLocalScripts();
         }
 
@@ -365,7 +372,6 @@
                 const verifiedBadge = s.verified ? '<span class="badge badge-verified">✔️ DOĞRULANDI</span>' : '<span class="badge badge-unverified">⚠️ DOĞRULANMADI</span>';
                 const keyBadge = s.keyless ? '<span class="badge badge-keyless">🔓 KEYSİZ</span>' : '<span class="badge badge-key">🔑 KEYLİ</span>';
 
-                // Kopyalama işleminde ID çakışmaması için benzersiz id: raw-local-{start+idx}
                 html += `
                 <div class="card">
                     ${verifiedBadge}
@@ -378,7 +384,6 @@
             });
             grid.innerHTML = html;
 
-            // Sayfalama (Pagination) Tuşlarını Çiz
             if (totalPages > 1) {
                 let pagHtml = '';
                 for(let i=1; i<=totalPages; i++) {
@@ -390,9 +395,7 @@
         }
 
         function changePage(p) {
-            currentPage = p;
-            renderLocalScripts();
-            // Sayfa değiştiğinde hafifçe yukarı kaydır
+            currentPage = p; renderLocalScripts();
             document.querySelector('.search-area').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -403,58 +406,65 @@
 
         function copyRaw(text) { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Onaylı script kopyalandı!", "success"); }
 
-        // --- GÖREV SİSTEMİ ---
+        let ceusCoins = localStorage.getItem('ceusCoins') ? parseInt(localStorage.getItem('ceusCoins')) : 100;
+        let myIban = localStorage.getItem('ceusIban'); let myCardNum = localStorage.getItem('ceusCard');
+        if(!myIban) { let r1 = Math.floor(1000 + Math.random() * 9000); let r2 = Math.floor(1000 + Math.random() * 9000); myIban = `TR99 0000 ${r1} 1234 ${r2} 55`; myCardNum = `4321 ${r1} ${r2} 9988`; localStorage.setItem('ceusIban', myIban); localStorage.setItem('ceusCard', myCardNum); }
+        document.getElementById('ceus-coins').innerText = ceusCoins; document.getElementById('my-iban').innerText = myIban;
+
+        function updateCoins() { document.getElementById('ceus-coins').innerText = ceusCoins; localStorage.setItem('ceusCoins', ceusCoins); document.getElementById('card-display-bal').innerText = ceusCoins; }
+
         const scenarios = [
             { q: "Köprüde kedi mahsur kaldı.", opts: ["Koşup yakalarım", "Salam koyup beklerim", "İtfaiyeyi ararım"], correct: 1, reward: 50 },
             { q: "Lambo'yu park etmen istendi.", opts: ["Ağacın altı", "Girişin önü", "Kameraların gördüğü yer"], correct: 2, reward: 100 },
-            { q: "Yerde cüzdan buldun.", opts: ["Kaçarım", "Bırakırım", "Karakola teslim ederim"], correct: 2, reward: 75 }
+            { q: "Yerde cüzdan buldun.", opts: ["Kaçarım", "Bırakırım", "Karakola teslim ederim"], correct: 2, reward: 75 },
+            { q: "PC'ne hacker sızıyor.", opts: ["İnterneti keserim", "Antivirüs açarım", "Kapatıp açarım"], correct: 0, reward: 150 },
+            { q: "Sokakta biri USB bellek uzattı.", opts: ["Atarım", "PC'me takarım", "Kafede denerim"], correct: 0, reward: 80 }
         ];
 
-        let ceusCoins = localStorage.getItem('ceusCoins') ? parseInt(localStorage.getItem('ceusCoins')) : 100;
-        
         function loadScenario() {
-            let currentScenarioIndex = Math.floor(Math.random() * scenarios.length);
-            const s = scenarios[currentScenarioIndex];
+            let currentScenarioIndex = Math.floor(Math.random() * scenarios.length); const s = scenarios[currentScenarioIndex];
             document.getElementById('scenario-text').innerText = s.q;
             const btnContainer = document.getElementById('scenario-options'); btnContainer.innerHTML = ''; 
-            s.opts.forEach((optText, index) => {
-                btnContainer.innerHTML += `<button class="scen-btn" onclick="answerScenario(${currentScenarioIndex}, ${index})">${optText}</button>`;
-            });
+            s.opts.forEach((optText, index) => { btnContainer.innerHTML += `<button class="scen-btn" onclick="answerScenario(${currentScenarioIndex}, ${index})">${optText}</button>`; });
             document.getElementById('btn-new-scenario').style.display = 'none'; 
         }
 
         function answerScenario(sIndex, selectedIndex) {
             const s = scenarios[sIndex];
-            if (selectedIndex === s.correct) {
-                ceusCoins += s.reward; localStorage.setItem('ceusCoins', ceusCoins);
-                document.getElementById('scenario-text').innerHTML = `<span style="color:var(--accent);">✅ DOĞRU:</span> +${s.reward} Coin!`;
-                showToast(`+${s.reward} ₵ Kazandın!`, "success");
-            } else {
-                document.getElementById('scenario-text').innerHTML = `<span style="color:var(--red);">❌ YANLIŞ:</span> Çuvalladın!`;
-                showToast("Görev başarısız!", "error");
-            }
-            document.getElementById('scenario-options').innerHTML = ''; 
-            document.getElementById('btn-new-scenario').style.display = 'block'; 
+            if (selectedIndex === s.correct) { ceusCoins += s.reward; updateCoins(); document.getElementById('scenario-text').innerHTML = `<span style="color:var(--accent);">✅ DOĞRU:</span> +${s.reward} Coin!`; showToast(`+${s.reward} ₵ Kazandın!`, "success"); } 
+            else { document.getElementById('scenario-text').innerHTML = `<span style="color:var(--red);">❌ YANLIŞ:</span> Çuvalladın!`; showToast("Görev başarısız!", "error"); }
+            document.getElementById('scenario-options').innerHTML = ''; document.getElementById('btn-new-scenario').style.display = 'block'; 
         }
 
-        // --- CHAT VE DİĞER FONKSİYONLAR ---
-        async function sendText() {
-            const i = document.getElementById('chat-msg');
-            if(!i.value.trim()) return;
-            await fetch('/send_message', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ text: i.value }) });
-            i.value = ''; loadMsgs();
+        const marketItems = [ { id: 'default', name: 'CeusX Standart', price: 0, color: '#00e5ff' }, { id: 'kakbank', name: 'Kakbank Neo', price: 500, color: '#ff3366' }, { id: 'garantisiz', name: 'GarantiSiz Bonus', price: 1000, color: '#00ffaa' }, { id: 'axparas', name: 'Axparas Centurion', price: 5000, color: '#e6c27a' } ];
+        let ownedCards = JSON.parse(localStorage.getItem('ceusOwnedCards')) || ['default']; let activeCard = localStorage.getItem('ceusActiveCard') || 'default';
+        function openCardMarket() { document.getElementById('market-modal').style.display = 'flex'; renderMarket(); }
+        function closeCardMarket() { document.getElementById('market-modal').style.display = 'none'; }
+        function renderMarket() {
+            const container = document.getElementById('market-items'); let html = '';
+            marketItems.forEach(item => {
+                let btnClass = "btn-buy"; let btnText = `SATIN AL (${item.price} ₵)`;
+                if(activeCard === item.id) { btnClass += " equipped"; btnText = "KUŞANILDI"; } else if(ownedCards.includes(item.id)) { btnClass += " owned"; btnText = "KULLAN"; }
+                html += `<div class="market-card" style="border-left: 3px solid ${item.color};"><div><h4 style="color:${item.color}">${item.name}</h4><p>${item.price === 0 ? 'Bedava' : item.price + ' Coin'}</p></div><button class="${btnClass}" onclick="buyOrEquipCard('${item.id}', ${item.price}, '${item.name}')">${btnText}</button></div>`;
+            }); container.innerHTML = html;
         }
-        async function loadMsgs() {
-            const res = await fetch('/get_messages'); const data = await res.json(); const box = document.getElementById('chat-list');
-            box.innerHTML = data.map(m => `<div class="msg"><b>${m.user}</b>${m.text}</div>`).join(''); box.scrollTop = box.scrollHeight;
+        function buyOrEquipCard(themeId, price, name) {
+            if(ownedCards.includes(themeId)) { activeCard = themeId; localStorage.setItem('ceusActiveCard', themeId); showToast(`${name} kartını kuşandın!`, "info"); renderMarket(); } 
+            else { if(ceusCoins >= price) { ceusCoins -= price; updateCoins(); ownedCards.push(themeId); localStorage.setItem('ceusOwnedCards', JSON.stringify(ownedCards)); activeCard = themeId; localStorage.setItem('ceusActiveCard', themeId); showToast(`${name} satın alındı!`, "success"); renderMarket(); } else { showToast("Paran yetmez!", "error"); } }
         }
-        async function auth(type) {
-            const u = document.getElementById('user').value, p = document.getElementById('pass').value;
-            const res = await fetch('/' + type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: u, password: p}) });
-            const data = await res.json();
-            if(data.success) { if(type==='register') showToast("Hesap açıldı!", "success"); else { showToast("Bağlanılıyor...", "success"); setTimeout(()=>location.reload(), 1500); } } 
-            else showToast(data.message, "error");
+
+        function showCreditCard() {
+            let uname = document.getElementById('current-username') ? document.getElementById('current-username').innerText : "GİZLİ KULLANICI";
+            document.getElementById('card-display-name').innerText = uname; document.getElementById('card-display-number').innerText = localStorage.getItem('ceusCard'); document.getElementById('card-display-bal').innerText = ceusCoins;
+            const cardEl = document.getElementById('the-credit-card'); const logoEl = document.getElementById('card-logo-text');
+            cardEl.className = 'credit-card theme-' + activeCard;
+            if(activeCard === 'kakbank') logoEl.innerHTML = "KAKBANK"; else if(activeCard === 'garantisiz') logoEl.innerHTML = "GARANTİ<span style='color:#fff'>SİZ</span>"; else if(activeCard === 'axparas') logoEl.innerHTML = "AXPARAS"; else logoEl.innerHTML = "CEUS<span style='color:#fff;'>X</span>";
+            document.getElementById('cc-modal').style.display = 'flex';
         }
+
+        async function sendText() { const i = document.getElementById('chat-msg'); if(!i.value.trim()) return; await fetch('/send_message', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ text: i.value }) }); i.value = ''; loadMsgs(); }
+        async function loadMsgs() { const res = await fetch('/get_messages'); const data = await res.json(); const box = document.getElementById('chat-list'); box.innerHTML = data.map(m => `<div class="msg"><b>${m.user}</b>${m.text}</div>`).join(''); box.scrollTop = box.scrollHeight; }
+        async function auth(type) { const u = document.getElementById('user').value, p = document.getElementById('pass').value; const res = await fetch('/' + type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: u, password: p}) }); const data = await res.json(); if(data.success) { if(type==='register') showToast("Hesap açıldı!", "success"); else { showToast("Bağlanılıyor...", "success"); setTimeout(()=>location.reload(), 1500); } } else showToast(data.message, "error"); }
         if (document.getElementById('chat-list')) { loadMsgs(); setInterval(loadMsgs, 3000); }
     </script>
 </body>
