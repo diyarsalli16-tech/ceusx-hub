@@ -261,7 +261,7 @@
         <div id="tab-games" class="tab-content">
             
             <div class="warning-banner" style="border-color: var(--game); background: rgba(0, 229, 255, 0.1);">
-                ⚠️ <b>BİLGİLENDİRME:</b> Buradaki senaryolar tamamen zeka ve mantık testi amaçlıdır.
+                ⚠️ <b>BİLGİLENDİRME:</b> Buradaki senaryolar tamamen zeka ve mantık testi amaçlıdır. Şans veya kumar faktörü bulunmaz.
             </div>
 
             <div style="text-align:center;">
@@ -272,21 +272,22 @@
                 
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">💳 SANAL BANKA</h3>
-                    <p>Görevden kazandıklarını yatır, arkadaşlarına sahte IBAN'la gönder!</p>
+                    <p>Görevden kazandıklarını yatır, kart temaları al!</p>
                     
                     <div style="display:flex; gap:10px; margin-bottom:15px;">
                         <button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); padding:10px; font-size:11px;" onclick="showCreditCard()">KARTIMI GÖR</button>
                         <button class="search-btn" style="background:var(--game); color:#000; padding:10px; font-size:11px;" onclick="openCardMarket()">KART MARKETİ</button>
                     </div>
                     
-                    <div class="iban-box">
+                    <div class="iban-box" style="opacity: 0.5;">
                         <span style="font-size:10px; color:#aaa;">IBAN NUMARAN:</span><br>
                         <b id="my-iban" style="color:#fff; font-family:monospace; font-size:14px; letter-spacing:1px;">TR99 ....</b>
                     </div>
                     
-                    <input type="text" id="transfer-target" placeholder="Alıcı IBAN veya İsim" style="margin-bottom:10px;">
-                    <input type="number" id="transfer-amount" placeholder="Gönderilecek Miktar" style="margin-bottom:10px;">
-                    <button class="search-btn" style="background:var(--game);" onclick="transferCoins()" id="btn-transfer">PARA GÖNDER</button>
+                    <div style="background: rgba(255, 51, 102, 0.1); border: 1px dashed var(--red); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <h4 style="color: var(--red); font-family: 'Orbitron'; margin: 0 0 5px 0; font-size:14px;">⚠️ SİSTEM ARIZALI</h4>
+                        <p style="font-size: 11px; color: #ccc; margin: 0;">Banka sunucuları hacklendi! Transfer işlemleri geçici olarak kullanılamıyor.</p>
+                    </div>
                 </div>
 
                 <div class="card" style="border-color: var(--game); text-align:center;">
@@ -417,7 +418,6 @@
         function loadScenario() {
             const now = new Date().getTime();
             
-            // 2 Dakika (120,000 ms) geçtiyse limiti sıfırla
             if (now - taskTimer > 120000) {
                 taskCount = 0;
                 taskTimer = now;
@@ -425,12 +425,10 @@
                 localStorage.setItem('ceusTaskCount', taskCount);
             }
 
-            // Eğer 2 dakika içinde 3 görevi doldurduysa engelle
             if (taskCount >= 3) {
                 let kalan = Math.ceil((120000 - (now - taskTimer)) / 1000);
                 showToast(`Çok yoruldun patron! Dinlenmen lazım. Yeni görev için ${kalan} saniye bekle.`, "error");
                 
-                // Sayacı ekranda göster
                 document.getElementById('cooldown-timer').style.display = 'block';
                 document.getElementById('cooldown-timer').innerText = `⏳ Bekleme Süresi: ${kalan} sn`;
                 return;
@@ -456,11 +454,9 @@
             const s = scenarios[currentScenarioIndex];
             const btnContainer = document.getElementById('scenario-options');
             
-            // Görev yapıldı say, sayacı artır
             taskCount++;
             localStorage.setItem('ceusTaskCount', taskCount);
             
-            // Eğer bu periyottaki ilk görevse, sayacı şimdi başlat ki süre adaletli olsun
             if(taskCount === 1) {
                 taskTimer = new Date().getTime();
                 localStorage.setItem('ceusTaskTimer', taskTimer);
@@ -479,7 +475,7 @@
             document.getElementById('btn-new-scenario').style.display = 'block'; 
         }
 
-        // --- MARKET, KART VE TRANSFER SİSTEMLERİ ---
+        // MARKET VE KART TEMALARI
         const marketItems = [
             { id: 'default', name: 'CeusX Standart', price: 0, color: '#00e5ff' },
             { id: 'kakbank', name: 'Kakbank Neo', price: 500, color: '#ff3366' },
@@ -525,19 +521,6 @@
             cardEl.className = 'credit-card theme-' + activeCard;
             if(activeCard === 'kakbank') logoEl.innerHTML = "KAKBANK"; else if(activeCard === 'garantisiz') logoEl.innerHTML = "GARANTİ<span style='color:#fff'>SİZ</span>"; else if(activeCard === 'axparas') logoEl.innerHTML = "AXPARAS"; else logoEl.innerHTML = "CEUS<span style='color:#fff;'>X</span>";
             document.getElementById('cc-modal').style.display = 'flex';
-        }
-
-        function transferCoins() {
-            const target = document.getElementById('transfer-target').value.trim(); const amount = parseInt(document.getElementById('transfer-amount').value); const btn = document.getElementById('btn-transfer');
-            if(!target) { showToast("Alıcı IBAN boş olamaz!", "error"); return; }
-            if(isNaN(amount) || amount <= 0) { showToast("Geçerli miktar gir!", "error"); return; }
-            if(amount > ceusCoins) { showToast("Bakiyen yetersiz!", "error"); return; }
-            btn.innerText = "İŞLENİYOR..."; btn.style.opacity = "0.5"; btn.disabled = true;
-            setTimeout(() => {
-                ceusCoins -= amount; updateCoins(); showToast(`${amount} Coin, ${target} kişisine gönderildi!`, "success");
-                document.getElementById('transfer-target').value = ''; document.getElementById('transfer-amount').value = '';
-                btn.innerText = "PARA GÖNDER"; btn.style.opacity = "1"; btn.disabled = false;
-            }, 1200); 
         }
 
         function copyId(id) { const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Script panoya kopyalandı!", "success"); }
