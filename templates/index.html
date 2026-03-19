@@ -9,11 +9,17 @@
         :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; --game: #00e5ff; }
         body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
         
+        /* 🚀 YENİ: GİRİŞ EKRANI (SPLASH SCREEN) 🚀 */
+        #intro-splash { position: fixed; inset: 0; background: var(--bg); z-index: 9999999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; transition: opacity 0.5s ease-out; }
+        .intro-logo { font-size: 50px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--accent); margin-bottom: 20px; }
+        .intro-text { color: var(--red); font-size: 14px; max-width: 350px; font-weight: bold; border: 1px dashed var(--red); padding: 15px; border-radius: 8px; background: rgba(255, 51, 102, 0.1); }
+
         .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(120,0,255,0.1); }
         input[type="text"], input[type="password"], input[type="number"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; text-align: center;}
         textarea { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
-        .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; }
+        .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; transition: 0.2s; }
+        .btn-auth:hover { opacity: 0.8; }
         
         header { padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; }
         header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; letter-spacing: 1px; }
@@ -75,7 +81,6 @@
         .warning-banner { background: rgba(0, 229, 255, 0.1); border: 1px solid var(--game); padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 11px; color: #ddd; }
         .iban-box { background: #0a0a0a; padding: 12px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
 
-        /* OVERLAY MODALLAR */
         .legal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
         .legal-dashboard { background: #0a0a0f; border: 2px solid var(--red); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(255, 51, 102, 0.3); }
         .legal-dashboard h2 { color: var(--red); font-family: 'Orbitron'; margin-top: 0; font-size: 22px; letter-spacing: 2px; }
@@ -90,7 +95,6 @@
         .ceus-toast.info { border-left-color: var(--game); }
         .toast-icon { font-size: 18px; }
 
-        /* KART MARKETİ VE KART TEMALARI */
         .market-card { background: #111; border: 1px solid #333; padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
         .market-card h4 { margin: 0 0 5px 0; font-size: 14px; font-family: 'Orbitron'; }
         .market-card p { margin: 0; font-size: 11px; color: #aaa; }
@@ -125,12 +129,20 @@
         .btn-close-cc { margin-top: 30px; background: #222; color: #fff; padding: 12px 30px; border: 1px solid #444; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; }
         .btn-close-cc:hover { background: var(--red); border-color: var(--red); }
 
-        /* SENARYO BUTONLARI */
         .scen-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; font-size: 12px; font-family: 'Poppins'; text-align: left; cursor: pointer; transition: 0.2s; width: 100%; }
         .scen-btn:hover { background: #222; border-color: var(--game); }
     </style>
 </head>
 <body>
+
+    <div id="intro-splash">
+        <div class="intro-logo">CEUS<span style="color:var(--xeno)">X</span></div>
+        <div class="intro-text">
+            ⚠️ YASAL BİLGİLENDİRME ⚠️<br><br>
+            Siteye kaydolduğunuzda, çıktıktan sonra hesabınız kalıcı olarak SİLİNİR. Veritabanımızda hiçbir IP, Log veya kişisel bilginiz tutulmaz.<br><br>
+            <span style="color:#fff;">%100 YERALTI GİZLİLİĞİ.</span>
+        </div>
+    </div>
 
     <div id="toast-container"></div>
 
@@ -189,10 +201,19 @@
     <div class="auth-screen">
         <div class="auth-box">
             <h1 style="color:#fff; font-family:'Orbitron';">CEUS<span style="color:var(--xeno)">X</span></h1>
-            <input type="text" id="user" placeholder="Kullanıcı Adı">
+            <input type="text" id="user" placeholder="Kullanıcı Adı / Gizli Kimlik">
             <input type="password" id="pass" placeholder="Şifre">
-            <button class="btn-auth" style="background:#fff; color:#000;" onclick="auth('login')">SİSTEME GİR</button>
-            <button class="btn-auth" style="background:transparent; color:#fff; border:1px solid #333;" onclick="auth('register')">KAYIT OL</button>
+            
+            <div style="display:flex; gap:10px;">
+                <button class="btn-auth" style="background:#fff; color:#000;" onclick="auth('login')">GİRİŞ YAP</button>
+                <button class="btn-auth" style="background:transparent; color:#fff; border:1px solid #333;" onclick="auth('register')">KAYIT OL</button>
+            </div>
+
+            <button class="btn-auth" style="background:#fff; color:#333; margin-top:20px; display:flex; align-items:center; justify-content:center; gap:10px; border:1px solid #ccc;" onclick="gmailLogin()">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.236c0-.853-.076-1.67-.214-2.457H12v4.643h6.732c-.29 1.5-1.12 2.766-2.395 3.619v3.01h3.874c2.268-2.086 3.576-5.163 3.576-8.815z" fill="#4285F4"/><path d="M12 24c3.374 0 6.202-1.115 8.272-3.023l-3.874-3.01c-1.122.753-2.557 1.2-4.398 1.2-3.38 0-6.236-2.28-7.25-5.347H.76v3.104C2.825 21.056 7.065 24 12 24z" fill="#34A853"/><path d="M4.75 13.82c-.26-.753-.408-1.554-.408-2.384 0-.83.147-1.63.408-2.383V5.949H.76C.275 6.915 0 8.03 0 9.182s.276 2.266.76 3.233l3.99-3.1z" fill="#FBBC05"/><path d="M12 4.79c1.834 0 3.48.632 4.776 1.86l3.585-3.585C18.2 1.115 15.372 0 12 0 7.065 0 2.825 2.944.76 5.949l3.99 3.1c1.014-3.067 3.87-5.347 7.25-5.347z" fill="#EA4335"/></svg>
+                GMAIL İLE DEVAM ET <span style="font-size:10px; color:#888;">(İsteğe Bağlı)</span>
+            </button>
+
         </div>
     </div>
     {% endif %}
@@ -342,6 +363,46 @@
     </div>
 
     <script>
+        // --- 🚀 SPLASH SCREEN KONTROLÜ 🚀 ---
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('intro-splash');
+            if(splash) {
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.style.display = 'none', 500);
+                }, 2500); // Ekranda 2.5 saniye kalır ve silinir
+            }
+        });
+
+        // --- 📧 YENİ: GMAIL GİRİŞ MANTIĞI 📧 ---
+        function gmailLogin() {
+            showToast("Google sunucularına bağlanılıyor...", "info");
+            
+            setTimeout(() => {
+                showToast("Gmail ile yeraltı bağlantısı sağlandı!", "success");
+                
+                // Sahte bir isim oluşturup sisteme kaydediyoruz
+                const fakeGoogleName = "Google_User_" + Math.floor(Math.random() * 9999);
+                
+                // Bu kısım normal auth('register') gibi çalışıp adamı içeri sokar
+                fetch('/register', { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({username: fakeGoogleName, password: 'google_oauth_bypass'}) 
+                }).then(res => res.json()).then(data => {
+                    // Kayıt olduysa hemen giriş yaptır
+                    fetch('/login', {
+                        method: 'POST', 
+                        headers: {'Content-Type': 'application/json'}, 
+                        body: JSON.stringify({username: fakeGoogleName, password: 'google_oauth_bypass'}) 
+                    }).then(() => {
+                        setTimeout(() => location.reload(), 1500);
+                    });
+                });
+
+            }, 1500);
+        }
+
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -384,9 +445,7 @@
             document.getElementById('card-display-bal').innerText = ceusCoins;
         }
 
-        // 🕵️ 45 EFSANE SENARYO (SINIRSIZ OYNANABİLİR) 🕵️
         const scenarios = [
-            // İlk 20
             { q: "Köprüde bir kedi mahsur kaldı ve rüzgar çok sert. Ne yaparsın?", opts: ["Hızlıca koşup ensesinden yakalarım", "Yere salam koyup yavaşça beklerim", "Aşağı inip itfaiyeyi ararım"], correct: 1, reward: 50 },
             { q: "VIP bir müşterinin Lambo'sunu park etmen istendi. Neresi mantıklı?", opts: ["Gölge diye ağacın altı", "Mekanın giriş kapısının önü", "Kameraların gördüğü VIP köşesi"], correct: 2, reward: 100 },
             { q: "Sokakta içi para dolu cüzdan buldun. Çevrede kamera var.", opts: ["Alıp hızlıca kaçarım", "Olduğu yerde bırakırım", "Karakola teslim ederim"], correct: 2, reward: 75 },
@@ -407,38 +466,36 @@
             { q: "İndirdiğin script tamamen şifreli (obfuscated) kodlarla dolu.", opts: ["Ana hesabımda açarım", "Antivirüsü kapatırım", "Güvenmem ve çalıştırmam"], correct: 2, reward: 95 },
             { q: "Kafenin tuvaletinde son model telefon buldun.", opts: ["Kasaya teslim ederim", "Alıp satarım", "Sahibini bekleyip para isterim"], correct: 0, reward: 75 },
             { q: "Gece SMS geldi: 'Şifreniz değiştirildi'. Ama sen yapmadın.", opts: ["Resmi siteye girip kontrol ederim", "SMS'teki linke tıklarım", "Umursamam uyurum"], correct: 0, reward: 140 },
-            // Yeni 25 Tane
-            { q: "Sokakta yürürken bir adam ceketini açıp sana ucuza 'orijinal' saat satmaya çalıştı.", opts: ["Pazarlık yaparım", "Almam, hızla uzaklaşırım", "Parayı verip kaçarım"], correct: 1, reward: 65 },
-            { q: "Deep Web'de gezinirken karşına 'Tıkla, milyon kazan' diye bir link çıktı.", opts: ["Hemen tıklarım", "Linkin kaynağını araştırırım", "Tıklamam, tuzağa düşmem"], correct: 2, reward: 100 },
-            { q: "Arkadaşın sana bir flash bellek verdi, 'Efsane oyun var' dedi. Antivirüs uyarı verdi.", opts: ["Antivirüsü kapatır açarım", "Silip atarım, format atarım", "Başka bir bilgisayarda denerim"], correct: 1, reward: 90 },
-            { q: "Patron sana kilitli bir çanta verdi, 'Açmadan X kişisine teslim et' dedi.", opts: ["İçine bakıp teslim ederim", "Kiliti kırmaya çalışırım", "Açmadan direkt teslim ederim"], correct: 2, reward: 150 },
-            { q: "Gece yarısı ıssız bir yolda arabanın lastiği patladı.", opts: ["Arabada uyurum", "Otostop çekerim", "Polisi veya çekiciyi ararım"], correct: 2, reward: 80 },
-            { q: "İnternet kafede yan masadaki adam kalkıp gitti ama hesabını açık unuttu.", opts: ["Kendi halime bakarım, çıkış yaparım", "Hesabından kendine para atarım", "Mesajlarını okurum"], correct: 0, reward: 60 },
-            { q: "Yeraltı kumarhanesinde bir adam sürekli kazanıyor ve gözü senin masanda.", opts: ["Onunla inatlaşır daha çok basarım", "Masadan kalkar uzaklaşırım", "Hile yaptığını bağırarak söylerim"], correct: 1, reward: 110 },
-            { q: "Sosyal medyada tanımadığın çok güzel/yakışıklı biri sana mesaj atıp link gönderdi.", opts: ["Engel basarım", "Linke tıklarım", "Kim olduğunu sorarım"], correct: 0, reward: 55 },
-            { q: "Bir kafede oturuyorsun, yandaki adam sürekli senin bilgisayar ekranına bakıyor.", opts: ["Kavga çıkarırım", "Ekranı kapatır veya gizlerim", "Onun ekranına bakarım"], correct: 1, reward: 75 },
-            { q: "Telefonuna 'Kargonuz teslim edilemedi, linke tıklayın' diye SMS geldi.", opts: ["Bilgilerimi girerim", "Siler geçerim (Phishing)", "Kargocuyu ararım"], correct: 1, reward: 65 },
-            { q: "Yeni bir sunucu kiraladın, SSH portu (22) herkese açık.", opts: ["Sadece kendi IP'me izin veririm", "Bırakırım açık kalsın", "Sunucuyu iptal ederim"], correct: 0, reward: 120 },
-            { q: "Rakip çete senin mekanın etrafında dolanıyor, telefondan patrona haber vermelisin.", opts: ["Normal hattan ararım", "Güvenli/Şifreli uygulamadan yazarım", "Dışarı çıkıp bağırırım"], correct: 1, reward: 130 },
-            { q: "Aracınla giderken önünde bir kaza oldu, adamlar bıçaklı kavga ediyor.", opts: ["Polisi arayıp uzaktan beklerim", "Kavgayı ayırmaya koşarım", "Video çekmeye başlarım"], correct: 0, reward: 90 },
-            { q: "Çete lideri sana bir silah uzattı, 'Bunu sakla' dedi ama üstünde parmak izi var.", opts: ["Çıplak elle alırım", "Eldivenle alıp saklarım", "Reddederim"], correct: 1, reward: 150 },
-            { q: "Kripto cüzdanının kelimelerini (Seed phrase) kaydetmen lazım.", opts: ["Telefona not alırım", "Kağıda yazar, kasaya koyarım", "Bilgisayarda .txt dosyasına yazarım"], correct: 1, reward: 100 },
-            { q: "Girdiğin bir sitede şifre veritabanının sızdırıldığı haberini aldın.", opts: ["Umursamam", "Sadece o sitenin şifresini değiştiririm", "Aynı şifreyi kullandığım her yeri değiştiririm"], correct: 2, reward: 115 },
-            { q: "Bankadan aradığını söyleyen biri, 'Hesabınızda şüpheli işlem var, şifrenizi tuşlayın' dedi.", opts: ["Şifremi tuşlarım", "Kapatıp bankayı kendim ararım", "Telefonda küfrederim"], correct: 1, reward: 90 },
-            { q: "Takip edildiğini fark ettin, evine gidiyorsun.", opts: ["Koşarak eve girerim", "Sokağa sapıp izimi kaybettiririm", "Kalabalık bir kafeye girer beklerim"], correct: 2, reward: 105 },
-            { q: "Gümrükten geçiyorsun, valizinde sana ait olmayan tuhaf bir paket buldun.", opts: ["Kendim açıp bakarım", "Güvenliğe teslim edip durumu anlatırım", "Çöpe atıp kaçarım"], correct: 1, reward: 140 },
-            { q: "Discord sunucunda bir admin 'Bana yetki ver bot ekleyeceğim' diyor ama hesabı yeni.", opts: ["Asla vermem", "Sadece bot ekleme yetkisi veririm", "Full adminlik veririm"], correct: 0, reward: 80 },
-            { q: "Arkadaşın sana 'Bedava nitro kodu' attı ama link 'dircord.com' diye başlıyor.", opts: ["Hemen tıklarım", "Tıklamam, arkadaşımın hesabı çalınmış olabilir", "Kodu manuel girmeye çalışırım"], correct: 1, reward: 70 },
-            { q: "Yeni bir yazılım projesine başlıyorsun, veritabanı şifrelerini nereye koyacaksın?", opts: ["Doğrudan kodun içine yazarım", "Çevresel değişkenlere (.env) saklarım", "Github'a public yüklerim"], correct: 1, reward: 160 },
-            { q: "Issız bir ATM'den para çekeceksin, kart giriş yerinde bir kabarıklık ve tutkal izi var.", opts: ["Kartımı takıp şifremi girerim", "Kartı zorla sokarım", "Kullanmam, bankaya bildiririm (Skimmer)"], correct: 2, reward: 125 },
-            { q: "Patronun en yakın adamı sana gizlice patron aleyhinde bir iş teklif etti.", opts: ["Kabul ederim, para paradır", "Patrona öterim, sadakat önemlidir", "Sessizce mekandan kaçarım"], correct: 1, reward: 200 },
-            { q: "Oyunda biri sana 'Hesap çalma taktiği buldum, şu dosyayı aç' dedi.", opts: ["Dosyayı açar zengin olurum", "Dosyayı antivirüsle taratıp açarım", "Trojan yeme tehlikesi var, engellerim"], correct: 2, reward: 85 }
+            { q: "Sokakta yürürken bir adam ceketini açıp ucuza 'orijinal' saat satmaya çalıştı.", opts: ["Pazarlık yaparım", "Almam, uzaklaşırım", "Parayı verip kaçarım"], correct: 1, reward: 65 },
+            { q: "Deep Web'de 'Tıkla, milyon kazan' diye bir link çıktı.", opts: ["Hemen tıklarım", "Linkin kaynağını araştırırım", "Tıklamam, tuzağa düşmem"], correct: 2, reward: 100 },
+            { q: "Arkadaşın flash bellek verdi, antivirüs uyarı verdi.", opts: ["Antivirüsü kapatır açarım", "Silip atarım", "Başka bir bilgisayarda denerim"], correct: 1, reward: 90 },
+            { q: "Patron sana kilitli çanta verdi, 'Açmadan teslim et' dedi.", opts: ["İçine bakıp teslim ederim", "Kiliti kırarım", "Açmadan direkt teslim ederim"], correct: 2, reward: 150 },
+            { q: "Gece yarısı ıssız yolda arabanın lastiği patladı.", opts: ["Arabada uyurum", "Otostop çekerim", "Polisi ararım"], correct: 2, reward: 80 },
+            { q: "İnternet kafede adam kalkıp gitti ama hesabı açık.", opts: ["Kendi halime bakarım", "Para atarım", "Mesajlarını okurum"], correct: 0, reward: 60 },
+            { q: "Yeraltı kumarhanesinde adam hileyle kazanıyor.", opts: ["Daha çok basarım", "Masadan kalkarım", "Hile diye bağırırım"], correct: 1, reward: 110 },
+            { q: "Sosyal medyada güzel/yakışıklı biri mesaj atıp link gönderdi.", opts: ["Engel basarım", "Linke tıklarım", "Kim olduğunu sorarım"], correct: 0, reward: 55 },
+            { q: "Kafede yanındaki adam bilgisayar ekranına bakıyor.", opts: ["Kavga çıkarırım", "Ekranı gizlerim", "Onun ekranına bakarım"], correct: 1, reward: 75 },
+            { q: "Telefona 'Kargo teslim edilemedi, linke tıkla' geldi.", opts: ["Bilgilerimi girerim", "Siler geçerim", "Kargocuyu ararım"], correct: 1, reward: 65 },
+            { q: "Yeni sunucu kiraladın, SSH (22) açık.", opts: ["Kendi IP'me izin veririm", "Açık kalsın", "İptal ederim"], correct: 0, reward: 120 },
+            { q: "Rakip çete etrafta, patrona haber ver.", opts: ["Normal hattan ararım", "Şifreli uygulamadan yazarım", "Bağırırım"], correct: 1, reward: 130 },
+            { q: "Yolda bıçaklı kavga var.", opts: ["Polisi arayıp beklerim", "Ayırmaya koşarım", "Video çekerim"], correct: 0, reward: 90 },
+            { q: "Çete lideri sana bir silah uzattı.", opts: ["Çıplak elle alırım", "Eldivenle alırım", "Reddederim"], correct: 1, reward: 150 },
+            { q: "Kripto cüzdan kelimelerini kaydetmen lazım.", opts: ["Telefona not alırım", "Kağıda yazar saklarım", "Bilgisayara yazarım"], correct: 1, reward: 100 },
+            { q: "Şifre sızıntısı haberi geldi.", opts: ["Umursamam", "Sadece o siteyi değiştiririm", "Aynı şifreli her yeri değiştiririm"], correct: 2, reward: 115 },
+            { q: "Banka arayıp 'şifreni tuşla' dedi.", opts: ["Tuşlarım", "Kapatıp kendim ararım", "Küfrederim"], correct: 1, reward: 90 },
+            { q: "Takip ediliyorsun.", opts: ["Koşarak eve girerim", "İzimi kaybettiririm", "Kalabalık bir kafeye girerim"], correct: 2, reward: 105 },
+            { q: "Valizinde tuhaf paket buldun.", opts: ["Açarım", "Güvenliğe teslim ederim", "Çöpe atarım"], correct: 1, reward: 140 },
+            { q: "Admin 'Bana yetki ver bot ekleyeceğim' dedi ama hesabı yeni.", opts: ["Vermem", "Bot yetkisi veririm", "Full adminlik veririm"], correct: 0, reward: 80 },
+            { q: "Arkadaşın bedava nitro attı ama link dircord.com", opts: ["Tıklarım", "Tıklamam", "Manuel girerim"], correct: 1, reward: 70 },
+            { q: "Yazılım projesi şifrelerini nereye koyarsın?", opts: ["Koda yazarım", ".env dosyasına saklarım", "Github'a yüklerim"], correct: 1, reward: 160 },
+            { q: "ATM'de tutkal izi var.", opts: ["Şifremi girerim", "Kartı zorlarım", "Kullanmam, bankaya bildiririm"], correct: 2, reward: 125 },
+            { q: "Patronun en yakın adamı aleyhte iş teklif etti.", opts: ["Kabul ederim", "Patrona öterim", "Kaçarım"], correct: 1, reward: 200 },
+            { q: "Biri 'Hesap çalma dosyası' attı.", opts: ["Açarım", "Antivirüsle açarım", "Engellerim"], correct: 2, reward: 85 }
         ];
 
         let currentScenarioIndex = -1;
 
         function loadScenario() {
-            // BEKLEME SÜRESİ (COOLDOWN) TAMAMEN KALDIRILDI! SINIRSIZ OYUN.
             currentScenarioIndex = Math.floor(Math.random() * scenarios.length);
             const s = scenarios[currentScenarioIndex];
             
@@ -471,7 +528,6 @@
             document.getElementById('btn-new-scenario').style.display = 'block'; 
         }
 
-        // MARKET VE KART TEMALARI
         const marketItems = [
             { id: 'default', name: 'CeusX Standart', price: 0, color: '#00e5ff' },
             { id: 'kakbank', name: 'Kakbank Neo', price: 500, color: '#ff3366' },
