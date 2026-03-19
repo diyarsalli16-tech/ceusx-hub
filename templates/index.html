@@ -6,20 +6,21 @@
     <title>CeusX | VIP Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; }
+        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; }
         body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(120,0,255,0.1); }
-        input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; }
+        input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box;}
         .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; }
         
         header { padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; }
         header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; letter-spacing: 1px; }
         .logout { color: var(--red); text-decoration: none; font-size: 11px; display: inline-block; margin-top: 5px; }
 
-        .tab-menu { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
-        .tab-btn { background: transparent; color: #666; border: none; border-bottom: 2px solid transparent; padding: 10px 15px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s; }
+        /* 3 BUTONLU SEKME MENÜSÜ */
+        .tab-menu { display: flex; justify-content: center; gap: 5px; margin-top: 15px; flex-wrap: wrap; }
+        .tab-btn { background: transparent; color: #666; border: none; border-bottom: 2px solid transparent; padding: 10px 12px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.3s; }
         .tab-btn.active { color: #fff; border-bottom-color: var(--xeno); }
         
         .tab-content { display: none; animation: fadeIn 0.3s; }
@@ -28,13 +29,12 @@
 
         .content { padding: 15px; display: flex; flex-direction: column; gap: 20px; }
 
-        /* SOHBET KUTUSU - YENİ SES TASARIMI */
+        /* SOHBET KUTUSU */
         .chat-box { background: var(--panel); border-radius: 12px; border: 1px solid #222; height: 220px; display: flex; flex-direction: column; }
         #chat-list { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         .msg { background: #111; padding: 8px 12px; border-radius: 8px; font-size: 12px; border-left: 2px solid var(--xeno); word-wrap: break-word; }
         .msg b { color: var(--accent); font-size: 11px; display: block; margin-bottom: 3px; }
         
-        /* Özel HTML5 Audio Player Tasarımı (Sade) */
         audio { height: 35px; width: 100%; outline: none; margin-top: 5px; border-radius: 5px; }
         audio::-webkit-media-controls-panel { background-color: #222; }
         audio::-webkit-media-controls-play-button, audio::-webkit-media-controls-mute-button { filter: invert(1); }
@@ -42,32 +42,35 @@
 
         .chat-input { padding: 8px; display: flex; gap: 6px; background: #0a0a0a; border-radius: 0 0 12px 12px; align-items: center; }
         .chat-input input { flex: 1; padding: 10px; margin: 0; border: none; background: #111; color: #fff; border-radius: 8px; font-size: 13px; }
-        
         .send-btn { background: #fff; border: none; border-radius: 8px; padding: 0 15px; font-weight: bold; color: #000; cursor: pointer; height: 100%; }
         
-        /* 🎙️ YENİ: MİKROFON BUTONU */
-        .mic-btn { background: #222; border: 1px solid #333; border-radius: 8px; padding: 0 12px; font-size: 16px; cursor: pointer; color: #fff; transition: 0.3s; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .mic-btn { background: #222; border: 1px solid #333; border-radius: 8px; padding: 0 12px; font-size: 16px; cursor: pointer; color: #fff; height: 100%; display: flex; align-items: center; justify-content: center; }
         .mic-btn.recording { background: var(--red); border-color: var(--red); animation: pulse 1s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* Diğer Kısımlar (Aynı) */
+        /* ARAMA ALANI */
         .search-area { background: var(--panel); padding: 20px; border-radius: 12px; border: 1px solid #222; text-align: center; }
-        .search-area input[type="text"] { border: 1px solid #333; text-align: center; margin-bottom: 10px; }
+        .search-area input[type="text"] { border: 1px solid #333; text-align: center; margin-bottom: 10px; width: 100%; box-sizing: border-box; background: #000; color: #fff; border-radius: 8px; padding: 12px; }
         .search-btn { background: #fff; color: #000; font-weight: bold; width: 100%; padding: 15px; border: none; border-radius: 8px; cursor: pointer; }
         .filter-box { margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .filter-box input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--xeno); }
         .filter-box label { font-size: 13px; color: #aaa; }
 
+        /* SCRIPT KARTLARI */
         .script-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
         .card { background: var(--panel); border: 1px solid #222; border-radius: 12px; padding: 18px; position: relative; }
         .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #fff; padding-right: 70px; }
         .card p { font-size: 11px; color: #888; margin: 0 0 15px 0; }
+        
         .badge { position: absolute; top: 12px; right: 12px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; color: #000; background: var(--accent); }
+        .badge-verified { background: var(--gold); } /* Onaylananlar için altın sarısı */
         .badge-key { background: #ffaa00; top: 35px; }
         .badge-keyless { background: var(--accent); top: 35px; }
+        
         .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
         #loading-msg { display: none; text-align: center; color: var(--xeno); font-weight: bold; padding: 20px; }
 
+        /* EXECUTOR */
         .exec-container { background: radial-gradient(circle at top, #150a21 0%, #050505 80%); border: 1px solid #222; border-radius: 16px; padding: 40px 20px; text-align: center; margin-top: 10px; }
         .exec-logo { font-size: 42px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--xeno); margin: 0; line-height: 1; }
         .exec-sub { color: #888; font-size: 12px; margin-top: 10px; margin-bottom: 30px; letter-spacing: 2px; }
@@ -100,7 +103,8 @@
         {% endif %}
         
         <div class="tab-menu">
-            <button class="tab-btn active" onclick="switchTab('scripts')">SCRIPT MOTORU</button>
+            <button class="tab-btn active" onclick="switchTab('scripts')">MOTORA SOR</button>
+            <button class="tab-btn" onclick="switchTab('trusted')">ONAYLANANLAR</button>
             <button class="tab-btn" onclick="switchTab('executor')">EXECUTOR</button>
         </div>
     </header>
@@ -131,6 +135,45 @@
             <div class="script-grid" id="script-grid"></div>
         </div>
 
+        <div id="tab-trusted" class="tab-content">
+            <div class="section-header" style="text-align:center; color:var(--gold); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">🌟 CEUSX ELİT ARŞİVİ</div>
+            
+            <div class="script-grid">
+                <div class="card">
+                    <span class="badge badge-verified">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Infinite Yield</h3>
+                    <p><b>Oyun:</b> Universal (Her oyun)<br>En sağlam admin scripti. Fly, Noclip, Speed her şey içinde.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Edgeiy/InfiniteYield/master/source\'))()')">KOPYALA</button>
+                </div>
+
+                <div class="card">
+                    <span class="badge badge-verified">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Vape V4</h3>
+                    <p><b>Oyun:</b> BedWars / Universal<br>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')">KOPYALA</button>
+                </div>
+
+                <div class="card">
+                    <span class="badge badge-verified">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Unnamed ESP</h3>
+                    <p><b>Oyun:</b> Universal<br>En temiz ve asla kasmayan wallhack (duvar arkası görme).</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua\'))()')">KOPYALA</button>
+                </div>
+
+                <div class="card">
+                    <span class="badge badge-verified">✔️ ONAYLI</span>
+                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
+                    <h3>Dark Dex V4</h3>
+                    <p><b>Oyun:</b> Universal<br>Geliştiriciler için oyun dosyası gezgini. Her zaman çalışır.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/infyiff/backup/main/dex.lua\'))()')">KOPYALA</button>
+                </div>
+            </div>
+            <p style="text-align:center; color:#555; font-size:10px; margin-top:20px;">Bu sayfadaki scriptler CeusX tarafından güvenli kabul edilmiştir.</p>
+        </div>
+
         <div id="tab-executor" class="tab-content">
             <div class="exec-container">
                 <h1 class="exec-logo">CEUS<span style="color:var(--xeno)">X</span></h1>
@@ -149,33 +192,24 @@
     </div>
 
     <script>
-        // --- 🎙️ SES KAYIT MOTORU (WEB AUDIO API) ---
+        // --- 🎙️ SES KAYIT MOTORU ---
         let mediaRecorder;
         let audioChunks = [];
         let isRecording = false;
 
         async function toggleRecording() {
             const micBtn = document.getElementById('mic-btn');
-            
             if (!isRecording) {
-                // Kayda Başla
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     mediaRecorder = new MediaRecorder(stream);
-                    
-                    mediaRecorder.ondataavailable = event => {
-                        audioChunks.push(event.data);
-                    };
-
+                    mediaRecorder.ondataavailable = event => { audioChunks.push(event.data); };
                     mediaRecorder.onstop = async () => {
-                        // Ses kaydı bittiğinde Blob'a çevir ve Base64 yap
                         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                         const reader = new FileReader();
                         reader.readAsDataURL(audioBlob);
                         reader.onloadend = async () => {
                             const base64Audio = reader.result;
-                            
-                            // Sunucuya SESLİ mesaj olarak gönder
                             await fetch('/send_message', {
                                 method: 'POST',
                                 headers: {'Content-Type': 'application/json'},
@@ -183,54 +217,42 @@
                             });
                             loadMsgs();
                         };
-                        audioChunks = []; // Sıfırla
+                        audioChunks = [];
                     };
-
                     mediaRecorder.start();
                     isRecording = true;
-                    micBtn.classList.add('recording'); // Kırmızı yanıp sönme efekti
-                } catch (err) {
-                    alert("Kanka ses atabilmek için tarayıcıdan Mikrofona izin vermelisin!");
-                }
+                    micBtn.classList.add('recording');
+                } catch (err) { alert("Mikrofon izni lazım kanka!"); }
             } else {
-                // Kaydı Durdur ve Gönder
                 mediaRecorder.stop();
                 isRecording = false;
                 micBtn.classList.remove('recording');
             }
         }
 
-        // Normal Yazı Gönderme
         async function sendText() {
-            const i = document.getElementById('chat-msg'); 
+            const i = document.getElementById('chat-msg');
             if(!i.value.trim()) return;
             await fetch('/send_message', { 
                 method: 'POST', 
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({ text: i.value, is_audio: false }) 
             });
-            i.value = ''; 
-            loadMsgs();
+            i.value = ''; loadMsgs();
         }
 
-        // 🌟 GÜNCELLENDİ: Mesajları Ekrana Çizme (Ses vs Yazı)
         async function loadMsgs() {
-            const res = await fetch('/get_messages'); 
+            const res = await fetch('/get_messages');
             const data = await res.json();
             const box = document.getElementById('chat-list');
-            
             box.innerHTML = data.map(m => {
-                // Eğer mesaj is_audio=true ise <audio> etiketi koy, değilse normal yazı.
-                let content = m.is_audio ? 
-                    `<audio controls src="${m.text}"></audio>` : 
-                    m.text;
+                let content = m.is_audio ? `<audio controls src="${m.text}"></audio>` : m.text;
                 return `<div class="msg"><b>${m.user}</b>${content}</div>`;
             }).join('');
-            
             box.scrollTop = box.scrollHeight;
         }
 
-        // --- Diğer Sistemler (Sekme ve Arama) ---
+        // --- SEKME VE KOPYALAMA SİSTEMİ ---
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -238,20 +260,40 @@
             document.getElementById('tab-' + tabId).classList.add('active');
         }
 
+        // Doğrudan metin kopyalama (Onaylananlar sekmesi için)
+        function copyRaw(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("✅ Onaylı script kopyalandı kanka!");
+        }
+
+        // Arama motoru kopyalama
+        function copyId(id) {
+            const el = document.createElement('textarea');
+            el.value = document.getElementById(id).value;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            alert("✅ Script kopyalandı!");
+        }
+
+        // --- ARAMA MOTORU ---
         async function searchAPI() {
             const query = document.getElementById('api-search').value.trim();
             const isKeyless = document.getElementById('keyless-check').checked;
             const grid = document.getElementById('script-grid');
             const loading = document.getElementById('loading-msg');
-            
             if(!query) return;
             grid.innerHTML = ''; loading.style.display = 'block';
-
             try {
                 const url = '/api/search?q=' + encodeURIComponent(query) + '&keyless=' + isKeyless;
                 const res = await fetch(url); const data = await res.json();
                 loading.style.display = 'none';
-
                 if(data.success && data.scripts.length > 0) {
                     let html = '';
                     data.scripts.forEach((s, index) => {
@@ -266,14 +308,8 @@
                             </div>`;
                     });
                     grid.innerHTML = html;
-                } else { grid.innerHTML = `<p style="text-align:center; color:#888;">Sonuç bulunamadı kanka!</p>`; }
-            } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:#888;">Sunucuya bağlanılamadı.</p>`; }
-        }
-
-        function copyId(id) {
-            const el = document.createElement('textarea'); el.value = document.getElementById(id).value;
-            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            alert("✅ Script kopyalandı kanka!");
+                } else { grid.innerHTML = `<p style="text-align:center; color:#888;">Sonuç bulunamadı!</p>`; }
+            } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:#888;">Sunucu hatası!</p>`; }
         }
 
         async function auth(type) {
