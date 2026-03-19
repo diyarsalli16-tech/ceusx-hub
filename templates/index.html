@@ -6,12 +6,12 @@
     <title>CeusX | VIP Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; }
+        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; --game: #00e5ff; }
         body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(120,0,255,0.1); }
-        input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box;}
+        input[type="text"], input[type="password"], input[type="number"] { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; text-align: center;}
         textarea { width: 100%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #222; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; resize: none; font-family: 'Poppins'; }
         .btn-auth { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; }
         
@@ -35,11 +35,10 @@
         .msg b { color: var(--accent); font-size: 11px; display: block; margin-bottom: 3px; }
         
         .chat-input { padding: 8px; display: flex; gap: 6px; background: #0a0a0a; border-radius: 0 0 12px 12px; align-items: center; }
-        .chat-input input { flex: 1; padding: 10px; margin: 0; border: none; background: #111; color: #fff; border-radius: 8px; font-size: 13px; }
+        .chat-input input { flex: 1; padding: 10px; margin: 0; border: none; background: #111; color: #fff; border-radius: 8px; font-size: 13px; text-align: left; }
         .send-btn { background: #fff; border: none; border-radius: 8px; padding: 0 15px; font-weight: bold; color: #000; cursor: pointer; height: 100%; }
         
         .search-area { background: var(--panel); padding: 20px; border-radius: 12px; border: 1px solid #222; text-align: center; }
-        .search-area input[type="text"], .search-area input[type="password"] { border: 1px solid #333; text-align: center; margin-bottom: 10px; width: 100%; box-sizing: border-box; background: #000; color: #fff; border-radius: 8px; padding: 12px; }
         .search-btn { background: var(--accent); color: #000; font-weight: bold; width: 100%; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 14px; transition: 0.2s; }
         
         .filter-box { margin: 10px 0 15px 0; display: flex; align-items: center; justify-content: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; border: 1px solid #222; }
@@ -58,7 +57,6 @@
         
         .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; font-size: 12px; transition: 0.2s; }
         
-        /* ADMİN KARTLARI */
         .admin-card { background: #110000; border: 1px solid var(--red); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .admin-card h4 { margin: 0; color: #fff; font-size: 14px; }
         .admin-card p { margin: 5px 0 0 0; color: #aaa; font-size: 11px; }
@@ -67,12 +65,39 @@
         #loading-msg { display: none; text-align: center; color: var(--accent); font-weight: bold; padding: 20px; font-family: 'Orbitron'; }
 
         .exec-container { background: radial-gradient(circle at top, #150a21 0%, #050505 80%); border: 1px solid #222; border-radius: 16px; padding: 40px 20px; text-align: center; margin-top: 10px; }
-        .exec-logo { font-size: 42px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--xeno); margin: 0; line-height: 1; }
-        .exec-sub { color: #888; font-size: 12px; margin-top: 10px; margin-bottom: 30px; letter-spacing: 2px; }
-        .dl-btn { background: #fff; color: #000; font-family: 'Orbitron'; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 0 20px rgba(255,255,255,0.2); width: 100%; max-width: 250px; }
+        .exec-logo { font-size: 42px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--gold); margin: 0; line-height: 1; }
+        .exec-sub { color: #888; font-size: 12px; margin-top: 10px; margin-bottom: 20px; letter-spacing: 2px; }
+        .dl-btn { background: var(--gold); color: #000; font-family: 'Orbitron'; font-weight: bold; font-size: 16px; padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 0 20px rgba(255,204,0,0.2); width: 100%; max-width: 250px; transition: 0.3s; }
+        .dl-btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
+
+        /* EĞLENCE MERKEZİ CSS */
+        .coin-box { background: #111; border: 1px solid var(--game); color: var(--game); padding: 10px; border-radius: 8px; display: inline-block; font-family: 'Orbitron'; font-size: 16px; font-weight: bold; margin-bottom: 20px; }
+        .game-slot { font-size: 40px; letter-spacing: 10px; margin: 15px 0; background: #000; padding: 10px; border-radius: 10px; border: 2px solid #333; }
+        .game-msg { font-size: 12px; font-weight: bold; height: 15px; margin-top: 10px; }
+        .iban-box { background: #111; padding: 12px; border-radius: 8px; border: 1px dashed var(--game); margin-bottom: 15px; }
+
+        /* YENİ: YASAL UYARI DASHBOARD (MODAL) EKRANI */
+        .legal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 99999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
+        .legal-dashboard { background: #0a0a0f; border: 2px solid var(--red); border-radius: 16px; padding: 30px; max-width: 350px; text-align: center; box-shadow: 0 0 40px rgba(255, 51, 102, 0.3); }
+        .legal-dashboard h2 { color: var(--red); font-family: 'Orbitron'; margin-top: 0; font-size: 22px; letter-spacing: 2px; }
+        .legal-dashboard p { font-size: 12px; color: #ccc; line-height: 1.6; margin-bottom: 20px; }
+        .btn-agree { background: var(--game); color: #000; border: none; padding: 15px; width: 100%; border-radius: 8px; font-family: 'Orbitron'; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .btn-agree:hover { background: #fff; box-shadow: 0 0 20px var(--game); }
     </style>
 </head>
 <body>
+
+    <div id="legal-modal" class="legal-overlay">
+        <div class="legal-dashboard">
+            <h2>⚠️ YASAL UYARI</h2>
+            <p>
+                Bu sayfadaki eğlence merkezinin <b>gerçek kumar, yasadışı bahis veya gerçek para sistemleriyle HİÇBİR ALAKASI YOKTUR!</b>
+                <br><br>
+                Buradaki oyunlar tamamen sanal kredi (CeusCoin) ile oynanan, Roleplay (RP) ve eğlence amaçlı simülasyonlardır. Gerçek maddi değeri olan hiçbir işlem yapılamaz ve para çekilemez.
+            </p>
+            <button class="btn-agree" onclick="acceptLegal()">KABUL EDİYORUM VE GİR</button>
+        </div>
+    </div>
 
     {% if not logged_in %}
     <div class="auth-screen">
@@ -96,6 +121,7 @@
         <div class="tab-menu">
             <button class="tab-btn active" onclick="switchTab('scripts')">MOTOR</button>
             <button class="tab-btn" onclick="switchTab('trusted')" style="color: var(--gold); border-color: var(--gold);">⭐ ONAYLI</button>
+            <button class="tab-btn" onclick="switchTab('games')" style="color: var(--game); border-color: var(--game);">🎮 EĞLENCE</button>
             <button class="tab-btn" onclick="switchTab('contact')">İLETİŞİM</button>
             <button class="tab-btn" style="color:var(--red);" onclick="switchTab('admin')">👑 ADMİN</button>
             <button class="tab-btn" onclick="switchTab('executor')">EXECUTOR</button>
@@ -129,47 +155,75 @@
 
         <div id="tab-trusted" class="tab-content">
             <div class="section-header" style="text-align:center; color:var(--gold); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">🌟 CEUSX ELİT ARŞİVİ</div>
-            
             <div class="script-grid">
                 <div class="card" style="border-color: var(--gold);">
                     <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
                     <span class="badge badge-keyless">🔓 KEYSİZ</span>
                     <h3>Infinite Yield</h3>
-                    <p><b>Oyun:</b> Universal (Her oyun)<br>En sağlam admin scripti. Fly, Noclip, Speed her şey içinde.</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/Edgeiy/InfiniteYield/master/source\\\'))()')">KOPYALA</button>
+                    <p>En sağlam admin scripti. Fly, Noclip, Speed her şey içinde.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/Edgeiy/InfiniteYield/master/source\'))()')">KOPYALA</button>
                 </div>
-
                 <div class="card" style="border-color: var(--gold);">
                     <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
                     <span class="badge badge-keyless">🔓 KEYSİZ</span>
                     <h3>Vape V4</h3>
-                    <p><b>Oyun:</b> BedWars / Universal<br>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\\\', true))()')">KOPYALA</button>
+                    <p>Bedwars için en iyi hile. KillAura, Auto-Bridge her şey aktif.</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')">KOPYALA</button>
                 </div>
-
                 <div class="card" style="border-color: var(--gold);">
                     <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
                     <span class="badge badge-keyless">🔓 KEYSİZ</span>
                     <h3>Unnamed ESP</h3>
-                    <p><b>Oyun:</b> Universal<br>En temiz ve asla kasmayan wallhack (duvar arkası görme).</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua\\\'))()')">KOPYALA</button>
-                </div>
-
-                <div class="card" style="border-color: var(--gold);">
-                    <span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span>
-                    <span class="badge badge-keyless">🔓 KEYSİZ</span>
-                    <h3>Dark Dex V4</h3>
-                    <p><b>Oyun:</b> Universal<br>Geliştiriciler için oyun dosyası gezgini. Her zaman çalışır.</p>
-                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\\\'https://raw.githubusercontent.com/infyiff/backup/main/dex.lua\\\'))()')">KOPYALA</button>
+                    <p>En temiz ve asla kasmayan wallhack (duvar arkası görme).</p>
+                    <button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/ic3w0lf22/Unnamed-ESP/master/UnnamedESP.lua\'))()')">KOPYALA</button>
                 </div>
             </div>
-            <p style="text-align:center; color:#555; font-size:10px; margin-top:20px;">Bu sayfadaki scriptler CeusX tarafından güvenli kabul edilmiştir.</p>
+        </div>
+
+        <div id="tab-games" class="tab-content">
+            <div style="text-align:center;">
+                <div class="coin-box">💰 BAKİYE: <span id="ceus-coins">100</span> COIN</div>
+            </div>
+
+            <div class="script-grid">
+                <div class="card" style="border-color: var(--game); text-align:center;">
+                    <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">💳 SANAL BANKA</h3>
+                    <p>Maaşlarını buraya yatır, arkadaşlarına sahte IBAN'la para gönder!</p>
+                    <div class="iban-box">
+                        <span style="font-size:10px; color:#aaa;">BİREYSEL SANAL IBAN NUMARAN:</span><br>
+                        <b id="my-iban" style="color:#fff; font-family:monospace; font-size:14px; letter-spacing:1px;">TR99 ....</b>
+                    </div>
+                    <input type="text" id="transfer-target" placeholder="Alıcı IBAN veya İsim" style="margin-bottom:10px;">
+                    <input type="number" id="transfer-amount" placeholder="Gönderilecek Miktar" style="margin-bottom:10px;">
+                    <button class="search-btn" style="background:var(--game);" onclick="transferCoins()">PARA GÖNDER</button>
+                    <div class="game-msg" id="transfer-msg" style="height:auto; padding-top:5px;"></div>
+                </div>
+
+                <div class="card" style="border-color: var(--game); text-align:center;">
+                    <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🎰 OWO SLOT</h3>
+                    <p>Her çevirme 10 Coin. 3 Eşleşme = 100 Coin, 2 Eşleşme = 20 Coin!</p>
+                    <div class="game-slot" id="slot-display">🍒 🍒 🍒</div>
+                    <button class="search-btn" style="background:var(--game);" onclick="playSlots()">ÇEVİR (10 Coin)</button>
+                    <div class="game-msg" id="slot-msg"></div>
+                </div>
+
+                <div class="card" style="border-color: var(--game); text-align:center;">
+                    <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🪙 YAZI TURA (COINFLIP)</h3>
+                    <p>Bahis yatır, 2x kazanma şansı yakala!</p>
+                    <input type="number" id="cf-bet" placeholder="Bahis Miktarı" style="margin-bottom:10px;">
+                    <div style="display:flex; gap:10px;">
+                        <button class="copy-btn" style="background:#222;" onclick="playCoinflip('Yazı')">YAZI</button>
+                        <button class="copy-btn" style="background:#222;" onclick="playCoinflip('Tura')">TURA</button>
+                    </div>
+                    <div class="game-msg" id="cf-msg"></div>
+                </div>
+            </div>
         </div>
 
         <div id="tab-contact" class="tab-content">
             <div class="search-area" style="border-color: #333;">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:#fff;">📩 ADMİNE MESAJ GÖNDER</h3>
-                <p style="font-size:11px; color:#aaa; margin-bottom:15px;">Şikayet, öneri veya script isteklerini buraya yaz. Doğrudan yöneticinin e-postasına düşer.</p>
+                <p style="font-size:11px; color:#aaa; margin-bottom:15px;">Şikayet, öneri veya script isteklerini buraya yaz.</p>
                 <input type="text" id="contact-name" placeholder="Kullanıcı Adın / Discord Adın">
                 <textarea id="contact-message" rows="5" placeholder="Mesajını buraya yaz kanka..."></textarea>
                 <button class="search-btn" style="background:#fff; color:#000;" onclick="sendContact()">MAİL GÖNDER</button>
@@ -184,7 +238,6 @@
                 <button class="search-btn" style="background:var(--red); color:#fff;" onclick="loginAdmin()">VERİTABANINA ERİŞ</button>
                 <p id="admin-error" style="color:var(--red); font-size:11px; margin-top:10px; display:none;">Geçersiz anahtar!</p>
             </div>
-
             <div id="admin-panel-area" style="display:none;">
                 <div class="section-header" style="text-align:center; color:var(--red); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">👑 KULLANICI VERİTABANI</div>
                 <div class="script-grid" id="admin-users-grid"></div>
@@ -193,18 +246,34 @@
 
         <div id="tab-executor" class="tab-content">
             <div class="exec-container">
-                <h1 class="exec-logo">CEUS<span style="color:var(--xeno)">X</span></h1>
-                <p class="exec-sub">ULTIMATE MOBILE EXECUTOR</p>
-                <button class="dl-btn" onclick="alert('v1.0 APK Dosyası hazırlanıyor kral!')">APK İNDİR</button>
+                <h1 class="exec-logo">XE<span style="color:var(--gold)">NO</span></h1>
+                <p class="exec-sub">GELİŞTİRİCİ: XENO EKİBİ | PARTNER: CEUSX</p>
+                <div style="background: rgba(255, 204, 0, 0.1); border: 1px solid var(--gold); padding: 15px; border-radius: 12px; margin-bottom: 25px;">
+                    <p style="color: #ddd; font-size: 11px; line-height: 1.6; margin: 0;">
+                        ⚠️ <b>BİLGİLENDİRME:</b> Bu yazılım CeusX'e ait değildir. Dünyaca ünlü <b>Xeno Team</b> tarafından geliştirilmiştir. Bütün kredi Xeno ekibinindir!
+                    </p>
+                </div>
+                <button class="dl-btn" onclick="window.location.href='/download/executor'">XENO EXECUTOR İNDİR</button>
             </div>
         </div>
 
     </div>
 
     <script>
+        // 🚨 YASAL UYARI KONTROLCÜSÜ (YENİ DASHBOARD MANTIĞI) 🚨
+        let gamesWarned = false;
+
         function switchTab(tabId) {
+            // Eğlence sekmesine tıklanmış ve daha önce kabul edilmemişse POP-UP'ı aç, İÇERİ SOKMA!
+            if (tabId === 'games' && !gamesWarned) {
+                document.getElementById('legal-modal').style.display = 'flex';
+                return; 
+            }
+
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            // Eğer uyarıyı geçerek butondan geliyorsa, menüdeki EĞLENCE sekmesini aktif et
+            document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
 
@@ -213,151 +282,150 @@
             }
         }
 
-        // --- GENEL KOPYALAMA ---
-        function copyId(id) {
-            const el = document.createElement('textarea'); el.value = document.getElementById(id).value;
-            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
-            alert("✅ Script kopyalandı!");
+        // KABUL ET TUŞUNA BASILINCA ÇALIŞACAK FONKSİYON
+        function acceptLegal() {
+            gamesWarned = true; // Onayı aldık
+            document.getElementById('legal-modal').style.display = 'none'; // Ekranı kapat
+            switchTab('games'); // Eğlence sekmesine zorla giriş yap
         }
 
-        // --- ONAYLANANLAR İÇİN DİREKT KOPYALAMA ---
-        function copyRaw(text) {
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            alert("✅ Onaylı script kopyalandı kanka!");
+        // --- IBAN OLUŞTURUCU VE PARA SİSTEMİ ---
+        let ceusCoins = localStorage.getItem('ceusCoins') ? parseInt(localStorage.getItem('ceusCoins')) : 100;
+        document.getElementById('ceus-coins').innerText = ceusCoins;
+
+        let myIban = localStorage.getItem('ceusIban');
+        if(!myIban) {
+            let r1 = Math.floor(1000 + Math.random() * 9000);
+            let r2 = Math.floor(1000 + Math.random() * 9000);
+            myIban = `TR99 0000 ${r1} 1234 ${r2} 55`;
+            localStorage.setItem('ceusIban', myIban);
+        }
+        document.getElementById('my-iban').innerText = myIban;
+
+        function updateCoins() {
+            document.getElementById('ceus-coins').innerText = ceusCoins;
+            localStorage.setItem('ceusCoins', ceusCoins);
         }
 
+        // BANKA TRANSFER SİSTEMİ
+        function transferCoins() {
+            const target = document.getElementById('transfer-target').value.trim();
+            const amount = parseInt(document.getElementById('transfer-amount').value);
+            const msg = document.getElementById('transfer-msg');
+
+            if(!target) { msg.style.color = 'var(--red)'; msg.innerText = "Alıcı IBAN boş olamaz!"; return; }
+            if(isNaN(amount) || amount <= 0) { msg.style.color = 'var(--red)'; msg.innerText = "Geçerli miktar gir!"; return; }
+            if(amount > ceusCoins) { msg.style.color = 'var(--red)'; msg.innerText = "Bakiyen yetersiz!"; return; }
+
+            ceusCoins -= amount; updateCoins();
+            msg.style.color = 'var(--accent)'; 
+            msg.innerText = `✅ BAŞARILI! ${amount} Coin, [${target}] alıcısına başarıyla gönderildi.`;
+            document.getElementById('transfer-target').value = ''; document.getElementById('transfer-amount').value = '';
+        }
+
+        // SLOT MAKİNESİ
+        function playSlots() {
+            const msg = document.getElementById('slot-msg');
+            if(ceusCoins < 10) { msg.style.color = 'var(--red)'; msg.innerText = "Fakirsin kanka, coin bitmiş!"; return; }
+            
+            ceusCoins -= 10;
+            const items = ['🍒', '🍋', '💎', '🔔', '🎰'];
+            let r1 = items[Math.floor(Math.random()*items.length)];
+            let r2 = items[Math.floor(Math.random()*items.length)];
+            let r3 = items[Math.floor(Math.random()*items.length)];
+            
+            document.getElementById('slot-display').innerText = r1 + ' ' + r2 + ' ' + r3;
+            if(r1 === r2 && r2 === r3) { ceusCoins += 100; msg.style.color = 'var(--gold)'; msg.innerText = "JACKPOT! +100 Coin!"; }
+            else if(r1 === r2 || r2 === r3 || r1 === r3) { ceusCoins += 20; msg.style.color = 'var(--game)'; msg.innerText = "Ufak kazanç! +20 Coin!"; }
+            else { msg.style.color = 'var(--red)'; msg.innerText = "Kaybettin!"; }
+            updateCoins();
+        }
+
+        // YAZI TURA
+        function playCoinflip(choice) {
+            const betInput = document.getElementById('cf-bet').value;
+            const msg = document.getElementById('cf-msg');
+            const bet = parseInt(betInput);
+            if(isNaN(bet) || bet <= 0) { msg.style.color = 'var(--red)'; msg.innerText = "Geçerli bahis gir!"; return; }
+            if(bet > ceusCoins) { msg.style.color = 'var(--red)'; msg.innerText = "Paran yetersiz!"; return; }
+
+            ceusCoins -= bet;
+            const result = Math.random() < 0.5 ? 'Yazı' : 'Tura';
+            if(choice === result) { ceusCoins += bet * 2; msg.style.color = 'var(--accent)'; msg.innerText = `Sonuç: ${result}. Kazandın! +${bet*2} Coin`; }
+            else { msg.style.color = 'var(--red)'; msg.innerText = `Sonuç: ${result}. Kaybettin!`; }
+            updateCoins();
+        }
+
+        // KOPYALAMA İŞLEMLERİ
+        function copyId(id) { const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("✅ Script kopyalandı!"); }
+        function copyRaw(text) { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("✅ Kopyalandı!"); }
+
+        // SCRIPT ARAMA
         async function searchAPI() {
             const query = document.getElementById('api-search').value.trim();
             const isKeyless = document.getElementById('keyless-check').checked;
             const grid = document.getElementById('script-grid');
             const loading = document.getElementById('loading-msg');
-            if(!query) return;
-            grid.innerHTML = ''; loading.style.display = 'block';
+            if(!query) return; grid.innerHTML = ''; loading.style.display = 'block';
             try {
                 const url = '/api/search?q=' + encodeURIComponent(query) + '&keyless=' + isKeyless;
-                const res = await fetch(url); const data = await res.json();
-                loading.style.display = 'none';
+                const res = await fetch(url); const data = await res.json(); loading.style.display = 'none';
                 if(data.success && data.scripts.length > 0) {
                     let html = '';
                     data.scripts.forEach((s, index) => {
                         const keyBadge = s.has_key ? `<span class="badge badge-key">🔑 KEYLİ</span>` : `<span class="badge badge-keyless">🔓 KEYSİZ</span>`;
-                        html += `<div class="card"><span class="badge badge-verified">✔️ DOĞRULANDI</span>${keyBadge}<h3>${s.title}</h3><p><b style="color:#fff;">Oyun:</b> ${s.game}<br><br>${s.features || 'Detay yok.'}</p><textarea id="raw-${index}" style="display:none;">${s.script}</textarea><button class="copy-btn" onclick="copyId('raw-${index}')">KODU KOPYALA</button></div>`;
-                    });
-                    grid.innerHTML = html;
-                } else { grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sonuç bulunamadı!</p>`; }
-            } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:var(--red);">Sunucu hatası!</p>`; }
+                        html += `<div class="card"><span class="badge badge-verified">✔️ DOĞRULANDI</span>${keyBadge}<h3>${s.title}</h3><p><b>Oyun:</b> ${s.game}</p><textarea id="raw-${index}" style="display:none;">${s.script}</textarea><button class="copy-btn" onclick="copyId('raw-${index}')">KODU KOPYALA</button></div>`;
+                    }); grid.innerHTML = html;
+                } else { grid.innerHTML = `<p style="text-align:center; color:var(--red);">Bulunamadı!</p>`; }
+            } catch(e) { loading.style.display = 'none'; grid.innerHTML = `<p style="text-align:center; color:var(--red);">Hata!</p>`; }
         }
 
-        // --- 📩 İLETİŞİM ---
+        // İLETİŞİM
         async function sendContact() {
             const name = document.getElementById('contact-name').value.trim();
             const msg = document.getElementById('contact-message').value.trim();
             const status = document.getElementById('contact-status');
-            
-            if(!name || !msg) {
-                status.style.display = 'block'; status.style.color = 'var(--red)';
-                status.innerText = "Kanka ismini ve mesajını boş bırakma!"; return;
-            }
-            
-            status.style.display = 'block'; status.style.color = 'var(--accent)';
-            status.innerText = "Gönderiliyor... ⏳";
-            
+            if(!name || !msg) { status.style.display = 'block'; status.style.color = 'var(--red)'; status.innerText = "Boş bırakma!"; return; }
+            status.style.display = 'block'; status.style.color = 'var(--accent)'; status.innerText = "Gönderiliyor...";
             try {
-                const res = await fetch('/api/contact', {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ username: name, message: msg })
-                });
+                const res = await fetch('/api/contact', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ username: name, message: msg }) });
                 const data = await res.json();
-                if(data.success) {
-                    status.style.color = 'var(--accent)'; status.innerText = "✅ Mesajın admine başarıyla iletildi!";
-                    document.getElementById('contact-message').value = '';
-                } else {
-                    status.style.color = 'var(--red)'; status.innerText = "❌ Hata: " + data.message;
-                }
-            } catch(e) {
-                status.style.color = 'var(--red)'; status.innerText = "❌ Sunucuya bağlanılamadı!";
-            }
+                if(data.success) { status.style.color = 'var(--accent)'; status.innerText = "✅ İletildi!"; document.getElementById('contact-message').value = ''; }
+                else { status.style.color = 'var(--red)'; status.innerText = "❌ Hata!"; }
+            } catch(e) { status.style.color = 'var(--red)'; status.innerText = "❌ Bağlantı koptu!"; }
         }
 
-        // --- 👑 ADMİN PANELİ ---
+        // ADMİN PANELİ
         let currentAdminKey = "";
-
         async function loginAdmin() {
             const key = document.getElementById('admin-key-input').value.trim();
-            const errorMsg = document.getElementById('admin-error');
-            
             if(!key) return;
-            
-            const res = await fetch('/api/admin/users', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ key: key })
-            });
+            const res = await fetch('/api/admin/users', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: key }) });
             const data = await res.json();
-            
-            if(data.success) {
-                currentAdminKey = key;
-                document.getElementById('admin-login-area').style.display = 'none';
-                document.getElementById('admin-panel-area').style.display = 'block';
-                renderAdminUsers(data.users);
-            } else {
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = data.message;
-            }
+            if(data.success) { currentAdminKey = key; document.getElementById('admin-login-area').style.display = 'none'; document.getElementById('admin-panel-area').style.display = 'block'; renderAdminUsers(data.users); }
+            else { document.getElementById('admin-error').style.display = 'block'; }
         }
-
         function renderAdminUsers(users) {
             const grid = document.getElementById('admin-users-grid');
-            if(users.length === 0) {
-                grid.innerHTML = `<p style="text-align:center; color:#aaa;">Veritabanında henüz kimse yok.</p>`;
-                return;
-            }
-            
+            if(users.length === 0) { grid.innerHTML = `<p style="text-align:center;">Kimse yok.</p>`; return; }
             let html = '';
-            users.forEach(u => {
-                html += `
-                    <div class="admin-card">
-                        <div>
-                            <h4>👤 ${u.username}</h4>
-                            <p>🔑 Şifre: <b style="color:var(--accent); font-family:monospace; font-size:13px;">${u.password}</b></p>
-                        </div>
-                        <button class="btn-delete" onclick="deleteUser('${u.username}')">SİL</button>
-                    </div>`;
-            });
+            users.forEach(u => { html += `<div class="admin-card"><div><h4>👤 ${u.username}</h4><p>🔑 Şifre: <b style="color:var(--accent);">${u.password}</b></p></div><button class="btn-delete" onclick="deleteUser('${u.username}')">SİL</button></div>`; });
             grid.innerHTML = html;
         }
-
         async function deleteUser(username) {
-            if(!confirm(`⚠️ '${username}' adlı kullanıcıyı kalıcı olarak silmek istiyor musun?`)) return;
-            
-            const res = await fetch('/api/admin/delete_user', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ key: currentAdminKey, username: username })
-            });
+            if(!confirm(`Silinsin mi: ${username}?`)) return;
+            const res = await fetch('/api/admin/delete_user', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ key: currentAdminKey, username: username }) });
             const data = await res.json();
-            
-            if(data.success) {
-                alert(`✅ Kullanıcı silindi!`);
-                const resUpdate = await fetch('/api/admin/users', {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ key: currentAdminKey })
-                });
-                const dataUpdate = await resUpdate.json();
-                renderAdminUsers(dataUpdate.users);
-            }
+            if(data.success) { loginAdmin(); }
         }
 
+        // CHAT VE GİRİŞ
         async function sendText() {
             const i = document.getElementById('chat-msg');
             if(!i.value.trim()) return;
             await fetch('/send_message', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ text: i.value }) });
             i.value = ''; loadMsgs();
         }
-
         async function loadMsgs() {
             const res = await fetch('/get_messages');
             const data = await res.json();
@@ -365,7 +433,6 @@
             box.innerHTML = data.map(m => `<div class="msg"><b>${m.user}</b>${m.text}</div>`).join('');
             box.scrollTop = box.scrollHeight;
         }
-
         async function auth(type) {
             const u = document.getElementById('user').value, p = document.getElementById('pass').value;
             const res = await fetch('/' + type, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({username: u, password: p}) });
@@ -373,7 +440,6 @@
             if(data.success) { if(type==='register') alert("Hesap açıldı!"); else location.reload(); }
             else document.getElementById('error-msg').innerText = data.message;
         }
-
         if (document.getElementById('chat-list')) { loadMsgs(); setInterval(loadMsgs, 3000); }
     </script>
 </body>
