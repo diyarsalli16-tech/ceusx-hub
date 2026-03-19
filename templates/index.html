@@ -128,8 +128,6 @@
         /* SENARYO BUTONLARI */
         .scen-btn { background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; font-size: 12px; font-family: 'Poppins'; text-align: left; cursor: pointer; transition: 0.2s; width: 100%; }
         .scen-btn:hover { background: #222; border-color: var(--game); }
-        
-        #cooldown-timer { font-size: 11px; color: var(--red); font-weight: bold; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
@@ -261,7 +259,7 @@
         <div id="tab-games" class="tab-content">
             
             <div class="warning-banner" style="border-color: var(--game); background: rgba(0, 229, 255, 0.1);">
-                ⚠️ <b>BİLGİLENDİRME:</b> Buradaki senaryolar tamamen zeka ve mantık testi amaçlıdır. Şans veya kumar faktörü bulunmaz.
+                ⚠️ <b>BİLGİLENDİRME:</b> Buradaki senaryolar tamamen zeka ve mantık testi amaçlıdır.
             </div>
 
             <div style="text-align:center;">
@@ -292,14 +290,13 @@
 
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🕵️ SOKAK GÖREVLERİ</h3>
-                    <p>Doğru mantığı kur, görevi tamamla ve parayı kap! <br><i>(Her 2 dakikada maksimum 3 görev alabilirsin)</i></p>
+                    <p>Doğru mantığı kur, görevi tamamla ve parayı kap! <b>Sınırsız oynayabilirsin.</b></p>
                     
                     <div id="scenario-container" style="background:#0a0a0a; padding:15px; border-radius:8px; border:1px solid #333; margin-top:15px;">
                         <p id="scenario-text" style="font-size:13px; font-weight:bold; color:#fff; line-height:1.5; margin-top:0;">Hazırsan yeni bir görev al.</p>
                         
                         <div id="scenario-options" style="display:flex; flex-direction:column; gap:8px; margin-top:15px;"></div>
 
-                        <p id="cooldown-timer"></p>
                         <button id="btn-new-scenario" class="search-btn" style="background:var(--game); margin-top:15px;" onclick="loadScenario()">YENİ GÖREV AL</button>
                     </div>
                 </div>
@@ -387,8 +384,9 @@
             document.getElementById('card-display-bal').innerText = ceusCoins;
         }
 
-        // 🕵️ 20 EFSANE SENARYO VE COOLDOWN SİSTEMİ 🕵️
+        // 🕵️ 45 EFSANE SENARYO (SINIRSIZ OYNANABİLİR) 🕵️
         const scenarios = [
+            // İlk 20
             { q: "Köprüde bir kedi mahsur kaldı ve rüzgar çok sert. Ne yaparsın?", opts: ["Hızlıca koşup ensesinden yakalarım", "Yere salam koyup yavaşça beklerim", "Aşağı inip itfaiyeyi ararım"], correct: 1, reward: 50 },
             { q: "VIP bir müşterinin Lambo'sunu park etmen istendi. Neresi mantıklı?", opts: ["Gölge diye ağacın altı", "Mekanın giriş kapısının önü", "Kameraların gördüğü VIP köşesi"], correct: 2, reward: 100 },
             { q: "Sokakta içi para dolu cüzdan buldun. Çevrede kamera var.", opts: ["Alıp hızlıca kaçarım", "Olduğu yerde bırakırım", "Karakola teslim ederim"], correct: 2, reward: 75 },
@@ -408,33 +406,39 @@
             { q: "Roblox'ta biri 'Bedava Robux atacağım, şifreni ver' diyor.", opts: ["İnanmam ve engellerim", "Veririm", "Sahte şifre verip denerim"], correct: 0, reward: 40 },
             { q: "İndirdiğin script tamamen şifreli (obfuscated) kodlarla dolu.", opts: ["Ana hesabımda açarım", "Antivirüsü kapatırım", "Güvenmem ve çalıştırmam"], correct: 2, reward: 95 },
             { q: "Kafenin tuvaletinde son model telefon buldun.", opts: ["Kasaya teslim ederim", "Alıp satarım", "Sahibini bekleyip para isterim"], correct: 0, reward: 75 },
-            { q: "Gece SMS geldi: 'Şifreniz değiştirildi'. Ama sen yapmadın.", opts: ["Resmi siteye girip kontrol ederim", "SMS'teki linke tıklarım", "Umursamam uyurum"], correct: 0, reward: 140 }
+            { q: "Gece SMS geldi: 'Şifreniz değiştirildi'. Ama sen yapmadın.", opts: ["Resmi siteye girip kontrol ederim", "SMS'teki linke tıklarım", "Umursamam uyurum"], correct: 0, reward: 140 },
+            // Yeni 25 Tane
+            { q: "Sokakta yürürken bir adam ceketini açıp sana ucuza 'orijinal' saat satmaya çalıştı.", opts: ["Pazarlık yaparım", "Almam, hızla uzaklaşırım", "Parayı verip kaçarım"], correct: 1, reward: 65 },
+            { q: "Deep Web'de gezinirken karşına 'Tıkla, milyon kazan' diye bir link çıktı.", opts: ["Hemen tıklarım", "Linkin kaynağını araştırırım", "Tıklamam, tuzağa düşmem"], correct: 2, reward: 100 },
+            { q: "Arkadaşın sana bir flash bellek verdi, 'Efsane oyun var' dedi. Antivirüs uyarı verdi.", opts: ["Antivirüsü kapatır açarım", "Silip atarım, format atarım", "Başka bir bilgisayarda denerim"], correct: 1, reward: 90 },
+            { q: "Patron sana kilitli bir çanta verdi, 'Açmadan X kişisine teslim et' dedi.", opts: ["İçine bakıp teslim ederim", "Kiliti kırmaya çalışırım", "Açmadan direkt teslim ederim"], correct: 2, reward: 150 },
+            { q: "Gece yarısı ıssız bir yolda arabanın lastiği patladı.", opts: ["Arabada uyurum", "Otostop çekerim", "Polisi veya çekiciyi ararım"], correct: 2, reward: 80 },
+            { q: "İnternet kafede yan masadaki adam kalkıp gitti ama hesabını açık unuttu.", opts: ["Kendi halime bakarım, çıkış yaparım", "Hesabından kendine para atarım", "Mesajlarını okurum"], correct: 0, reward: 60 },
+            { q: "Yeraltı kumarhanesinde bir adam sürekli kazanıyor ve gözü senin masanda.", opts: ["Onunla inatlaşır daha çok basarım", "Masadan kalkar uzaklaşırım", "Hile yaptığını bağırarak söylerim"], correct: 1, reward: 110 },
+            { q: "Sosyal medyada tanımadığın çok güzel/yakışıklı biri sana mesaj atıp link gönderdi.", opts: ["Engel basarım", "Linke tıklarım", "Kim olduğunu sorarım"], correct: 0, reward: 55 },
+            { q: "Bir kafede oturuyorsun, yandaki adam sürekli senin bilgisayar ekranına bakıyor.", opts: ["Kavga çıkarırım", "Ekranı kapatır veya gizlerim", "Onun ekranına bakarım"], correct: 1, reward: 75 },
+            { q: "Telefonuna 'Kargonuz teslim edilemedi, linke tıklayın' diye SMS geldi.", opts: ["Bilgilerimi girerim", "Siler geçerim (Phishing)", "Kargocuyu ararım"], correct: 1, reward: 65 },
+            { q: "Yeni bir sunucu kiraladın, SSH portu (22) herkese açık.", opts: ["Sadece kendi IP'me izin veririm", "Bırakırım açık kalsın", "Sunucuyu iptal ederim"], correct: 0, reward: 120 },
+            { q: "Rakip çete senin mekanın etrafında dolanıyor, telefondan patrona haber vermelisin.", opts: ["Normal hattan ararım", "Güvenli/Şifreli uygulamadan yazarım", "Dışarı çıkıp bağırırım"], correct: 1, reward: 130 },
+            { q: "Aracınla giderken önünde bir kaza oldu, adamlar bıçaklı kavga ediyor.", opts: ["Polisi arayıp uzaktan beklerim", "Kavgayı ayırmaya koşarım", "Video çekmeye başlarım"], correct: 0, reward: 90 },
+            { q: "Çete lideri sana bir silah uzattı, 'Bunu sakla' dedi ama üstünde parmak izi var.", opts: ["Çıplak elle alırım", "Eldivenle alıp saklarım", "Reddederim"], correct: 1, reward: 150 },
+            { q: "Kripto cüzdanının kelimelerini (Seed phrase) kaydetmen lazım.", opts: ["Telefona not alırım", "Kağıda yazar, kasaya koyarım", "Bilgisayarda .txt dosyasına yazarım"], correct: 1, reward: 100 },
+            { q: "Girdiğin bir sitede şifre veritabanının sızdırıldığı haberini aldın.", opts: ["Umursamam", "Sadece o sitenin şifresini değiştiririm", "Aynı şifreyi kullandığım her yeri değiştiririm"], correct: 2, reward: 115 },
+            { q: "Bankadan aradığını söyleyen biri, 'Hesabınızda şüpheli işlem var, şifrenizi tuşlayın' dedi.", opts: ["Şifremi tuşlarım", "Kapatıp bankayı kendim ararım", "Telefonda küfrederim"], correct: 1, reward: 90 },
+            { q: "Takip edildiğini fark ettin, evine gidiyorsun.", opts: ["Koşarak eve girerim", "Sokağa sapıp izimi kaybettiririm", "Kalabalık bir kafeye girer beklerim"], correct: 2, reward: 105 },
+            { q: "Gümrükten geçiyorsun, valizinde sana ait olmayan tuhaf bir paket buldun.", opts: ["Kendim açıp bakarım", "Güvenliğe teslim edip durumu anlatırım", "Çöpe atıp kaçarım"], correct: 1, reward: 140 },
+            { q: "Discord sunucunda bir admin 'Bana yetki ver bot ekleyeceğim' diyor ama hesabı yeni.", opts: ["Asla vermem", "Sadece bot ekleme yetkisi veririm", "Full adminlik veririm"], correct: 0, reward: 80 },
+            { q: "Arkadaşın sana 'Bedava nitro kodu' attı ama link 'dircord.com' diye başlıyor.", opts: ["Hemen tıklarım", "Tıklamam, arkadaşımın hesabı çalınmış olabilir", "Kodu manuel girmeye çalışırım"], correct: 1, reward: 70 },
+            { q: "Yeni bir yazılım projesine başlıyorsun, veritabanı şifrelerini nereye koyacaksın?", opts: ["Doğrudan kodun içine yazarım", "Çevresel değişkenlere (.env) saklarım", "Github'a public yüklerim"], correct: 1, reward: 160 },
+            { q: "Issız bir ATM'den para çekeceksin, kart giriş yerinde bir kabarıklık ve tutkal izi var.", opts: ["Kartımı takıp şifremi girerim", "Kartı zorla sokarım", "Kullanmam, bankaya bildiririm (Skimmer)"], correct: 2, reward: 125 },
+            { q: "Patronun en yakın adamı sana gizlice patron aleyhinde bir iş teklif etti.", opts: ["Kabul ederim, para paradır", "Patrona öterim, sadakat önemlidir", "Sessizce mekandan kaçarım"], correct: 1, reward: 200 },
+            { q: "Oyunda biri sana 'Hesap çalma taktiği buldum, şu dosyayı aç' dedi.", opts: ["Dosyayı açar zengin olurum", "Dosyayı antivirüsle taratıp açarım", "Trojan yeme tehlikesi var, engellerim"], correct: 2, reward: 85 }
         ];
 
         let currentScenarioIndex = -1;
-        let taskCount = parseInt(localStorage.getItem('ceusTaskCount')) || 0;
-        let taskTimer = parseInt(localStorage.getItem('ceusTaskTimer')) || 0;
 
         function loadScenario() {
-            const now = new Date().getTime();
-            
-            if (now - taskTimer > 120000) {
-                taskCount = 0;
-                taskTimer = now;
-                localStorage.setItem('ceusTaskTimer', taskTimer);
-                localStorage.setItem('ceusTaskCount', taskCount);
-            }
-
-            if (taskCount >= 3) {
-                let kalan = Math.ceil((120000 - (now - taskTimer)) / 1000);
-                showToast(`Çok yoruldun patron! Dinlenmen lazım. Yeni görev için ${kalan} saniye bekle.`, "error");
-                
-                document.getElementById('cooldown-timer').style.display = 'block';
-                document.getElementById('cooldown-timer').innerText = `⏳ Bekleme Süresi: ${kalan} sn`;
-                return;
-            }
-
-            document.getElementById('cooldown-timer').style.display = 'none';
+            // BEKLEME SÜRESİ (COOLDOWN) TAMAMEN KALDIRILDI! SINIRSIZ OYUN.
             currentScenarioIndex = Math.floor(Math.random() * scenarios.length);
             const s = scenarios[currentScenarioIndex];
             
@@ -454,21 +458,13 @@
             const s = scenarios[currentScenarioIndex];
             const btnContainer = document.getElementById('scenario-options');
             
-            taskCount++;
-            localStorage.setItem('ceusTaskCount', taskCount);
-            
-            if(taskCount === 1) {
-                taskTimer = new Date().getTime();
-                localStorage.setItem('ceusTaskTimer', taskTimer);
-            }
-
             if (selectedIndex === s.correct) {
                 ceusCoins += s.reward; updateCoins();
                 document.getElementById('scenario-text').innerHTML = `<span style="color:var(--accent);">✅ DOĞRU KARAR:</span> Patron bu zekanı beğendi.<br><br><b>KAZANÇ: +${s.reward} Coin</b>`;
                 showToast(`Görev Başarılı! +${s.reward} ₵`, "success");
             } else {
                 document.getElementById('scenario-text').innerHTML = `<span style="color:var(--red);">❌ YANLIŞ KARAR:</span> Sokaklar affetmez kanka. Çuvalladın!`;
-                showToast("Yanlış hamle, görev iptal!", "error");
+                showToast("Yanlış hamle, para yok!", "error");
             }
 
             btnContainer.innerHTML = ''; 
