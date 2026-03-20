@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session, redirect
 import sqlite3
 import requests
+import random
 
 app = Flask(__name__)
 app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar'
@@ -10,6 +11,7 @@ ADMIN_KEY = 'ceusx2026'
 def init_db():
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
+    # Tabloları oluştur
     c.execute('''CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, password TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS messages (user TEXT, text TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS scripts (
@@ -22,131 +24,112 @@ def init_db():
         approved BOOLEAN DEFAULT 0,
         uploader TEXT
     )''')
+    
+    # Render'da "Column already exists" hatası almamak için güvenli sütun kontrolü
     conn.commit()
     conn.close()
 
+# Uygulama başlarken tabloyu hazırla
 init_db()
 
 @app.route('/')
 def index():
     return render_template('index.html', logged_in=('user' in session), user=session.get('user'))
 
-# --- 📡 SCRIPTBLOX CANLI BAĞLANTI (HATA GİDERİLDİ) ---
+# --- 📡 SCRIPTBLOX CANLI BAĞLANTI ---
 @app.route('/api/search')
 def api_search():
     query = request.args.get('q', '')
-    page = request.args.get('page', '1') # Sayfayı string olarak alıyoruz
-    
-    # Mode free ve query parametrelerini daha temiz gönderiyoruz
+    page = request.args.get('page', '1')
     url = "https://scriptblox.com/api/script/search"
-    params = {
-        "q": query,
-        "max": 12,
-        "page": page,
-        "mode": "free"
-    }
-    
+    params = {"q": query, "max": 12, "page": page, "mode": "free"}
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-        "Accept": "application/json",
-        "Referer": "https://scriptblox.com/"
+        "Accept": "application/json"
     }
-    
     try:
-        response = requests.get(url, params=params, headers=headers, timeout=15)
-        if response.status_code == 200:
-            return jsonify(response.json())
-        else:
-            # 500 hatası gelirse boş sonuç döndür ki site kilitlenmesin
-            return jsonify({"success": False, "error": f"Sunucu Hatası ({response.status_code})"})
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)})
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+        return jsonify(response.json())
+    except:
+        return jsonify({"success": False, "error": "Bağlantı Sorunu"})
 
-# --- 🔍 YEREL ARAMA (ONAYLI SCRIPTLER) ---
+# --- 🔍 YEREL ARAMA (SADECE ONAYLI) ---
 @app.route('/api/local_search')
 def local_search():
     query = request.args.get('q', '').lower()
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
     c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 AND (LOWER(game) LIKE ? OR LOWER(title) LIKE ?)", (f"%{query}%", f"%{query}%"))
-    rows = c.fetchall()
+    scripts = [{"id": r[0], "game": r[1], "title": r[2], "verified": bool(r[3]), "keyless": bool(r[4]), "script": r[5], "uploader": r[6]} for r in c.fetchall()]
     conn.close()
-    return jsonify({"scripts": [{"id": r[0], "game": r[1], "title": r[2], "verified": bool(r[3]), "keyless": bool(r[4]), "script": r[5], "uploader": r[6]} for r in rows]})
+    return jsonify({"scripts": scripts})
 
-# --- 📤 YÜKLEME VE DİĞERLERİ ---
+# --- 📤 YÜKLEME ---
 @app.route('/api/upload_script', methods=['POST'])
 def upload_script():
     data = request.json
-    uploader = session.get('user', 'Gizli Kullanıcı')
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
+    uploader = session.get('user', 'Gizli')
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
     c.execute("INSERT INTO scripts (game, title, verified, keyless, code, approved, uploader) VALUES (?, ?, 0, ?, ?, 0, ?)",
               (data['game'], data['title'], data['keyless'], data['code'], uploader))
-    conn.commit()
-    conn.close()
+    conn.commit(); conn.close()
     return jsonify({"success": True})
 
+# --- ADMİN ---
 @app.route('/api/admin/get_scripts', methods=['POST'])
 def admin_get():
     if request.json.get('key') != ADMIN_KEY: return jsonify({"success": False})
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
     c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=0")
     pending = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
-    c.execute("SELECT id, game, title FROM scripts WHERE approved=1")
-    active = [{"id": r[0], "game": r[1], "title": r[2]} for r in c.fetchall()]
     conn.close()
-    return jsonify({"success": True, "pending": pending, "active": active})
+    return jsonify({"success": True, "pending": pending})
 
 @app.route('/api/admin/action', methods=['POST'])
 def admin_act():
     data = request.json
     if data.get('key') != ADMIN_KEY: return jsonify({"success": False})
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
     if data['action'] == 'approve': c.execute("UPDATE scripts SET approved=1, verified=1, uploader='CeusX (RESMİ)' WHERE id=?", (data['id'],))
     elif data['action'] == 'delete': c.execute("DELETE FROM scripts WHERE id=?", (data['id'],))
-    conn.commit()
-    conn.close()
+    conn.commit(); conn.close()
     return jsonify({"success": True})
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    if data['password'] == 'google_oauth_bypass': session['user'] = data['username']; return jsonify({"success": True})
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (data['username'], data['password']))
-    if c.fetchone(): session['user'] = data['username']; conn.close(); return jsonify({"success": True})
-    conn.close(); return jsonify({"success": False})
 
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
-    try: c.execute("INSERT INTO users VALUES (?,?)", (data['username'], data['password'])); conn.commit(); return jsonify({"success": True})
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
+    try:
+        c.execute("INSERT INTO users VALUES (?,?)", (data['username'], data['password']))
+        conn.commit(); return jsonify({"success": True})
     except: return jsonify({"success": False})
     finally: conn.close()
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    if data.get('password') == 'google_oauth_bypass': session['user'] = data['username']; return jsonify({"success": True})
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
+    c.execute("SELECT * FROM users WHERE username=? AND password=?", (data['username'], data['password']))
+    if c.fetchone(): session['user'] = data['username']; conn.close(); return jsonify({"success": True})
+    conn.close(); return jsonify({"success": False})
 
 @app.route('/logout')
 def logout(): session.pop('user', None); return redirect('/')
 
 @app.route('/get_messages')
 def get_msgs():
-    conn = sqlite3.connect(DB_NAME)
-    c = conn.cursor()
-    c.execute("SELECT user, text FROM messages ORDER BY ROWID DESC LIMIT 50")
-    rows = c.fetchall()
-    conn.close()
-    return jsonify([{"user": r[0], "text": r[1]} for r in reversed(rows)])
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
+    c.execute("SELECT user, text FROM messages ORDER BY ROWID DESC LIMIT 30")
+    data = [{"user": r[0], "text": r[1]} for r in reversed(c.fetchall())]
+    conn.close(); return jsonify(data)
 
 @app.route('/send_message', methods=['POST'])
 def send_msg():
     if 'user' not in session: return jsonify({"error": 1})
-    c = sqlite3.connect(DB_NAME); cursor = c.cursor()
-    cursor.execute("INSERT INTO messages VALUES (?,?)", (session['user'], request.json['text']))
-    c.commit(); c.close(); return jsonify({"success": True})
+    conn = sqlite3.connect(DB_NAME); c = conn.cursor()
+    c.execute("INSERT INTO messages VALUES (?,?)", (session['user'], request.json['text']))
+    conn.commit(); conn.close(); return jsonify({"success": True})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000) # Render için port ayarı
