@@ -26,6 +26,7 @@
         .tab-btn.active { color: #000; background: var(--accent); border-color: var(--accent); }
         .tab-btn.active-red { color: #fff; background: var(--red); }
         .tab-btn.active-gold { color: #000; background: var(--gold); }
+        .tab-btn.active-xeno { color: #fff; background: var(--xeno); border-color: var(--xeno); box-shadow: 0 0 15px rgba(120, 0, 255, 0.3); }
         
         .tab-content { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
@@ -56,7 +57,11 @@
         #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; }
         .ceus-toast { background: #111; border-left: 4px solid var(--accent); color: #fff; padding: 12px 20px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-size: 13px; }
 
-        .author-tag { font-size: 10px; color: var(--accent); opacity: 0.8; font-weight: bold; }
+        .author-tag { font-size: 10px; color: var(--accent); opacity: 0.8; font-weight: bold; display: block; margin-bottom: 5px; }
+        
+        .admin-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .admin-nav-btn { background: #111; color: #fff; border: 1px solid #333; padding: 10px 20px; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer; font-weight: bold; }
+        .admin-nav-btn.active { background: var(--accent); color: #000; }
     </style>
 </head>
 <body>
@@ -88,6 +93,7 @@
         {% endif %}
         <div class="tab-menu">
             <button class="tab-btn active" onclick="switchTab('scripts', this)">🔍 MOTOR</button>
+            <button class="tab-btn" onclick="switchTab('onaylilar', this); fetchApprovedVitrin();">🏆 ONAYLILAR</button>
             <button class="tab-btn" onclick="switchTab('upload', this)">📤 YÜKLE</button>
             <button class="tab-btn" onclick="switchTab('scanner', this)">🛡️ TARA</button>
             <button class="tab-btn" onclick="switchTab('admin', this)">👑 ADMİN</button>
@@ -104,8 +110,8 @@
                 </div>
             </div>
 
-            <div class="search-area" style="margin-top:20px;">
-                <h3 style="font-family:'Orbitron'; font-size:14px; color:var(--accent); margin-bottom:10px;">🌐 GLOBAL SCRIPTBLOX ARAMASI</h3>
+            <div class="auth-box" style="max-width:100%; border-color:var(--accent); text-align:center; padding:20px; margin-top:20px;">
+                <h3 style="font-family:'Orbitron'; font-size:14px; color:var(--accent); margin:0 0 10px 0;">🌐 GLOBAL SCRIPTBLOX ARAMASI</h3>
                 <div style="display:flex; gap:10px;">
                     <input type="text" id="api-search-input" placeholder="Oyun Ara (Blox Fruits, Arsenal...)" style="margin:0;">
                     <button class="btn-auth" style="width:100px; background:var(--accent); color:#000; margin:0;" onclick="fetchFromScriptBlox(1)">ARA</button>
@@ -114,6 +120,14 @@
 
             <div id="main-script-grid" class="script-grid"></div>
             <div id="pagination-area" class="pagination"></div>
+        </div>
+
+        <div id="tab-onaylilar" class="tab-content">
+            <div class="auth-box" style="max-width:100%; border-color:var(--gold); text-align:center; padding:20px;">
+                <h3 style="color:var(--gold); font-family:Orbitron; margin:0 0 5px 0;">🏆 CEUSX GURUR TABLOSU</h3>
+                <p style="font-size:11px; color:#888; margin:0;">Kullanıcıların yüklediği ve CeusX (RESMİ) tarafından mühürlenmiş en güvenli scriptler.</p>
+            </div>
+            <div id="vitrin-grid" class="script-grid" style="margin-top:20px;"></div>
         </div>
 
         <div id="tab-upload" class="tab-content">
@@ -146,9 +160,20 @@
                     <button class="btn-auth" style="background:var(--gold); color:#000;" onclick="loginAdmin()">ADMİN PANELİNİ AÇ</button>
                 </div>
             </div>
+            
             <div id="admin-panel" style="display:none;">
-                <h3 style="color:var(--accent); font-family:Orbitron; text-align:center;">⏱️ ONAY BEKLEYENLER</h3>
-                <div id="admin-pending-grid" class="script-grid"></div>
+                <div class="admin-nav">
+                    <button class="admin-nav-btn active" id="btn-sec-pending" onclick="toggleAdminView('pending')">⏱️ BEKLEYENLER</button>
+                    <button class="admin-nav-btn" id="btn-sec-approved" onclick="toggleAdminView('approved')" style="border-color:var(--gold); color:var(--gold);">✅ ONAYLANANLAR</button>
+                </div>
+
+                <div id="admin-pending-section">
+                    <div id="admin-pending-grid" class="script-grid"></div>
+                </div>
+
+                <div id="admin-approved-section" style="display:none;">
+                    <div id="admin-approved-grid" class="script-grid"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -163,7 +188,8 @@
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
             if(tabId === 'scanner') btn.classList.add('active-red');
-            else if(tabId === 'admin') btn.classList.add('active-gold');
+            else if(tabId === 'admin' || tabId === 'onaylilar') btn.classList.add('active-gold');
+            else if(tabId === 'upload') btn.classList.add('active-xeno');
             else btn.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
@@ -179,7 +205,7 @@
             setTimeout(() => t.remove(), 3000);
         }
 
-        // --- API SCRIPTBLOX (TAMAMEN YENİLENDİ) ---
+        // --- API SCRIPTBLOX ---
         async function fetchFromScriptBlox(page) {
             const query = document.getElementById('api-search-input').value;
             const grid = document.getElementById('main-script-grid');
@@ -203,7 +229,7 @@
                             <span class="badge">${s.verified ? '✔️ ONAYLI' : '⚠️ ONAYSIZ'}</span>
                             <span class="badge" style="top:35px; background:var(--gold)">${s.key ? '🔑 KEYLİ' : '🔓 KEYSİZ'}</span>
                             <h3 title="${s.title}">${s.title}</h3>
-                            <p><b>Oyun:</b> ${s.game.name}</p>
+                            <p style="font-size:11px; color:#888;"><b>Oyun:</b> ${s.game.name}</p>
                             <span class="author-tag">🌐 Global Arşiv</span>
                             <textarea id="code-${idx}" style="display:none;">${s.script}</textarea>
                             <button class="copy-btn" onclick="copyCode('code-${idx}')">KODU KOPYALA</button>
@@ -211,23 +237,49 @@
                     `;
                 });
 
-                // MODERN SAYFALAMA (1 2 3 4...)
                 pagArea.innerHTML = '';
                 let total = data.result.totalPages;
                 let start = Math.max(1, page - 2);
                 let end = Math.min(total, page + 2);
 
                 if(page > 1) pagArea.innerHTML += `<div class="page-num" onclick="fetchFromScriptBlox(${page-1})">◀</div>`;
-                
                 for(let i=start; i<=end; i++) {
                     pagArea.innerHTML += `<div class="page-num ${i===page?'active':''}" onclick="fetchFromScriptBlox(${i})">${i}</div>`;
                 }
-
                 if(page < total) pagArea.innerHTML += `<div class="page-num" onclick="fetchFromScriptBlox(${page+1})">▶</div>`;
 
             } catch(e) {
                 grid.innerHTML = '<p style="color:var(--red);">Bağlantı Hatası!</p>';
             }
+        }
+
+        // --- 🏆 YENİ: ONAYLILAR VİTRİNİNİ ÇEK ---
+        async function fetchApprovedVitrin() {
+            const grid = document.getElementById('vitrin-grid');
+            grid.innerHTML = '<p style="text-align:center; color:var(--gold); grid-column:1/-1;">Gurur Tablosu Yükleniyor... ⏳</p>';
+            try {
+                const res = await fetch(`/api/local_search?q=`);
+                const data = await res.json();
+                
+                if(data.scripts.length === 0) {
+                    grid.innerHTML = '<p style="text-align:center; color:#888; grid-column:1/-1;">Henüz onaylanmış milli bir script yok.</p>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                data.scripts.forEach((s, idx) => {
+                    grid.innerHTML += `
+                        <div class="card" style="border-color:var(--gold); background:rgba(255,204,0,0.05);">
+                            <span class="badge" style="background:var(--gold);">✔️ CEUSX MÜHÜRLÜ</span>
+                            <h3 title="${s.title}">${s.title}</h3>
+                            <p style="font-size:11px; color:#aaa;"><b>Oyun:</b> ${s.game}</p>
+                            <span class="author-tag" style="color:var(--gold); border:1px solid var(--gold); padding:2px 6px; border-radius:4px;">👤 Yükleyen: ${s.uploader}</span>
+                            <textarea id="vitrin-${idx}" style="display:none;">${s.script}</textarea>
+                            <button class="copy-btn" style="background:var(--gold); color:#000;" onclick="copyCode('vitrin-${idx}')">MİLLİ KODU KOPYALA</button>
+                        </div>
+                    `;
+                });
+            } catch(e) { grid.innerHTML = '<p style="color:var(--red);">Hata oluştu!</p>'; }
         }
 
         function copyCode(id) {
@@ -277,11 +329,21 @@
             }, 800);
         }
 
-        // --- ADMIN ---
+        // --- YENİ ÇİFTLİ ADMIN PANELİ ---
         let currentKey = "";
+        
+        function toggleAdminView(view) {
+            document.getElementById('admin-pending-section').style.display = view === 'pending' ? 'block' : 'none';
+            document.getElementById('admin-approved-section').style.display = view === 'approved' ? 'block' : 'none';
+            
+            document.getElementById('btn-sec-pending').className = view === 'pending' ? 'admin-nav-btn active' : 'admin-nav-btn';
+            document.getElementById('btn-sec-approved').style.background = view === 'approved' ? 'var(--gold)' : '#111';
+            document.getElementById('btn-sec-approved').style.color = view === 'approved' ? '#000' : 'var(--gold)';
+        }
+
         async function loginAdmin() {
             const key = document.getElementById('admin-pass').value;
-            const res = await fetch('/api/admin/get_scripts', {
+            const res = await fetch('/api/admin/get_all', {
                 method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({key})
             });
             const data = await res.json();
@@ -289,34 +351,50 @@
                 currentKey = key;
                 document.getElementById('admin-login').style.display = 'none';
                 document.getElementById('admin-panel').style.display = 'block';
-                renderAdmin(data.pending);
+                renderAdmin(data.pending, data.approved_list);
             } else showToast("Şifre Yanlış!", "error");
         }
 
-        function renderAdmin(pending) {
-            const grid = document.getElementById('admin-pending-grid');
-            grid.innerHTML = pending.length === 0 ? '<p style="grid-column:1/-1; text-align:center;">Bekleyen yok.</p>' : '';
+        function renderAdmin(pending, approved) {
+            const pGrid = document.getElementById('admin-pending-grid');
+            const aGrid = document.getElementById('admin-approved-grid');
+            
+            // BEKLEYENLER
+            pGrid.innerHTML = pending.length === 0 ? '<p style="grid-column:1/-1; text-align:center; color:#888;">Bekleyen script yok.</p>' : '';
             pending.forEach(s => {
-                grid.innerHTML += `
-                    <div class="card" style="border-color:var(--gold)">
+                pGrid.innerHTML += `
+                    <div class="card" style="border-color:var(--accent)">
                         <h3>${s.title}</h3>
                         <p>Oyun: ${s.game}</p>
-                        <p style="font-size:10px; color:#888;">Ekleyen: ${s.uploader}</p>
+                        <p style="font-size:10px; color:var(--accent);">👤 Yükleyen: ${s.uploader}</p>
                         <div style="display:flex; gap:5px; margin-top:10px;">
                             <button class="btn-auth" style="background:var(--accent); color:#000; flex:1;" onclick="adminAction('approve', ${s.id})">ONAYLA</button>
                             <button class="btn-auth" style="background:var(--red); color:#fff; flex:1;" onclick="adminAction('delete', ${s.id})">SİL</button>
                         </div>
                     </div>`;
             });
+
+            // ONAYLANANLAR
+            aGrid.innerHTML = approved.length === 0 ? '<p style="grid-column:1/-1; text-align:center; color:#888;">Sistemde onaylı script yok.</p>' : '';
+            approved.forEach(s => {
+                aGrid.innerHTML += `
+                    <div class="card" style="border-color:var(--gold); background:#050505;">
+                        <h3 style="color:#aaa;">${s.title}</h3>
+                        <p>Oyun: ${s.game}</p>
+                        <button class="btn-auth" style="background:var(--red); color:#fff; margin-top:10px;" onclick="adminAction('delete', ${s.id})">❌ ONAYI KALDIR & SİL</button>
+                    </div>`;
+            });
         }
 
         async function adminAction(action, id) {
+            if(action === 'delete' && !confirm("Bu scripti kalıcı olarak silmek istediğine emin misin?")) return;
+            
             await fetch('/api/admin/action', {
                 method:'POST', headers:{'Content-Type':'application/json'},
                 body: JSON.stringify({key: currentKey, action, id})
             });
             showToast("İşlem başarılı.");
-            loginAdmin(); // Refresh
+            loginAdmin(); // Listeyi yenile
         }
 
         // --- AUTH & CHAT ---
