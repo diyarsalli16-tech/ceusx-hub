@@ -8,10 +8,6 @@
     <style>
         :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; --game: #00e5ff; }
         body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
-        /* SPLASH */
-        #intro-splash { position: fixed; inset: 0; background: var(--bg); z-index: 9999999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: 0.5s; }
-        .intro-logo { font-size: 50px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--accent); margin-bottom: 20px; }
 
         .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
         .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid #222; width: 100%; max-width: 320px; text-align: center; }
@@ -65,11 +61,6 @@
     </style>
 </head>
 <body>
-
-    <div id="intro-splash">
-        <div class="intro-logo">CEUS<span style="color:var(--xeno)">X</span></div>
-        <p style="color:var(--red); font-weight:bold; font-size:12px;">Sistemler Başlatılıyor...</p>
-    </div>
 
     <div id="toast-container"></div>
 
@@ -181,7 +172,6 @@
     <script>
         // --- CORE ---
         window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('intro-splash').style.display = 'none', 1500);
             fetchFromScriptBlox(1);
         });
 
@@ -253,7 +243,7 @@
             }
         }
 
-        // --- 🏆 YENİ: ONAYLILAR VİTRİNİNİ ÇEK ---
+        // --- 🏆 ONAYLILAR VİTRİNİNİ ÇEK ---
         async function fetchApprovedVitrin() {
             const grid = document.getElementById('vitrin-grid');
             grid.innerHTML = '<p style="text-align:center; color:var(--gold); grid-column:1/-1;">Gurur Tablosu Yükleniyor... ⏳</p>';
@@ -329,7 +319,7 @@
             }, 800);
         }
 
-        // --- YENİ ÇİFTLİ ADMIN PANELİ ---
+        // --- ÇİFTLİ ADMIN PANELİ ---
         let currentKey = "";
         
         function toggleAdminView(view) {
@@ -394,7 +384,7 @@
                 body: JSON.stringify({key: currentKey, action, id})
             });
             showToast("İşlem başarılı.");
-            loginAdmin(); // Listeyi yenile
+            loginAdmin(); 
         }
 
         // --- AUTH & CHAT ---
