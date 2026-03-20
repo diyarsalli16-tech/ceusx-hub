@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, jsonify, session, redirect
 import sqlite3
 import requests
-import random
 import os
 
 app = Flask(__name__)
 app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar'
-DB_NAME = 'ceusx_database.db'
+DB_NAME = 'ceusx_v4.db' # ⚠️ İSMİ DEĞİŞTİRDİK, RENDER SIFIR TERTEMİZ DB KURACAK
 ADMIN_KEY = 'ceusx2026'
 
 def init_db():
@@ -59,7 +58,6 @@ def local_search():
     if query:
         c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 AND (LOWER(game) LIKE ? OR LOWER(title) LIKE ?) ORDER BY id DESC", (f"%{query}%", f"%{query}%"))
     else:
-        # Eğer arama boşsa, en son onaylanan 20 scripti getir (Vitrin için)
         c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 ORDER BY id DESC LIMIT 20")
         
     scripts = [{"id": r[0], "game": r[1], "title": r[2], "verified": bool(r[3]), "keyless": bool(r[4]), "script": r[5], "uploader": r[6]} for r in c.fetchall()]
@@ -77,17 +75,15 @@ def upload_script():
     conn.commit(); conn.close()
     return jsonify({"success": True})
 
-# --- 👑 ADMİN PANELI (YENİLENDİ: BEKLEYENLER VE ONAYLANANLAR) ---
+# --- 👑 ADMİN PANELI ---
 @app.route('/api/admin/get_all', methods=['POST'])
 def admin_get_all():
     if request.json.get('key') != ADMIN_KEY: return jsonify({"success": False})
     conn = sqlite3.connect(DB_NAME); c = conn.cursor()
     
-    # Bekleyenler
     c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=0 ORDER BY id DESC")
     pending = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
     
-    # Onaylananlar (Sonradan silmek için)
     c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=1 ORDER BY id DESC")
     approved_list = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
     
