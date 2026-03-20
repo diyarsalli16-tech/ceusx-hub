@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect
 import sqlite3
 import requests
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar'
@@ -11,7 +12,6 @@ ADMIN_KEY = 'ceusx2026'
 def init_db():
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    # Tabloları oluştur
     c.execute('''CREATE TABLE IF NOT EXISTS users (username TEXT PRIMARY KEY, password TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS messages (user TEXT, text TEXT)''')
     c.execute('''CREATE TABLE IF NOT EXISTS scripts (
@@ -24,12 +24,9 @@ def init_db():
         approved BOOLEAN DEFAULT 0,
         uploader TEXT
     )''')
-    
-    # Render'da "Column already exists" hatası almamak için güvenli sütun kontrolü
     conn.commit()
     conn.close()
 
-# Uygulama başlarken tabloyu hazırla
 init_db()
 
 @app.route('/')
@@ -59,7 +56,12 @@ def local_search():
     query = request.args.get('q', '').lower()
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 AND (LOWER(game) LIKE ? OR LOWER(title) LIKE ?)", (f"%{query}%", f"%{query}%"))
+    if query:
+        c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 AND (LOWER(game) LIKE ? OR LOWER(title) LIKE ?) ORDER BY id DESC", (f"%{query}%", f"%{query}%"))
+    else:
+        # Eğer arama boşsa, en son onaylanan 20 scripti getir (Vitrin için)
+        c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 ORDER BY id DESC LIMIT 20")
+        
     scripts = [{"id": r[0], "game": r[1], "title": r[2], "verified": bool(r[3]), "keyless": bool(r[4]), "script": r[5], "uploader": r[6]} for r in c.fetchall()]
     conn.close()
     return jsonify({"scripts": scripts})
@@ -75,26 +77,36 @@ def upload_script():
     conn.commit(); conn.close()
     return jsonify({"success": True})
 
-# --- ADMİN ---
-@app.route('/api/admin/get_scripts', methods=['POST'])
-def admin_get():
+# --- 👑 ADMİN PANELI (YENİLENDİ: BEKLEYENLER VE ONAYLANANLAR) ---
+@app.route('/api/admin/get_all', methods=['POST'])
+def admin_get_all():
     if request.json.get('key') != ADMIN_KEY: return jsonify({"success": False})
     conn = sqlite3.connect(DB_NAME); c = conn.cursor()
-    c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=0")
+    
+    # Bekleyenler
+    c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=0 ORDER BY id DESC")
     pending = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
+    
+    # Onaylananlar (Sonradan silmek için)
+    c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=1 ORDER BY id DESC")
+    approved_list = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
+    
     conn.close()
-    return jsonify({"success": True, "pending": pending})
+    return jsonify({"success": True, "pending": pending, "approved_list": approved_list})
 
 @app.route('/api/admin/action', methods=['POST'])
 def admin_act():
     data = request.json
     if data.get('key') != ADMIN_KEY: return jsonify({"success": False})
     conn = sqlite3.connect(DB_NAME); c = conn.cursor()
-    if data['action'] == 'approve': c.execute("UPDATE scripts SET approved=1, verified=1, uploader='CeusX (RESMİ)' WHERE id=?", (data['id'],))
-    elif data['action'] == 'delete': c.execute("DELETE FROM scripts WHERE id=?", (data['id'],))
+    if data['action'] == 'approve': 
+        c.execute("UPDATE scripts SET approved=1, verified=1, uploader='CeusX (RESMİ)' WHERE id=?", (data['id'],))
+    elif data['action'] == 'delete': 
+        c.execute("DELETE FROM scripts WHERE id=?", (data['id'],))
     conn.commit(); conn.close()
     return jsonify({"success": True})
 
+# --- AUTH & CHAT ---
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -132,4 +144,5 @@ def send_msg():
     conn.commit(); conn.close(); return jsonify({"success": True})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000) # Render için port ayarı
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
