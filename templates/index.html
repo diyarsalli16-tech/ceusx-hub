@@ -3,294 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CeusX | Yerli & Milli Engine</title>
+    <title>CeusX | VIP Engine Ultimate</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --red: #ff3366; --gold: #ffcc00; --xeno: #7800ff; }
-        body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+        :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; --game: #00e5ff; }
+        body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        header { padding: 20px; text-align: center; border-bottom: 1px solid #222; position: sticky; top: 0; background: rgba(5,5,5,0.95); z-index: 1000; }
-        h1 { margin: 0; font-family: 'Orbitron'; font-size: 24px; letter-spacing: 2px; }
-        
-        .tab-menu { display: flex; justify-content: center; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-        .tab-btn { background: #111; color: #888; border: 1px solid #222; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 11px; transition: 0.3s; }
-        .tab-btn.active { color: #000; background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 255, 170, 0.3); }
-        .tab-btn.active-red { color: #fff; background: var(--red); border-color: var(--red); }
-        .tab-btn.active-gold { color: #000; background: var(--gold); border-color: var(--gold); }
-        
-        .content { padding: 15px; max-width: 1200px; margin: 0 auto; }
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* SPLASH */
+        #intro-splash { position: fixed; inset: 0; background: var(--bg); z-index: 9999999; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: 0.5s; }
+        .intro-logo { font-size: 50px; font-family: 'Orbitron'; color: #fff; text-shadow: 0 0 25px var(--accent); margin-bottom: 20px; }
 
-        /* SCRIPT KARTLARI */
-        .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card { background: var(--panel); border: 1px solid #222; border-radius: 16px; padding: 20px; position: relative; transition: 0.3s; }
-        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
-        .badge { position: absolute; top: 15px; right: 15px; font-size: 9px; padding: 4px 8px; border-radius: 4px; font-weight: bold; background: var(--accent); color: #000; }
-        .copy-btn { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 15px; }
-        .copy-btn:hover { background: var(--accent); color: #000; }
+        .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid #222; width: 100%; max-width: 320px; text-align: center; }
+        input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+        .btn-auth { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
+        
+        header { padding: 15px; text-align: center; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
+        header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; }
+
+        .tab-menu { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
+        .tab-btn { background: #111; color: #888; border: 1px solid #222; padding: 8px 12px; border-radius:6px; cursor: pointer; font-family:'Orbitron'; font-size: 10px; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { color: #000; background: var(--accent); border-color: var(--accent); }
+        .tab-btn.active-red { color: #fff; background: var(--red); }
+        .tab-btn.active-gold { color: #000; background: var(--gold); }
+        
+        .tab-content { display: none; padding: 15px; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
+
+        /* SCRIPTS */
+        .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
+        .card { background: var(--panel); border: 1px solid #222; border-radius: 12px; padding: 15px; position: relative; }
+        .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #fff; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .badge { position: absolute; top: 12px; right: 12px; font-size: 8px; padding: 3px 6px; border-radius: 4px; font-weight: bold; color: #000; background: var(--accent); }
+        .copy-btn { background: #111; color: #fff; border: 1px solid #333; padding: 10px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 12px; }
+        .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* MODERN SAYFALAMA */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 5px; margin: 30px 0; flex-wrap: wrap; }
+        .page-num { background: #111; border: 1px solid #333; color: #fff; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; transition: 0.2s; }
+        .page-num.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 255, 170, 0.4); }
+        .page-num:hover:not(.active) { background: #222; }
 
         /* CHAT */
-        .chat-box { background: var(--panel); border: 1px solid #222; border-radius: 12px; height: 200px; display: flex; flex-direction: column; margin-bottom: 20px; }
-        #chat-list { flex: 1; overflow-y: auto; padding: 15px; font-size: 13px; color: #ccc; }
-        .chat-input { display: flex; padding: 10px; background: #080808; border-top: 1px solid #222; border-radius: 0 0 12px 12px; }
-        .chat-input input { flex: 1; background: transparent; border: none; color: #fff; outline: none; }
+        .chat-box { background: var(--panel); border: 1px solid #222; border-radius: 12px; height: 180px; display: flex; flex-direction: column; }
+        #chat-list { flex: 1; overflow-y: auto; padding: 10px; font-size: 12px; }
+        .chat-input { display: flex; padding: 8px; background: #0a0a0a; border-top: 1px solid #222; border-radius: 0 0 12px 12px; }
+        .chat-input input { flex: 1; margin: 0; background: transparent; border: none; }
+        .send-btn { background: #fff; color: #000; border: none; padding: 0 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
 
-        /* ARAMA ALANI */
-        .search-container { background: linear-gradient(45deg, #0d0d12, #16161d); padding: 25px; border-radius: 16px; border: 1px solid #222; text-align: center; }
-        input[type="text"], input[type="password"], textarea { background: #000; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; margin: 10px 0; }
-        
-        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 25px; }
-        .page-num { background: #111; border: 1px solid #333; color: #fff; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; }
-        .page-num.active { background: var(--accent); color: #000; }
+        /* TOAST */
+        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 999999; }
+        .ceus-toast { background: #111; border-left: 4px solid var(--accent); color: #fff; padding: 12px 20px; border-radius: 4px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-size: 13px; }
 
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 10000; }
-        .toast { background: #111; border-left: 4px solid var(--accent); color: #fff; padding: 15px 25px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .author-tag { font-size: 10px; color: var(--accent); opacity: 0.8; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="intro-splash" style="position:fixed; inset:0; background:#050505; z-index:99999; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-        <h1 style="font-size:50px; color:#fff; font-family:Orbitron;">CEUS<span style="color:var(--accent)">X</span></h1>
-        <p style="color:var(--red); font-weight:bold;">Milli Script Ağı Yükleniyor...</p>
+    <div id="intro-splash">
+        <div class="intro-logo">CEUS<span style="color:var(--xeno)">X</span></div>
+        <p style="color:var(--red); font-weight:bold; font-size:12px;">Sistemler Başlatılıyor...</p>
     </div>
 
     <div id="toast-container"></div>
 
     {% if not logged_in %}
-    <div style="position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
-        <div style="background:var(--panel); padding:40px; border-radius:20px; border:1px solid #222; width:100%; max-width:350px; text-align:center;">
-            <h2 style="font-family:Orbitron; color:#fff;">GİRİŞ YAP</h2>
+    <div class="auth-screen">
+        <div class="auth-box">
+            <h1 style="color:#fff; font-family:'Orbitron'; font-size:24px;">CEUS<span style="color:var(--xeno)">X</span></h1>
             <input type="text" id="user" placeholder="Kullanıcı Adı">
             <input type="password" id="pass" placeholder="Şifre">
-            <button class="copy-btn" style="background:var(--accent); color:#000;" onclick="auth('login')">GİRİŞ YAP</button>
-            <button class="copy-btn" style="background:transparent; border-color:#333;" onclick="auth('register')">KAYIT OL</button>
+            <button class="btn-auth" style="background:#fff; color:#000;" onclick="auth('login')">GİRİŞ YAP</button>
+            <button class="btn-auth" style="background:transparent; color:#fff; border:1px solid #333;" onclick="auth('register')">KAYIT OL</button>
+            <button class="btn-auth" style="background:#4285F4; color:#fff; margin-top:15px; font-size:11px;" onclick="gmailLogin()">GMAIL İLE BAĞLAN</button>
         </div>
     </div>
     {% endif %}
 
     <header>
-        <h1>CEUS<span style="color:var(--accent)">X</span></h1>
+        <h1>CEUS<span style="color:var(--xeno)">X</span></h1>
+        {% if logged_in %}
+            <span style="font-size:10px; color:#888;">AKTİF: <b style="color:#fff;">{{ user }}</b> | <a href="/logout" style="color:var(--red); text-decoration:none;">ÇIKIŞ</a></span>
+        {% endif %}
         <div class="tab-menu">
-            <button class="tab-btn active" onclick="switchTab('motor', this)">🔍 MOTOR</button>
-            <button class="tab-btn" onclick="switchTab('yukle', this)">📤 YÜKLE</button>
-            <button class="tab-btn" onclick="switchTab('tara', this)">🛡️ TARA</button>
+            <button class="tab-btn active" onclick="switchTab('scripts', this)">🔍 MOTOR</button>
+            <button class="tab-btn" onclick="switchTab('upload', this)">📤 YÜKLE</button>
+            <button class="tab-btn" onclick="switchTab('scanner', this)">🛡️ TARA</button>
             <button class="tab-btn" onclick="switchTab('admin', this)">👑 ADMİN</button>
         </div>
     </header>
 
     <div class="content">
-        <div id="tab-motor" class="tab-content active">
+        <div id="tab-scripts" class="tab-content active">
             <div class="chat-box">
                 <div id="chat-list"></div>
                 <div class="chat-input">
-                    <input type="text" id="chat-msg" placeholder="Mesajını yaz..." onkeypress="if(event.key==='Enter') sendMsg()">
-                    <button style="background:none; border:none; color:var(--accent); cursor:pointer; font-size:20px;" onclick="sendMsg()">➤</button>
+                    <input type="text" id="chat-msg" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter') sendText()">
+                    <button class="send-btn" onclick="sendText()">➤</button>
                 </div>
             </div>
 
-            <div class="search-container">
-                <h3 style="color:var(--accent); font-family:Orbitron; margin:0;">MİLLİ SCRIPT ARAMA MOTORU</h3>
-                <p style="font-size:11px; color:#888; margin-bottom:15px;">Hem CeusX Onaylı Arşiv, Hem Global ScriptBloqu Aynı Anda Tara!</p>
+            <div class="search-area" style="margin-top:20px;">
+                <h3 style="font-family:'Orbitron'; font-size:14px; color:var(--accent); margin-bottom:10px;">🌐 GLOBAL SCRIPTBLOX ARAMASI</h3>
                 <div style="display:flex; gap:10px;">
-                    <input type="text" id="api-search-input" placeholder="Oyun Ara (Arsenal, Blox Fruits...)" style="margin:0;">
-                    <button class="tab-btn active" style="padding:0 25px;" onclick="searchAll(1)">ARA</button>
+                    <input type="text" id="api-search-input" placeholder="Oyun Ara (Blox Fruits, Arsenal...)" style="margin:0;">
+                    <button class="btn-auth" style="width:100px; background:var(--accent); color:#000; margin:0;" onclick="fetchFromScriptBlox(1)">ARA</button>
                 </div>
             </div>
 
-            <div id="scripts-display" class="script-grid"></div>
+            <div id="main-script-grid" class="script-grid"></div>
             <div id="pagination-area" class="pagination"></div>
         </div>
 
-        <div id="tab-yukle" class="tab-content">
-            <div class="search-container" style="border-color:var(--xeno);">
-                <h2 style="color:var(--xeno); font-family:Orbitron;">📤 SCRİPT PAYLAŞ</h2>
+        <div id="tab-upload" class="tab-content">
+            <div class="auth-box" style="max-width:100%; border-color:var(--xeno);">
+                <h3 style="color:var(--xeno); font-family:Orbitron;">📤 SCRİPT PAYLAŞ</h3>
                 <input type="text" id="up-game" placeholder="Oyun Adı">
                 <input type="text" id="up-title" placeholder="Script Başlığı">
-                <textarea id="up-code" rows="8" placeholder="Script Kodunu Buraya Yapıştır..."></textarea>
-                <div style="text-align:left; font-size:12px;"><input type="checkbox" id="up-key"> Keysiz Script</div>
-                <button class="copy-btn" style="background:var(--xeno);" onclick="upload()">SİSTEME GÖNDER</button>
+                <textarea id="up-code" rows="6" placeholder="Kodları buraya yapıştır..."></textarea>
+                <div style="text-align:left; font-size:12px; color:#aaa; margin-top:10px;">
+                    <input type="checkbox" id="up-keyless" style="width:auto;"> Keysiz (No Key)
+                </div>
+                <button class="btn-auth" style="background:var(--xeno); color:#fff;" onclick="uploadScript()">SİSTEME GÖNDER</button>
             </div>
         </div>
 
-        <div id="tab-tara" class="tab-content">
-            <div class="search-container" style="border-color:var(--red);">
-                <h2 style="color:var(--red); font-family:Orbitron;">🛡️ ANTİ-LOGGER TARAYICI</h2>
-                <textarea id="scan-input" rows="10" placeholder="Kodları buraya yapıştır..."></textarea>
-                <button class="copy-btn" style="background:var(--red);" onclick="scan()">RÖNTGENİ ÇEK</button>
-                <div id="scan-res" style="margin-top:20px; padding:15px; border-radius:10px; display:none; text-align:left;"></div>
+        <div id="tab-scanner" class="tab-content">
+            <div class="auth-box" style="max-width:100%; border-color:var(--red);">
+                <h3 style="color:var(--red); font-family:Orbitron;">🛡️ ANTİ-LOGGER</h3>
+                <textarea id="scan-input" rows="10" placeholder="Script kodunu buraya yapıştır..."></textarea>
+                <button class="btn-auth" style="background:var(--red); color:#fff;" onclick="scanScript()">RÖNTGEN ÇEK</button>
+                <div id="scan-result" style="margin-top:15px; padding:15px; border-radius:8px; display:none; text-align:left; font-size:13px;"></div>
             </div>
         </div>
 
         <div id="tab-admin" class="tab-content">
-            <div id="admin-login-box" class="search-container" style="border-color:var(--gold);">
-                <h2 style="color:var(--gold); font-family:Orbitron;">👑 BAŞ TANRI GİRİŞİ</h2>
-                <input type="password" id="admin-key" placeholder="Gizli Anahtar">
-                <button class="copy-btn" style="background:var(--gold); color:#000;" onclick="adminLogin()">YÖNETİMİ ELE AL</button>
+            <div id="admin-login">
+                <div class="auth-box" style="max-width:100%; border-color:var(--gold);">
+                    <h3 style="color:var(--gold); font-family:Orbitron;">👑 YETKİLİ GİRİŞİ</h3>
+                    <input type="password" id="admin-pass" placeholder="Gizli Şifre">
+                    <button class="btn-auth" style="background:var(--gold); color:#000;" onclick="loginAdmin()">ADMİN PANELİNİ AÇ</button>
+                </div>
             </div>
             <div id="admin-panel" style="display:none;">
                 <h3 style="color:var(--accent); font-family:Orbitron; text-align:center;">⏱️ ONAY BEKLEYENLER</h3>
-                <div id="admin-grid" class="script-grid"></div>
+                <div id="admin-pending-grid" class="script-grid"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- ÇEKİRDEK FONKSİYONLAR ---
+        // --- CORE ---
         window.addEventListener('load', () => {
-            setTimeout(() => document.getElementById('intro-splash').style.display='none', 1500);
-            searchAll(1);
+            setTimeout(() => document.getElementById('intro-splash').style.display = 'none', 1500);
+            fetchFromScriptBlox(1);
         });
 
-        function switchTab(id, btn) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.className='tab-btn');
-            if(id==='tara') btn.classList.add('active-red');
-            else if(id==='admin') btn.classList.add('active-gold');
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
+            if(tabId === 'scanner') btn.classList.add('active-red');
+            else if(tabId === 'admin') btn.classList.add('active-gold');
             else btn.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.getElementById('tab-'+id).classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
         }
 
-        function toast(m, type='success') {
-            const c = document.getElementById('toast-container');
-            const t = document.createElement('div'); t.className='toast';
-            if(type==='error') t.style.borderColor='var(--red)';
-            t.innerText = m; c.appendChild(t);
+        function showToast(msg, type='success') {
+            const container = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = 'ceus-toast';
+            if(type==='error') t.style.borderColor = 'var(--red)';
+            t.innerText = msg;
+            container.appendChild(t);
             setTimeout(() => t.remove(), 3000);
         }
 
-        // --- MOTOR (HİBRİT ARAMA) ---
-        async function searchAll(page) {
+        // --- API SCRIPTBLOX (TAMAMEN YENİLENDİ) ---
+        async function fetchFromScriptBlox(page) {
             const query = document.getElementById('api-search-input').value;
-            const display = document.getElementById('scripts-display');
-            display.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--accent);">Milli Veritabanı ve ScriptBlox Taranıyor... ⏳</p>';
+            const grid = document.getElementById('main-script-grid');
+            const pagArea = document.getElementById('pagination-area');
+            
+            grid.innerHTML = '<p style="text-align:center; color:var(--accent); grid-column:1/-1;">ScriptBlox Verileri Çekiliyor... ⏳</p>';
             
             try {
-                // 1. Yerel Veritabanını Çek
-                const resLocal = await fetch(`/api/local_search?q=${query}`);
-                const dataLocal = await resLocal.json();
+                const res = await fetch(`/api/search?q=${encodeURIComponent(query)}&page=${page}`);
+                const data = await res.json();
                 
-                // 2. Global ScriptBloqu Çek
-                const resGlobal = await fetch(`/api/search?q=${query}&page=${page}`);
-                const dataGlobal = await resGlobal.json();
-                
-                display.innerHTML = '';
+                if(!data.result || !data.result.scripts) {
+                    grid.innerHTML = '<p style="text-align:center; color:var(--red); grid-column:1/-1;">Script bulunamadı veya ağ meşgul!</p>';
+                    return;
+                }
 
-                // Önce Yerli Scriptleri Başta Göster
-                dataLocal.scripts.forEach(s => {
-                    display.innerHTML += `
-                        <div class="card" style="border-color:var(--gold); background:rgba(255,204,0,0.05);">
-                            <span class="badge">✔️ CEUSX ONAYLI</span>
-                            <h3>${s.title}</h3>
-                            <p><b>Oyun:</b> ${s.game}</p>
-                            <p style="font-size:10px; color:var(--gold);">👤 Milli Arşivden (Uploader: ${s.uploader})</p>
-                            <textarea id="c-${Math.random()}" style="display:none;">${s.script}</textarea>
-                            <button class="copy-btn" onclick="copyC(this)">KODU KOPYALA</button>
-                        </div>`;
+                grid.innerHTML = '';
+                data.result.scripts.forEach((s, idx) => {
+                    grid.innerHTML += `
+                        <div class="card">
+                            <span class="badge">${s.verified ? '✔️ ONAYLI' : '⚠️ ONAYSIZ'}</span>
+                            <span class="badge" style="top:35px; background:var(--gold)">${s.key ? '🔑 KEYLİ' : '🔓 KEYSİZ'}</span>
+                            <h3 title="${s.title}">${s.title}</h3>
+                            <p><b>Oyun:</b> ${s.game.name}</p>
+                            <span class="author-tag">🌐 Global Arşiv</span>
+                            <textarea id="code-${idx}" style="display:none;">${s.script}</textarea>
+                            <button class="copy-btn" onclick="copyCode('code-${idx}')">KODU KOPYALA</button>
+                        </div>
+                    `;
                 });
 
-                // Sonra Global Scriptleri Göster
-                if(dataGlobal.result && dataGlobal.result.scripts) {
-                    dataGlobal.result.scripts.forEach(s => {
-                        display.innerHTML += `
-                            <div class="card">
-                                <span class="badge" style="background:#555; color:#fff;">🌐 GLOBAL</span>
-                                <h3>${s.title}</h3>
-                                <p><b>Oyun:</b> ${s.game.name}</p>
-                                <textarea id="c-${Math.random()}" style="display:none;">${s.script}</textarea>
-                                <button class="copy-btn" onclick="copyC(this)">KODU KOPYALA</button>
-                            </div>`;
-                    });
+                // MODERN SAYFALAMA (1 2 3 4...)
+                pagArea.innerHTML = '';
+                let total = data.result.totalPages;
+                let start = Math.max(1, page - 2);
+                let end = Math.min(total, page + 2);
 
-                    // Sayfalama
-                    renderPag(dataGlobal.result.totalPages, page);
+                if(page > 1) pagArea.innerHTML += `<div class="page-num" onclick="fetchFromScriptBlox(${page-1})">◀</div>`;
+                
+                for(let i=start; i<=end; i++) {
+                    pagArea.innerHTML += `<div class="page-num ${i===page?'active':''}" onclick="fetchFromScriptBlox(${i})">${i}</div>`;
                 }
-            } catch(e) { display.innerHTML = '<p style="color:var(--red);">Bağlantı koptu kanka!</p>'; }
-        }
 
-        function renderPag(total, current) {
-            const area = document.getElementById('pagination-area');
-            area.innerHTML = '';
-            let start = Math.max(1, current - 2), end = Math.min(total, current + 2);
-            for(let i=start; i<=end; i++) {
-                area.innerHTML += `<div class="page-num ${i===current?'active':''}" onclick="searchAll(${i})">${i}</div>`;
+                if(page < total) pagArea.innerHTML += `<div class="page-num" onclick="fetchFromScriptBlox(${page+1})">▶</div>`;
+
+            } catch(e) {
+                grid.innerHTML = '<p style="color:var(--red);">Bağlantı Hatası!</p>';
             }
         }
 
-        function copyC(btn) {
-            const txt = btn.parentElement.querySelector('textarea');
-            txt.style.display='block'; txt.select(); document.execCommand('copy'); txt.style.display='none';
-            toast("Milli Kod Kopyalandı!");
+        function copyCode(id) {
+            const el = document.getElementById(id);
+            el.style.display = 'block'; el.select(); document.execCommand('copy'); el.style.display = 'none';
+            showToast("Kod kopyalandı!");
         }
 
-        // --- YÜKLE ---
-        async function upload() {
-            const game = document.getElementById('up-game').value, title = document.getElementById('up-title').value, code = document.getElementById('up-code').value, keyless = document.getElementById('up-key').checked;
-            if(!game || !title || !code) return toast("Boş alan bırakma!", "error");
-            await fetch('/api/upload_script', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({game,title,code,keyless})});
-            toast("Script gönderildi! CeusX (RESMİ) onaylayınca yayınlanacak.");
-            document.getElementById('up-game').value=''; document.getElementById('up-title').value=''; document.getElementById('up-code').value='';
+        // --- UPLOAD ---
+        async function uploadScript() {
+            const game = document.getElementById('up-game').value;
+            const title = document.getElementById('up-title').value;
+            const code = document.getElementById('up-code').value;
+            const keyless = document.getElementById('up-keyless').checked;
+            if(!game || !title || !code) return showToast("Boş yer bırakma!", "error");
+
+            const res = await fetch('/api/upload_script', {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({game, title, code, keyless})
+            });
+            if((await res.json()).success) {
+                showToast("Script admin onayına gönderildi!");
+                document.getElementById('up-game').value='';document.getElementById('up-title').value='';document.getElementById('up-code').value='';
+            }
         }
 
-        // --- ADMİN ---
-        let aKey = "";
-        async function adminLogin() {
-            aKey = document.getElementById('admin-key').value;
-            const res = await fetch('/api/admin/get_pending', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({key:aKey})});
+        // --- SCANNER ---
+        function scanScript() {
+            const code = document.getElementById('scan-input').value.toLowerCase();
+            const res = document.getElementById('scan-result');
+            if(!code) return;
+            res.style.display = 'block';
+            res.innerHTML = "Taranıyor...";
+            
+            setTimeout(() => {
+                const bad = ["webhook", "discord.com/api", "ipify", "ident.me", "os.execute", "getfenv"];
+                let found = bad.filter(b => code.includes(b));
+                if(found.length > 0) {
+                    res.style.background = "rgba(255, 51, 102, 0.1)";
+                    res.style.border = "1px solid var(--red)";
+                    res.innerHTML = `<b style="color:var(--red)">❌ TEHLİKELİ KOD:</b> Logger veya şüpheli bağlantılar bulundu: <br>${found.join(", ")}`;
+                } else {
+                    res.style.background = "rgba(0, 255, 170, 0.1)";
+                    res.style.border = "1px solid var(--accent)";
+                    res.innerHTML = `<b style="color:var(--accent)">✅ TEMİZ:</b> Zararlı bir bağlantı bulunamadı.`;
+                }
+            }, 800);
+        }
+
+        // --- ADMIN ---
+        let currentKey = "";
+        async function loginAdmin() {
+            const key = document.getElementById('admin-pass').value;
+            const res = await fetch('/api/admin/get_scripts', {
+                method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({key})
+            });
             const data = await res.json();
             if(data.success) {
-                document.getElementById('admin-login-box').style.display='none';
-                document.getElementById('admin-panel').style.display='block';
+                currentKey = key;
+                document.getElementById('admin-login').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
                 renderAdmin(data.pending);
-            } else toast("Yetkisiz Giriş!", "error");
+            } else showToast("Şifre Yanlış!", "error");
         }
 
-        function renderAdmin(list) {
-            const g = document.getElementById('admin-grid');
-            g.innerHTML = list.length === 0 ? '<p style="grid-column:1/-1; text-align:center;">Bekleyen yok patron.</p>' : '';
-            list.forEach(s => {
-                g.innerHTML += `
-                    <div class="card" style="border-color:var(--red);">
+        function renderAdmin(pending) {
+            const grid = document.getElementById('admin-pending-grid');
+            grid.innerHTML = pending.length === 0 ? '<p style="grid-column:1/-1; text-align:center;">Bekleyen yok.</p>' : '';
+            pending.forEach(s => {
+                grid.innerHTML += `
+                    <div class="card" style="border-color:var(--gold)">
                         <h3>${s.title}</h3>
-                        <p>Oyun: ${s.game} | Yükleyen: ${s.uploader}</p>
-                        <div style="display:flex; gap:10px; margin-top:10px;">
-                            <button class="copy-btn" style="background:var(--accent); color:#000; flex:1;" onclick="adminAct('approve', ${s.id})">ONAYLA</button>
-                            <button class="copy-btn" style="background:var(--red); flex:1;" onclick="adminAct('delete', ${s.id})">SİL</button>
+                        <p>Oyun: ${s.game}</p>
+                        <p style="font-size:10px; color:#888;">Ekleyen: ${s.uploader}</p>
+                        <div style="display:flex; gap:5px; margin-top:10px;">
+                            <button class="btn-auth" style="background:var(--accent); color:#000; flex:1;" onclick="adminAction('approve', ${s.id})">ONAYLA</button>
+                            <button class="btn-auth" style="background:var(--red); color:#fff; flex:1;" onclick="adminAction('delete', ${s.id})">SİL</button>
                         </div>
                     </div>`;
             });
         }
 
-        async function adminAct(action, id) {
-            await fetch('/api/admin/action', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({key:aKey, action, id})});
-            toast("İşlem Tamam."); adminLogin();
+        async function adminAction(action, id) {
+            await fetch('/api/admin/action', {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({key: currentKey, action, id})
+            });
+            showToast("İşlem başarılı.");
+            loginAdmin(); // Refresh
         }
 
-        // --- DİĞER ---
-        function scan() {
-            const code = document.getElementById('scan-input').value.toLowerCase();
-            const res = document.getElementById('scan-res'); res.style.display='block';
-            const bad = ["webhook", "ipify", "os.execute", "getfenv", "httppost"];
-            let found = bad.filter(b => code.includes(b));
-            if(found.length>0) { res.className='toast'; res.style.borderColor='var(--red)'; res.innerHTML=`❌ TEHLİKE: ${found.join(', ')} bulundu!`; }
-            else { res.className='toast'; res.style.borderColor='var(--accent)'; res.innerHTML="✅ TEMİZ: Zararlı kod bulunamadı."; }
-        }
-
+        // --- AUTH & CHAT ---
         async function auth(type) {
             const username = document.getElementById('user').value, password = document.getElementById('pass').value;
             const res = await fetch('/'+type, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username, password})});
-            if((await res.json()).success) location.reload(); else toast("Hata!", "error");
+            if((await res.json()).success) location.reload(); else showToast("Hata!", "error");
         }
-
-        async function sendMsg() {
-            const text = document.getElementById('chat-msg').value; if(!text) return;
+        function gmailLogin() { auth('login', {username: "Google_User_"+Math.floor(Math.random()*999), password:'google_oauth_bypass'}); }
+        async function sendText() {
+            const text = document.getElementById('chat-msg').value;
+            if(!text) return;
             await fetch('/send_message', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text})});
-            document.getElementById('chat-msg').value=''; loadMsgs();
+            document.getElementById('chat-msg').value = ''; loadMsgs();
         }
-
         async function loadMsgs() {
-            const res = await fetch('/get_messages'); const data = await res.json();
+            const res = await fetch('/get_messages');
+            const data = await res.json();
             document.getElementById('chat-list').innerHTML = data.map(m => `<div><b style="color:var(--accent)">${m.user}:</b> ${m.text}</div>`).join('');
             document.getElementById('chat-list').scrollTop = 99999;
         }
