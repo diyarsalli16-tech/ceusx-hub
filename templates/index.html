@@ -30,7 +30,6 @@
         .tab-btn.active-red { color: #fff; background: var(--red); border-color: var(--red); box-shadow: 0 0 15px rgba(255, 51, 102, 0.3); }
         .tab-btn.active-gold { color: #000; background: var(--gold); border-color: var(--gold); box-shadow: 0 0 15px rgba(255, 204, 0, 0.3); }
         .tab-btn.active-game { color: #000; background: var(--game); border-color: var(--game); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
-        .tab-btn.active-contact { color: #fff; background: #7800ff; border-color: #7800ff; box-shadow: 0 0 15px rgba(120, 0, 255, 0.3); }
         
         .tab-content { display: none; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
@@ -158,7 +157,6 @@
             
             <div class="search-area" style="margin-top: 20px;">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:14px; color:var(--accent);">🌐 CANLI SCRIPTBLOX AĞI (100.000+ SCRIPT)</h3>
-                <p style="font-size:11px; color:#888;">Şu an doğrudan ScriptBlox veritabanına bağlısın.</p>
                 <input type="text" id="api-search-input" placeholder="Oyun Ara (Örn: blox fruits, arsenal)..." onkeypress="if(event.key==='Enter') fetchFromScriptBlox(1)" style="margin-bottom:10px;">
                 <button class="search-btn" onclick="fetchFromScriptBlox(1)">AĞDA ARA</button>
             </div>
@@ -170,7 +168,6 @@
         <div id="tab-scanner" class="tab-content">
             <div class="search-area" style="border-color: var(--red);">
                 <h3 style="margin-top:0; font-family:'Orbitron'; font-size:18px; color:var(--red);">🛡️ ANTI-LOGGER TARAYICI</h3>
-                <p style="font-size:12px; color:#aaa; margin-bottom:15px;">Şüpheli scripti yapıştır, Discord Webhook ve IP Grabber taraması yap.</p>
                 <textarea id="scanner-input" rows="12" placeholder="Kodları buraya yapıştır..."></textarea>
                 <button class="search-btn" style="background:var(--red); color:#fff; font-size:16px; margin-top:10px;" onclick="scanScript()">🔍 KODU TARA</button>
                 <div id="scan-result" style="margin-top:20px; padding:15px; border-radius:8px; display:none; text-align:left;"></div>
@@ -180,9 +177,9 @@
         <div id="tab-trusted" class="tab-content">
             <div class="section-header" style="text-align:center; color:var(--gold); font-family:'Orbitron'; margin-bottom:15px; font-size:14px;">🌟 CEUSX ELİT ARŞİVİ</div>
             <div class="script-grid">
-                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Infinite Yield (Orijinal)</h3><p>En sağlam admin scripti.</p><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()')" style="margin-top:10px;">KOPYALA</button></div>
-                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Nameless Admin</h3><p>Logger bulunmayan orijinal FE sürüm.</p><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source\'))()')" style="margin-top:10px;">KOPYALA</button></div>
-                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Vape V4</h3><p>Bedwars için en iyi hile.</p><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')" style="margin-top:10px;">KOPYALA</button></div>
+                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Infinite Yield</h3><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source\'))()')" style="margin-top:10px;">KOPYALA</button></div>
+                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Nameless Admin</h3><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source\'))()')" style="margin-top:10px;">KOPYALA</button></div>
+                <div class="card" style="border-color: var(--gold);"><span class="badge badge-verified" style="background:var(--gold); color:#000;">✔️ ONAYLI</span><span class="badge badge-keyless">🔓 KEYSİZ</span><h3>Vape V4</h3><button class="copy-btn" onclick="copyRaw('loadstring(game:HttpGet(\'https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua\', true))()')" style="margin-top:10px;">KOPYALA</button></div>
             </div>
         </div>
 
@@ -191,8 +188,7 @@
             <div class="script-grid">
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">💳 SANAL BANKA</h3>
-                    <div style="display:flex; gap:10px; margin-bottom:15px;"><button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); padding:10px; font-size:11px;" onclick="showCreditCard()">KARTIMI GÖR</button></div>
-                    <div style="background: rgba(255, 51, 102, 0.1); border: 1px dashed var(--red); padding: 15px; border-radius: 8px; margin-top: 10px;"><h4 style="color: var(--red); font-family: 'Orbitron'; margin: 0 0 5px 0; font-size:14px;">⚠️ SİSTEM ARIZALI</h4><p style="font-size: 11px; color: #ccc; margin: 0;">Banka sunucuları hacklendi!</p></div>
+                    <button class="search-btn" style="background:transparent; color:var(--game); border:1px solid var(--game); padding:10px; font-size:11px;" onclick="showCreditCard()">KARTIMI GÖR</button>
                 </div>
                 <div class="card" style="border-color: var(--game); text-align:center;">
                     <h3 style="color:var(--game); font-family:'Orbitron'; padding:0;">🕵️ SOKAK GÖREVLERİ</h3>
@@ -217,7 +213,7 @@
         window.addEventListener('load', () => {
             const splash = document.getElementById('intro-splash');
             if(splash) { setTimeout(() => { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 500); }, 2500); }
-            fetchFromScriptBlox(1); // Site açılınca popüler scriptleri çek
+            fetchFromScriptBlox(1); 
         });
 
         let gamesWarned = false;
@@ -228,7 +224,6 @@
             if(tabId === 'scanner' || tabId === 'admin') btnElement.classList.add('active-red');
             else if(tabId === 'trusted' || tabId === 'executor') btnElement.classList.add('active-gold');
             else if(tabId === 'games') btnElement.classList.add('active-game');
-            else if(tabId === 'contact') btnElement.classList.add('active-contact');
             else btnElement.classList.add('active');
             
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -246,29 +241,32 @@
         }
 
         // --- 📡 SCRIPTBLOX CANLI API BAĞLANTISI ---
-        let currentApiQuery = "";
-
         async function fetchFromScriptBlox(page) {
             const query = document.getElementById('api-search-input').value.trim();
-            currentApiQuery = query;
-            
             const grid = document.getElementById('api-script-grid');
             grid.innerHTML = '<p style="text-align:center; color:var(--accent);">ScriptBlox Ağlarına Sızılıyor... ⏳</p>';
             
             try {
-                // Python arka planı üzerinden resmi ScriptBlox API'sine istek atıyoruz
                 const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&page=${page}`);
                 const data = await response.json();
                 
-                if (data.success === false || !data.result || !data.result.scripts) {
-                    grid.innerHTML = '<p style="text-align:center; color:var(--red);">ScriptBlox sunucularına ulaşılamadı veya sonuç yok!</p>';
+                // YENİ: Python tarafından yakalanan hatayı direkt ekrana bas
+                if (data.success === false) {
+                    grid.innerHTML = `<p style="text-align:center; color:var(--red);">Hata: ${data.error || 'Bilinmeyen Hata'}</p>`;
+                    document.getElementById('pagination-area').innerHTML = '';
+                    return;
+                }
+
+                if (!data.result || !data.result.scripts || data.result.scripts.length === 0) {
+                    grid.innerHTML = '<p style="text-align:center; color:var(--red);">Bu oyuna ait script bulunamadı kanka!</p>';
                     document.getElementById('pagination-area').innerHTML = '';
                     return;
                 }
                 
                 renderScriptBloxData(data.result.scripts, data.result.totalPages, page);
             } catch (error) {
-                grid.innerHTML = '<p style="text-align:center; color:var(--red);">Sunucu hatası! Bağlantı koptu.</p>';
+                // YENİ: Eğer Python kapalıysa bu uyaracak
+                grid.innerHTML = '<p style="text-align:center; color:var(--red);">Python Sunucusuna (app.py) Bağlanılamadı!<br><br>Lütfen terminalden Python kodunu kapatıp tekrar çalıştır.</p>';
             }
         }
 
@@ -277,16 +275,10 @@
             const pag = document.getElementById('pagination-area');
             grid.innerHTML = ''; pag.innerHTML = '';
 
-            if (scripts.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; color:var(--red);">Bu kritere uygun script bulunamadı kanka!</p>';
-                return;
-            }
-
             let html = '';
             scripts.forEach((s, idx) => {
                 const isVerified = s.verified;
                 const hasKey = s.key;
-                
                 html += `
                 <div class="card">
                     ${isVerified ? '<span class="badge badge-verified">✔️ ONAYLI</span>' : '<span class="badge badge-unverified">⚠️ ONAYSIZ</span>'}
@@ -299,12 +291,10 @@
             });
             grid.innerHTML = html;
 
-            // ScriptBlox'tan gelen gerçek sayfalama
             if (totalPages > 1) {
                 let pagHtml = '';
                 let startPage = Math.max(1, currentPage - 2);
                 let endPage = Math.min(totalPages, currentPage + 2);
-                
                 if (currentPage > 1) pagHtml += `<button class="page-btn" onclick="fetchFromScriptBlox(${currentPage - 1})">◀</button>`;
                 for(let i = startPage; i <= endPage; i++) {
                     const activeClass = i === currentPage ? 'active' : '';
@@ -315,14 +305,8 @@
             }
         }
 
-        function copyLocalId(id) { 
-            const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); 
-            showToast("Script başarıyla kopyalandı!", "success"); 
-        }
-        function copyRaw(text) { 
-            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); 
-            showToast("Onaylı script kopyalandı!", "success"); 
-        }
+        function copyLocalId(id) { const el = document.createElement('textarea'); el.value = document.getElementById(id).value; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Kopyalandı!", "success"); }
+        function copyRaw(text) { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); showToast("Kopyalandı!", "success"); }
 
         // --- 🛡️ ANTI-LOGGER SİSTEMİ ---
         function scanScript() {
@@ -344,7 +328,7 @@
 
                 if(cFound.length > 0) {
                     res.style.border = "2px solid var(--red)"; res.style.background = "rgba(255, 51, 102, 0.1)";
-                    res.innerHTML = `<h4 style="color:var(--red); margin:0 0 10px 0;">❌ KRİTİK TEHLİKE (LOGGER/VİRÜS)</h4><p style="font-size:12px; color:#ddd;">Hesabını çalmaya yönelik kodlar tespit edildi! <b>ASLA KULLANMA.</b></p><p style="font-size:11px; color:var(--red);"><b>Zararlılar:</b> ${cFound.join(', ')}</p>`;
+                    res.innerHTML = `<h4 style="color:var(--red); margin:0 0 10px 0;">❌ KRİTİK TEHLİKE</h4><p style="font-size:12px; color:#ddd;">Hesabını çalmaya yönelik kodlar tespit edildi! <b>ASLA KULLANMA.</b></p><p style="font-size:11px; color:var(--red);"><b>Zararlılar:</b> ${cFound.join(', ')}</p>`;
                 } else if(wFound.length > 0) {
                     res.style.border = "2px solid var(--gold)"; res.style.background = "rgba(255, 204, 0, 0.1)";
                     res.innerHTML = `<h4 style="color:var(--gold); margin:0 0 10px 0;">⚠️ ŞÜPHELİ KOD</h4><p style="font-size:12px; color:#ddd;">Dışarıya veri gönderen şifreli komutlar var. Yan hesapla kullan.</p><p style="font-size:11px; color:var(--gold);"><b>Modüller:</b> ${wFound.join(', ')}</p>`;
@@ -355,10 +339,8 @@
             }, 1200);
         }
 
-        // --- GÖREVLER & DİĞERLERİ ---
         let ceusCoins = localStorage.getItem('ceusCoins') ? parseInt(localStorage.getItem('ceusCoins')) : 100;
         let myIban = localStorage.getItem('ceusIban') || `TR99 0000 ${Math.floor(1000+Math.random()*9000)} 1234 ${Math.floor(1000+Math.random()*9000)} 55`; 
-        let activeCard = localStorage.getItem('ceusActiveCard') || 'default';
         if(!localStorage.getItem('ceusIban')) { localStorage.setItem('ceusIban', myIban); }
         document.getElementById('ceus-coins').innerText = ceusCoins;
         function updateCoins() { document.getElementById('ceus-coins').innerText = ceusCoins; localStorage.setItem('ceusCoins', ceusCoins); }
