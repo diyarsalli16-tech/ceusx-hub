@@ -23,19 +23,29 @@ def index():
         return render_template('index.html', logged_in=True, user=session['user'])
     return render_template('index.html', logged_in=False)
 
-# --- 📡 YENİ: DOĞRUDAN SCRIPTBLOX API BAĞLANTISI ---
+# --- 📡 SCRIPTBLOX API BAĞLANTISI (CLOUDFLARE BYPASS EKLENDİ) ---
 @app.route('/api/search')
 def api_search():
     query = request.args.get('q', '')
     page = request.args.get('page', 1)
     
-    # ScriptBlox'un gerçek API'sine istek atıyoruz!
     url = f"https://scriptblox.com/api/script/search?q={query}&max=12&page={page}&mode=free"
     
+    # ⚠️ İŞTE SİHİR BURADA: Kendimizi normal bir insan/tarayıcı gibi tanıtıyoruz
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json"
+    }
+    
     try:
-        response = requests.get(url)
-        data = response.json()
-        return jsonify(data)
+        response = requests.get(url, headers=headers, timeout=10)
+        
+        if response.status_code == 200:
+            data = response.json()
+            return jsonify(data)
+        else:
+            return jsonify({"success": False, "error": f"ScriptBlox Bizi Engelledi! HTTP Kodu: {response.status_code}"})
+            
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
 
