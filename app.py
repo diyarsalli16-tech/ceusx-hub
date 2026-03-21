@@ -26,7 +26,35 @@ def init_db():
     conn.commit()
     conn.close()
 
+# --- YENİ EKLENEN KISIM: ONAYLI SCRİPTLERİ OTOMATİK YÜKLE ---
+def seed_approved_scripts():
+    conn = sqlite3.connect(DB_NAME)
+    c = conn.cursor()
+    
+    # Eklenecek Scriptler Listesi
+    default_scripts = [
+        ("Brookhaven RP", "Rael Hub", 1, 0, 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Rael-Hub-58126"))()', "CeusX (RESMİ)"),
+        ("Murder Mystery 2", "MM2 Script (Güvenli)", 1, 1, 'loadstring(game:HttpGet("https://pastebin.com/raw/F5SuruDs"))()', "CeusX (RESMİ)"),
+        ("Brookhaven RP", "Nova Hub (Key Korumalı)", 1, 0, 'loadstring(game:HttpGet("https://pastebin.com/raw/HcFi4rrZ"))()', "CeusX (RESMİ)"),
+        ("Brookhaven RP", "Sander X", 1, 1, 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Sander-XY-35845"))()', "CeusX (RESMİ)")
+    ]
+
+    for game, title, verified, keyless, code, uploader in default_scripts:
+        # Aynı script var mı kontrol et (Tekrarlanmayı önlemek için)
+        c.execute("SELECT id FROM scripts WHERE title = ?", (title,))
+        if not c.fetchone():
+            c.execute("""INSERT INTO scripts (game, title, verified, keyless, code, approved, uploader) 
+                         VALUES (?, ?, ?, ?, ?, 1, ?)""", 
+                      (game, title, verified, keyless, code, uploader))
+    
+    conn.commit()
+    conn.close()
+
+# Başlangıçta fonksiyonları çağır
 init_db()
+seed_approved_scripts()
+
+# --- ROUTELER VE DİĞER FONKSİYONLAR AYNEN KALIYOR ---
 
 @app.route('/')
 def index():
