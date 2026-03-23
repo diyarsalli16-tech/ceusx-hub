@@ -5,10 +5,9 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar_v5'
-DB_NAME = 'ceusx_render_v5.db' # İsim tamamen değişti, eski hatalı dosyayı görmezden gelecek
+DB_NAME = 'ceusx_render_v5.db'
 ADMIN_KEY = 'ceusx2026'
 
-# Render'da veritabanı kilitlenmesini (database is locked) önlemek için özel bağlantı fonksiyonu
 def get_db_connection():
     conn = sqlite3.connect(DB_NAME, timeout=15)
     return conn
@@ -30,7 +29,6 @@ def init_db():
             uploader TEXT
         )''')
         
-        # ONAYLI SCRİPTLERİ GÜVENLİ BİR ŞEKİLDE EKLEME
         default_scripts = [
             ("Brookhaven RP", "Rael Hub", 1, 0, 'loadstring(game:HttpGet("https://rawscripts.net/raw/Brookhaven-RP-Rael-Hub-58126"))()', "CeusX (RESMİ)"),
             ("Murder Mystery 2", "MM2 Script (Güvenli)", 1, 1, 'loadstring(game:HttpGet("https://pastebin.com/raw/F5SuruDs"))()', "CeusX (RESMİ)"),
@@ -48,33 +46,27 @@ def init_db():
         conn.close()
         print("Siber Veritabanı Başarıyla Kuruldu!")
     except Exception as e:
-        print("SİBER HATA (Veritabanı kurulamadı):", e)
+        print("SİBER HATA:", e)
 
-# Sunucu başlarken veritabanını ateşle
 init_db()
 
 @app.route('/')
 def index():
     return render_template('index.html', logged_in=('user' in session), user=session.get('user'))
 
-# --- 📡 SCRIPTBLOX CANLI BAĞLANTI ---
 @app.route('/api/search')
 def api_search():
     query = request.args.get('q', '')
     page = request.args.get('page', '1')
     url = "https://scriptblox.com/api/script/search"
     params = {"q": query, "max": 12, "page": page, "mode": "free"}
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/json"
-    }
+    headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json"}
     try:
         response = requests.get(url, params=params, headers=headers, timeout=10)
         return jsonify(response.json())
     except:
         return jsonify({"success": False, "error": "Bağlantı Sorunu"})
 
-# --- 🔍 YEREL ARAMA (SADECE ONAYLI) ---
 @app.route('/api/local_search')
 def local_search():
     query = request.args.get('q', '').lower()
@@ -84,12 +76,10 @@ def local_search():
         c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 AND (LOWER(game) LIKE ? OR LOWER(title) LIKE ?) ORDER BY id DESC", (f"%{query}%", f"%{query}%"))
     else:
         c.execute("SELECT id, game, title, verified, keyless, code, uploader FROM scripts WHERE approved=1 ORDER BY id DESC LIMIT 20")
-        
     scripts = [{"id": r[0], "game": r[1], "title": r[2], "verified": bool(r[3]), "keyless": bool(r[4]), "script": r[5], "uploader": r[6]} for r in c.fetchall()]
     conn.close()
     return jsonify({"scripts": scripts})
 
-# --- 📤 YÜKLEME ---
 @app.route('/api/upload_script', methods=['POST'])
 def upload_script():
     data = request.json
@@ -102,19 +92,15 @@ def upload_script():
     conn.close()
     return jsonify({"success": True})
 
-# --- 👑 ADMİN PANELI ---
 @app.route('/api/admin/get_all', methods=['POST'])
 def admin_get_all():
     if request.json.get('key') != ADMIN_KEY: return jsonify({"success": False})
     conn = get_db_connection()
     c = conn.cursor()
-    
     c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=0 ORDER BY id DESC")
     pending = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
-    
     c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=1 ORDER BY id DESC")
     approved_list = [{"id": r[0], "game": r[1], "title": r[2], "keyless": r[3], "script": r[4], "uploader": r[5]} for r in c.fetchall()]
-    
     conn.close()
     return jsonify({"success": True, "pending": pending, "approved_list": approved_list})
 
@@ -132,7 +118,6 @@ def admin_act():
     conn.close()
     return jsonify({"success": True})
 
-# --- AUTH & CHAT ---
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -153,7 +138,6 @@ def login():
     if data.get('password') == 'google_oauth_bypass': 
         session['user'] = data['username']
         return jsonify({"success": True})
-    
     conn = get_db_connection()
     c = conn.cursor()
     c.execute("SELECT * FROM users WHERE username=? AND password=?", (data['username'], data['password']))
@@ -190,6 +174,32 @@ def send_msg():
     conn.commit()
     conn.close()
     return jsonify({"success": True})
+
+# --- 🤖 YENİ SİBER BOT BEYNİ ---
+@app.route('/api/bot', methods=['POST'])
+def bot_chat():
+    user_msg = request.json.get('text', '').lower()
+    
+    # Standart bot cevabı
+    response = "Sistem bunu tam analiz edemedi patron. Executorlar, oyun kodları veya CeusX paneli hakkında bir şeyler sorabilirsin."
+
+    # Siber Mantık Filtreleri
+    if "xeno" in user_msg:
+        response = "Xeno, Seviye 8 gücünde yeraltının en sağlam executor'ıdır. Ağır Hub'ları çökmeden çalıştırır. Üst menüden 'EXECUTORLAR' sekmesinden indirebilirsin!"
+    elif "solara" in user_msg:
+        response = "Solara çok hızlı ve pratiktir! ESP gibi kendi yazdığın temel scriptler için mükemmeldir. Taramada Defender uyarısı vermesi normaldir."
+    elif "codex" in user_msg:
+        response = "Codex, Android dünyasının kralıdır. Mobilden veya emülatörden giriyorsan tek adresindir."
+    elif "script" in user_msg or "kod" in user_msg or "hile" in user_msg:
+        response = "Dünya çapında script aramak için 'MOTOR' sekmesini, bizim mühürlü kodlarımız için 'ONAYLILAR' sekmesini kullanabilirsin."
+    elif "selam" in user_msg or "merhaba" in user_msg or "sa " in user_msg or user_msg == "sa":
+        response = "Aleykümselam! CeusX Siber Karargahına hoş geldin. Sistem emirlerini bekliyor."
+    elif "diyar" in user_msg or "kurucu" in user_msg or "sahip" in user_msg:
+        response = "Bu sistemin kurucusu Yeraltı Kralı Diyar'dır! Ben de onun emriyle sana yardım ediyorum. 😎👑"
+    elif "admin" in user_msg:
+        response = "Admin paneli kilitlidir. Giriş yapabilmek için gizli şifreyi bilmen gerekir. Şansını zorlama! 🛡️"
+
+    return jsonify({"reply": response})
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 10000))
