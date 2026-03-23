@@ -4,12 +4,13 @@ import requests
 import os
 
 app = Flask(__name__)
-app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar_v5'
-DB_NAME = 'ceusx_render_v5.db'
+app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar_v6'
+DB_NAME = 'ceusx_render_v6.db' # V6 yaptık, eski veritabanı kilitlenmelerini es geçecek
 ADMIN_KEY = 'ceusx2026'
 
 def get_db_connection():
-    conn = sqlite3.connect(DB_NAME, timeout=15)
+    # check_same_thread=False Render'da çökme ihtimalini azaltır
+    conn = sqlite3.connect(DB_NAME, timeout=20, check_same_thread=False)
     return conn
 
 def init_db():
@@ -94,7 +95,8 @@ def upload_script():
 
 @app.route('/api/admin/get_all', methods=['POST'])
 def admin_get_all():
-    if request.json.get('key') != ADMIN_KEY: return jsonify({"success": False})
+    data = request.json or {}
+    if data.get('key') != ADMIN_KEY: return jsonify({"success": False})
     conn = get_db_connection()
     c = conn.cursor()
     c.execute("SELECT id, game, title, keyless, code, uploader FROM scripts WHERE approved=0 ORDER BY id DESC")
@@ -106,25 +108,25 @@ def admin_get_all():
 
 @app.route('/api/admin/action', methods=['POST'])
 def admin_act():
-    data = request.json
+    data = request.json or {}
     if data.get('key') != ADMIN_KEY: return jsonify({"success": False})
     conn = get_db_connection()
     c = conn.cursor()
-    if data['action'] == 'approve': 
-        c.execute("UPDATE scripts SET approved=1, verified=1, uploader='CeusX (RESMİ)' WHERE id=?", (data['id'],))
-    elif data['action'] == 'delete': 
-        c.execute("DELETE FROM scripts WHERE id=?", (data['id'],))
+    if data.get('action') == 'approve': 
+        c.execute("UPDATE scripts SET approved=1, verified=1, uploader='CeusX (RESMİ)' WHERE id=?", (data.get('id'),))
+    elif data.get('action') == 'delete': 
+        c.execute("DELETE FROM scripts WHERE id=?", (data.get('id'),))
     conn.commit()
     conn.close()
     return jsonify({"success": True})
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.json
+    data = request.json or {}
     conn = get_db_connection()
     c = conn.cursor()
     try:
-        c.execute("INSERT INTO users VALUES (?,?)", (data['username'], data['password']))
+        c.execute("INSERT INTO users VALUES (?,?)", (data.get('username'), data.get('password')))
         conn.commit()
         return jsonify({"success": True})
     except: 
@@ -134,15 +136,15 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.json
+    data = request.json or {}
     if data.get('password') == 'google_oauth_bypass': 
-        session['user'] = data['username']
+        session['user'] = data.get('username')
         return jsonify({"success": True})
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username=? AND password=?", (data['username'], data['password']))
+    c.execute("SELECT * FROM users WHERE username=? AND password=?", (data.get('username'), data.get('password')))
     if c.fetchone(): 
-        session['user'] = data['username']
+        session['user'] = data.get('username')
         conn.close()
         return jsonify({"success": True})
     conn.close()
@@ -168,22 +170,22 @@ def get_msgs():
 @app.route('/send_message', methods=['POST'])
 def send_msg():
     if 'user' not in session: return jsonify({"error": 1})
+    data = request.json or {}
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute("INSERT INTO messages VALUES (?,?)", (session['user'], request.json['text']))
+    c.execute("INSERT INTO messages VALUES (?,?)", (session['user'], data.get('text')))
     conn.commit()
     conn.close()
     return jsonify({"success": True})
 
-# --- 🤖 YENİ SİBER BOT BEYNİ ---
+# --- YENİ SİBER BOT BEYNİ (HATA KORUMALI) ---
 @app.route('/api/bot', methods=['POST'])
 def bot_chat():
-    user_msg = request.json.get('text', '').lower()
+    data = request.json or {}
+    user_msg = data.get('text', '').lower()
     
-    # Standart bot cevabı
     response = "Sistem bunu tam analiz edemedi patron. Executorlar, oyun kodları veya CeusX paneli hakkında bir şeyler sorabilirsin."
 
-    # Siber Mantık Filtreleri
     if "xeno" in user_msg:
         response = "Xeno, Seviye 8 gücünde yeraltının en sağlam executor'ıdır. Ağır Hub'ları çökmeden çalıştırır. Üst menüden 'EXECUTORLAR' sekmesinden indirebilirsin!"
     elif "solara" in user_msg:
@@ -192,7 +194,7 @@ def bot_chat():
         response = "Codex, Android dünyasının kralıdır. Mobilden veya emülatörden giriyorsan tek adresindir."
     elif "script" in user_msg or "kod" in user_msg or "hile" in user_msg:
         response = "Dünya çapında script aramak için 'MOTOR' sekmesini, bizim mühürlü kodlarımız için 'ONAYLILAR' sekmesini kullanabilirsin."
-    elif "selam" in user_msg or "merhaba" in user_msg or "sa " in user_msg or user_msg == "sa":
+    elif "selam" in user_msg or "merhaba" in user_msg or "sa" in user_msg:
         response = "Aleykümselam! CeusX Siber Karargahına hoş geldin. Sistem emirlerini bekliyor."
     elif "diyar" in user_msg or "kurucu" in user_msg or "sahip" in user_msg:
         response = "Bu sistemin kurucusu Yeraltı Kralı Diyar'dır! Ben de onun emriyle sana yardım ediyorum. 😎👑"
