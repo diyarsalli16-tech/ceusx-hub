@@ -79,7 +79,7 @@
         .card-codex .exec-logo { color: var(--accent); text-shadow: 0 0 10px rgba(0, 255, 170, 0.5); }
         .card-codex .btn-download { background: var(--accent); }
 
-        /* 🤖 SİBER BOT CSS EKLENTİSİ */
+        /* 🤖 SİBER BOT CSS */
         .bot-widget { position: fixed; bottom: 20px; right: 20px; z-index: 100000; display: flex; flex-direction: column; align-items: flex-end; }
         .bot-toggle { background: var(--xeno); color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 24px; box-shadow: 0 0 15px rgba(120, 0, 255, 0.6); border: none; transition: 0.3s; }
         .bot-toggle:hover { transform: scale(1.1); }
@@ -255,7 +255,6 @@
     </div>
 
     <script>
-        // Mevcut Scriptler
         window.addEventListener('load', () => { fetchFromScriptBlox(1); });
 
         function switchTab(tabId, btn) {
@@ -408,7 +407,7 @@
         }
         setInterval(loadMsgs, 4000); loadMsgs();
 
-        // 🤖 SİBER ASİSTAN (BOT) FONKSİYONLARI
+        // 🤖 BOT FONKSİYONLARI (Kusursuz Entegrasyon)
         function toggleBot() {
             const win = document.getElementById('bot-window');
             win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
@@ -420,29 +419,24 @@
             if(!text) return;
             
             const msgContainer = document.getElementById('bot-messages');
-            
-            // Kullanıcı mesajını ekle
             msgContainer.innerHTML += `<div class="msg-user">${text}</div>`;
             input.value = '';
             msgContainer.scrollTop = msgContainer.scrollHeight;
 
             try {
-                // Python API'ye gönder ve cevabı bekle
                 const res = await fetch('/api/bot', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text })
+                    body: JSON.stringify({ text: text })
                 });
                 const data = await res.json();
                 
-                // Bot mesajını ufak bir gecikmeyle (yazıyor efekti) ekle
                 setTimeout(() => {
                     msgContainer.innerHTML += `<div class="msg-bot">${data.reply}</div>`;
                     msgContainer.scrollTop = msgContainer.scrollHeight;
-                }, 600);
-                
+                }, 500);
             } catch (e) {
-                msgContainer.innerHTML += `<div class="msg-bot" style="color:var(--red);">Siber ağ bağlantısı koptu!</div>`;
+                msgContainer.innerHTML += `<div class="msg-bot" style="color:var(--red);">Bağlantı koptu!</div>`;
             }
         }
     </script>
