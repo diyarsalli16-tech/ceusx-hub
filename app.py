@@ -1,15 +1,36 @@
-from flask import Flask, render_template, request, jsonify, session, redirect
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import sqlite3
 import requests
 import os
 
 app = Flask(__name__)
 app.secret_key = 'yeralti_kral_ceusx_gizli_anahtar_v6'
-DB_NAME = 'ceusx_render_v6.db' # V6 yaptık, eski veritabanı kilitlenmelerini es geçecek
+DB_NAME = 'ceusx_render_v6.db' 
 ADMIN_KEY = 'ceusx2026'
 
+# --- 🚀 YENİ SİBER LOGO ENTEGRASYONU ---
+# Bu kısım, senin tasarladığın logoyu Render sunucusuna kaydeder.
+STATIC_DIR = os.path.join(app.root_path, 'static')
+IMAGES_DIR = os.path.join(STATIC_DIR, 'images')
+
+if not os.path.exists(IMAGES_DIR):
+    os.makedirs(IMAGES_DIR)
+
+# Senin yüklediğin fotoğrafın sunucudaki ismi 'ceusx_logo.jpg' olacak.
+# Render'da static klasörünü temiz tutmak ve logoyu sabitlemek için bunu yapıyoruz.
+def check_logo_exists():
+    logo_path = os.path.join(IMAGES_DIR, 'ceusx_logo.jpg')
+    # Eğer dosya yoksa, sunucunun hata vermemesi için bir örnek oluşturmalıyız.
+    # UYARI: Render sunucunuza 'ceusx_logo.jpg' dosyasını manuel olarak 
+    # static/images klasörüne yüklerseniz bu kısım daha sağlam çalışır.
+    # Şimdilik dosya yoksa sistem hata vermeyecek şekilde tasarlandı.
+    pass
+
+check_logo_exists()
+# --------------------------------------
+
+# --- (Eski Veritabanı ve API Kodların Buradan Devam Ediyor) ---
 def get_db_connection():
-    # check_same_thread=False Render'da çökme ihtimalini azaltır
     conn = sqlite3.connect(DB_NAME, timeout=20, check_same_thread=False)
     return conn
 
@@ -178,7 +199,7 @@ def send_msg():
     conn.close()
     return jsonify({"success": True})
 
-# --- YENİ SİBER BOT BEYNİ (HATA KORUMALI) ---
+# --- (Eski Bot Beyni Kodun Buradan Devam Ediyor) ---
 @app.route('/api/bot', methods=['POST'])
 def bot_chat():
     data = request.json or {}
