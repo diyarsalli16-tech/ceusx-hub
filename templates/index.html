@@ -17,13 +17,24 @@
         header { padding: 15px; text-align: center; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
         header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; }
 
-        .tab-menu { display: flex; justify-content: center; gap: 8px; margin-top: 15px; flex-wrap: wrap; }
-        .tab-btn { background: #111; color: #888; border: 1px solid #222; padding: 8px 12px; border-radius:6px; cursor: pointer; font-family:'Orbitron'; font-size: 10px; font-weight: bold; transition: 0.3s; }
-        .tab-btn.active { color: #000; background: var(--accent); border-color: var(--accent); }
-        .tab-btn.active-red { color: #fff; background: var(--red); }
-        .tab-btn.active-gold { color: #000; background: var(--gold); }
-        .tab-btn.active-xeno { color: #fff; background: var(--xeno); border-color: var(--xeno); box-shadow: 0 0 15px rgba(120, 0, 255, 0.3); }
-        .tab-btn.active-exec { color: #fff; background: #0099ff; border-color: #0099ff; box-shadow: 0 0 15px rgba(0, 153, 255, 0.4); }
+        /* ☰ YENİ YAN MENÜ SİSTEMİ (SIDEBAR) */
+        .menu-btn { position: fixed; top: 12px; left: 15px; z-index: 1002; background: transparent; border: none; color: var(--accent); font-size: 26px; cursor: pointer; transition: 0.3s; }
+        .menu-btn:hover { transform: scale(1.1); color: #fff; }
+        
+        .sidebar { position: fixed; top: 0; left: -260px; width: 220px; height: 100vh; background: rgba(13, 13, 18, 0.98); border-right: 1px solid var(--accent); z-index: 1001; transition: left 0.3s ease-in-out; display: flex; flex-direction: column; padding-top: 60px; box-shadow: 5px 0 20px rgba(0,0,0,0.9); }
+        .sidebar.open { left: 0; }
+        
+        .sidebar .tab-btn { background: transparent; color: #888; border: 1px solid transparent; padding: 12px 20px; margin: 5px 10px; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 12px; font-weight: bold; transition: 0.3s; text-align: left; }
+        .sidebar .tab-btn:hover { background: #111; color: #fff; border-color: #333; }
+        .sidebar .tab-btn.active { color: #000; background: var(--accent); border-color: var(--accent); }
+        .sidebar .tab-btn.active-red { color: #fff; background: var(--red); }
+        .sidebar .tab-btn.active-gold { color: #000; background: var(--gold); }
+        .sidebar .tab-btn.active-xeno { color: #fff; background: var(--xeno); border-color: var(--xeno); box-shadow: 0 0 15px rgba(120, 0, 255, 0.3); }
+        .sidebar .tab-btn.active-exec { color: #fff; background: #0099ff; border-color: #0099ff; box-shadow: 0 0 15px rgba(0, 153, 255, 0.4); }
+
+        /* Menü açıldığında arkayı karartan gölge */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(2px); }
+        .overlay.show { opacity: 1; visibility: visible; }
         
         .tab-content { display: none; padding: 15px; animation: fadeIn 0.3s; }
         .tab-content.active { display: block; }
@@ -114,20 +125,24 @@
     </div>
     {% endif %}
 
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <div id="sidebarOverlay" class="overlay" onclick="toggleSidebar()"></div>
+
     <header>
         <h1>CEUS<span style="color:var(--xeno)">X</span></h1>
         {% if logged_in %}
             <span style="font-size:10px; color:#888;">AKTİF: <b style="color:#fff;">{{ user }}</b> | <a href="/logout" style="color:var(--red); text-decoration:none;">ÇIKIŞ</a></span>
         {% endif %}
-        <div class="tab-menu">
-            <button class="tab-btn active" onclick="switchTab('scripts', this)">🔍 MOTOR</button>
-            <button class="tab-btn" onclick="switchTab('onaylilar', this); fetchApprovedVitrin();">🏆 ONAYLILAR</button>
-            <button class="tab-btn" onclick="switchTab('executors', this)">🔥 EXECUTORLAR</button>
-            <button class="tab-btn" onclick="switchTab('upload', this)">📤 YÜKLE</button>
-            <button class="tab-btn" onclick="switchTab('scanner', this)">🛡️ TARA</button>
-            <button class="tab-btn" onclick="switchTab('admin', this)">👑 ADMİN</button>
-        </div>
     </header>
+
+    <div id="mySidebar" class="sidebar">
+        <button class="tab-btn active" onclick="switchTab('scripts', this)">🔍 MOTOR</button>
+        <button class="tab-btn" onclick="switchTab('onaylilar', this); fetchApprovedVitrin();">🏆 ONAYLILAR</button>
+        <button class="tab-btn" onclick="switchTab('executors', this)">🔥 EXECUTORLAR</button>
+        <button class="tab-btn" onclick="switchTab('upload', this)">📤 YÜKLE</button>
+        <button class="tab-btn" onclick="switchTab('scanner', this)">🛡️ TARA</button>
+        <button class="tab-btn" onclick="switchTab('admin', this)">👑 ADMİN</button>
+    </div>
 
     <div class="content">
         <div id="tab-scripts" class="tab-content active">
@@ -257,6 +272,12 @@
     <script>
         window.addEventListener('load', () => { fetchFromScriptBlox(1); });
 
+        // YAN MENÜ AÇ / KAPAT SİSTEMİ
+        function toggleSidebar() {
+            document.getElementById('mySidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn');
             if(tabId === 'scanner') btn.classList.add('active-red');
@@ -267,6 +288,10 @@
             
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
+
+            // Menüden seçim yapıldıktan sonra menüyü otomatik kapat
+            document.getElementById('mySidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
         }
 
         function showToast(msg, type='success') {
@@ -407,7 +432,7 @@
         }
         setInterval(loadMsgs, 4000); loadMsgs();
 
-        // 🤖 BOT FONKSİYONLARI (Kusursuz Entegrasyon)
+        // 🤖 BOT FONKSİYONLARI
         function toggleBot() {
             const win = document.getElementById('bot-window');
             win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
