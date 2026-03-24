@@ -12,37 +12,28 @@
         /* --- 🛡️ GİRİŞ EKRANI VE ARKA PLAN ENTEGRASYONU --- */
         .auth-screen { 
             position: fixed; inset: 0; 
-            /* Senin yüklediğin fotoğraf arka plan oluyor */
             background-image: url('{{ url_for("static", filename="images/ceusx_logo.jpg") }}'); 
-            background-size: cover; /* Arka planı tamamen kapla */
-            background-position: center; /* Merkeze hizala */
+            background-size: cover; background-position: center; 
             display: flex; align-items: center; justify-content: center; 
-            z-index: 9999; padding: 20px; 
-            backdrop-filter: blur(5px); /* Arka planı hafifletip okumayı kolaylaştır */
+            z-index: 9999; padding: 20px; backdrop-filter: blur(5px); 
         }
         .auth-screen::before {
             content: ""; position: absolute; inset: 0;
-            background: rgba(0,0,0,0.6); /* Fotoğrafın üstüne koyu bir katman at */
-            z-index: -1;
+            background: rgba(0,0,0,0.6); z-index: -1;
         }
         
         .auth-box { background: rgba(13, 13, 18, 0.9); padding: 30px; border-radius: 16px; border: 1px solid #222; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(0, 255, 170, 0.2); }
         input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
-        .btn-auth { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
+        .btn-auth { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; font-family: 'Orbitron'; }
         
         /* --- 🌐 HEADER VE LOGO ENTEGRASYONU --- */
         header { 
-            padding: 10px; text-align: center; 
-            background: rgba(5,5,5,0.9); 
-            border-bottom: 1px solid #222; 
-            position: sticky; top: 0; z-index: 100; 
+            padding: 10px; text-align: center; background: rgba(5,5,5,0.9); 
+            border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; 
             display: flex; justify-content: center; align-items: center; gap: 10px;
         }
-        .ceusx-header-logo {
-            height: 35px; /* Logoyu header'a uygun boyuta getir */
-            border-radius: 4px; /* Hafif yuvarlatılmış köşeler */
-        }
-        header h1 { margin: 0; font-family: 'Orbitron'; font-size: 18px; color: #fff; display: none; } /* Eski text logosunu gizle */
+        .ceusx-header-logo { height: 35px; border-radius: 4px; }
+        header h1 { margin: 0; font-family: 'Orbitron'; font-size: 18px; color: #fff; display: none; } 
 
         /* ☰ YENİ YAN MENÜ BUTONU VE SİSTEMİ (SIDEBAR) */
         .menu-btn { position: fixed; top: 12px; left: 15px; z-index: 1002; background: transparent; border: none; color: var(--accent); font-size: 26px; cursor: pointer; transition: 0.3s; }
@@ -66,7 +57,39 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
 
-        /* (Eski Kart, Mesajlaşma ve Scanner CSS'lerin Buradan Devam Ediyor) */
+        /* --- 📢 SİBER POP-UP (DUYURU) SİSTEMİ --- */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 999999; 
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.4s ease;
+        }
+        .popup-overlay.show { display: flex; opacity: 1; }
+
+        .popup-box {
+            background: rgba(13, 13, 18, 0.95); border: 2px solid var(--xeno);
+            border-radius: 15px; padding: 30px 25px; width: 90%; max-width: 400px;
+            text-align: center; box-shadow: 0 0 40px rgba(120, 0, 255, 0.5);
+            transform: scale(0.8); transition: transform 0.4s ease; position: relative;
+        }
+        .popup-overlay.show .popup-box { transform: scale(1); }
+
+        .popup-close {
+            position: absolute; top: 10px; right: 15px; background: transparent; 
+            border: none; color: #888; font-size: 22px; cursor: pointer; transition: 0.2s;
+        }
+        .popup-close:hover { color: var(--red); transform: scale(1.2); }
+        .popup-box h2 { color: #fff; font-family: 'Orbitron'; margin: 10px 0 5px 0; font-size: 22px; text-transform: uppercase; }
+        .popup-box h2 span { color: var(--xeno); }
+        .popup-box p { color: #aaa; font-size: 13px; line-height: 1.5; margin-bottom: 25px; }
+        
+        .popup-btn-group { display: flex; gap: 10px; flex-direction: column; }
+        .popup-btn { background: var(--xeno); color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-family: 'Orbitron'; cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .popup-btn:hover { background: #8e2eff; box-shadow: 0 0 15px rgba(120, 0, 255, 0.6); }
+        .popup-btn-discord { background: #5865F2; } /* Discord Rengi */
+        .popup-btn-discord:hover { background: #4752C4; box-shadow: 0 0 15px rgba(88, 101, 242, 0.6); }
+
+        /* KARTLAR VE DİĞER CSSLER */
         .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
         .card { background: var(--panel); border: 1px solid #222; border-radius: 12px; padding: 15px; position: relative; }
         .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #fff; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -137,10 +160,23 @@
 
     <div id="toast-container"></div>
 
+    <div id="ceusx-popup" class="popup-overlay">
+        <div class="popup-box">
+            <button class="popup-close" onclick="closePopup()">✖</button>
+            <h1 style="font-size:45px; margin:0; text-shadow: 0 0 15px var(--xeno);">🚀</h1> 
+            <h2>Ceus<span>X</span> V6 Aktif!</h2>
+            <p>Yeraltı Karargahına hoş geldin. Sitemiz tamamen yenilendi! Yeni script motorumuzu dene ve siber botumuzla sohbet etmeyi unutma.</p>
+            <div class="popup-btn-group">
+                <button class="popup-btn" onclick="closePopup()">ANLADIM, SİSTEME GİR</button>
+                <button class="popup-btn popup-btn-discord" onclick="window.open('https://discord.gg/senin_linkin_buraya', '_blank')">DISCORD SUNUCUMUZA KATIL</button>
+            </div>
+        </div>
+    </div>
+
     {% if not logged_in %}
     <div class="auth-screen">
         <div class="auth-box">
-            <img src="{{ url_for('static', filename='images/ceusx_logo.jpg') }}" alt="CeusX Logo" style="height:60px; margin-bottom:15px; border-radius:8px; border:1px solid #333;">
+            <img src="{{ url_for('static', filename='images/ceusx_logo.jpg') }}" alt="CeusX Logo" style="height:60px; margin-bottom:15px; border-radius:8px; border:1px solid #333; box-shadow: 0 0 15px rgba(255,255,255,0.1);">
             <input type="text" id="user" placeholder="Kullanıcı Adı">
             <input type="password" id="pass" placeholder="Şifre">
             <button class="btn-auth" style="background:#fff; color:#000;" onclick="auth('login')">GİRİŞ YAP</button>
@@ -296,9 +332,24 @@
     </div>
 
     <script>
-        window.addEventListener('load', () => { fetchFromScriptBlox(1); });
+        // --- 📢 POP-UP FONKSİYONLARI ---
+        function openPopup() { document.getElementById('ceusx-popup').classList.add('show'); }
+        function closePopup() {
+            const popup = document.getElementById('ceusx-popup');
+            popup.classList.remove('show');
+            localStorage.setItem('ceusx_popup_seen', 'true');
+            setTimeout(() => { popup.style.display = 'none'; }, 400); 
+        }
 
-        // YAN MENÜ AÇ / KAPAT SİSTEMİ
+        window.addEventListener('load', () => { 
+            fetchFromScriptBlox(1); 
+            // 1.5 Saniye sonra pop-up'ı göster (Daha önce kapatmadıysa)
+            if (!localStorage.getItem('ceusx_popup_seen')) {
+                setTimeout(openPopup, 1500);
+            }
+        });
+
+        // --- YAN MENÜ FONKSİYONLARI ---
         function toggleSidebar() {
             document.getElementById('mySidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('show');
@@ -315,7 +366,6 @@
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
 
-            // Menüden seçim yapıldıktan sonra menüyü otomatik kapat
             document.getElementById('mySidebar').classList.remove('open');
             document.getElementById('sidebarOverlay').classList.remove('show');
         }
