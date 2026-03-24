@@ -9,15 +9,42 @@
         :root { --bg: #050505; --panel: #0d0d12; --accent: #00ffaa; --xeno: #7800ff; --red: #ff3366; --gold: #ffcc00; --game: #00e5ff; }
         body { background: var(--bg); color: #eee; font-family: 'Poppins', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        .auth-screen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
-        .auth-box { background: var(--panel); padding: 30px; border-radius: 16px; border: 1px solid #222; width: 100%; max-width: 320px; text-align: center; }
+        /* --- 🛡️ GİRİŞ EKRANI VE ARKA PLAN ENTEGRASYONU --- */
+        .auth-screen { 
+            position: fixed; inset: 0; 
+            /* Senin yüklediğin fotoğraf arka plan oluyor */
+            background-image: url('{{ url_for("static", filename="images/ceusx_logo.jpg") }}'); 
+            background-size: cover; /* Arka planı tamamen kapla */
+            background-position: center; /* Merkeze hizala */
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 9999; padding: 20px; 
+            backdrop-filter: blur(5px); /* Arka planı hafifletip okumayı kolaylaştır */
+        }
+        .auth-screen::before {
+            content: ""; position: absolute; inset: 0;
+            background: rgba(0,0,0,0.6); /* Fotoğrafın üstüne koyu bir katman at */
+            z-index: -1;
+        }
+        
+        .auth-box { background: rgba(13, 13, 18, 0.9); padding: 30px; border-radius: 16px; border: 1px solid #222; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 30px rgba(0, 255, 170, 0.2); }
         input, textarea { width: 100%; padding: 12px; margin: 8px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
         .btn-auth { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; margin-top: 5px; }
         
-        header { padding: 15px; text-align: center; background: rgba(5,5,5,0.9); border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 100; }
-        header h1 { margin: 0; font-family: 'Orbitron'; font-size: 20px; color: #fff; }
+        /* --- 🌐 HEADER VE LOGO ENTEGRASYONU --- */
+        header { 
+            padding: 10px; text-align: center; 
+            background: rgba(5,5,5,0.9); 
+            border-bottom: 1px solid #222; 
+            position: sticky; top: 0; z-index: 100; 
+            display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .ceusx-header-logo {
+            height: 35px; /* Logoyu header'a uygun boyuta getir */
+            border-radius: 4px; /* Hafif yuvarlatılmış köşeler */
+        }
+        header h1 { margin: 0; font-family: 'Orbitron'; font-size: 18px; color: #fff; display: none; } /* Eski text logosunu gizle */
 
-        /* ☰ YENİ YAN MENÜ SİSTEMİ (SIDEBAR) */
+        /* ☰ YENİ YAN MENÜ BUTONU VE SİSTEMİ (SIDEBAR) */
         .menu-btn { position: fixed; top: 12px; left: 15px; z-index: 1002; background: transparent; border: none; color: var(--accent); font-size: 26px; cursor: pointer; transition: 0.3s; }
         .menu-btn:hover { transform: scale(1.1); color: #fff; }
         
@@ -32,7 +59,6 @@
         .sidebar .tab-btn.active-xeno { color: #fff; background: var(--xeno); border-color: var(--xeno); box-shadow: 0 0 15px rgba(120, 0, 255, 0.3); }
         .sidebar .tab-btn.active-exec { color: #fff; background: #0099ff; border-color: #0099ff; box-shadow: 0 0 15px rgba(0, 153, 255, 0.4); }
 
-        /* Menü açıldığında arkayı karartan gölge */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(2px); }
         .overlay.show { opacity: 1; visibility: visible; }
         
@@ -40,7 +66,7 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
 
-        /* SCRIPTS */
+        /* (Eski Kart, Mesajlaşma ve Scanner CSS'lerin Buradan Devam Ediyor) */
         .script-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
         .card { background: var(--panel); border: 1px solid #222; border-radius: 12px; padding: 15px; position: relative; }
         .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #fff; width: 75%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -90,7 +116,6 @@
         .card-codex .exec-logo { color: var(--accent); text-shadow: 0 0 10px rgba(0, 255, 170, 0.5); }
         .card-codex .btn-download { background: var(--accent); }
 
-        /* 🤖 SİBER BOT CSS */
         .bot-widget { position: fixed; bottom: 20px; right: 20px; z-index: 100000; display: flex; flex-direction: column; align-items: flex-end; }
         .bot-toggle { background: var(--xeno); color: #fff; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 24px; box-shadow: 0 0 15px rgba(120, 0, 255, 0.6); border: none; transition: 0.3s; }
         .bot-toggle:hover { transform: scale(1.1); }
@@ -115,7 +140,7 @@
     {% if not logged_in %}
     <div class="auth-screen">
         <div class="auth-box">
-            <h1 style="color:#fff; font-family:'Orbitron'; font-size:24px;">CEUS<span style="color:var(--xeno)">X</span></h1>
+            <img src="{{ url_for('static', filename='images/ceusx_logo.jpg') }}" alt="CeusX Logo" style="height:60px; margin-bottom:15px; border-radius:8px; border:1px solid #333;">
             <input type="text" id="user" placeholder="Kullanıcı Adı">
             <input type="password" id="pass" placeholder="Şifre">
             <button class="btn-auth" style="background:#fff; color:#000;" onclick="auth('login')">GİRİŞ YAP</button>
@@ -129,9 +154,10 @@
     <div id="sidebarOverlay" class="overlay" onclick="toggleSidebar()"></div>
 
     <header>
+        <img src="{{ url_for('static', filename='images/ceusx_logo.jpg') }}" alt="CeusX Logo" class="ceusx-header-logo">
         <h1>CEUS<span style="color:var(--xeno)">X</span></h1>
         {% if logged_in %}
-            <span style="font-size:10px; color:#888;">AKTİF: <b style="color:#fff;">{{ user }}</b> | <a href="/logout" style="color:var(--red); text-decoration:none;">ÇIKIŞ</a></span>
+            <span style="font-size:10px; color:#888; margin-left:auto;">AKTİF: <b style="color:#fff;">{{ user }}</b> | <a href="/logout" style="color:var(--red); text-decoration:none;">ÇIKIŞ</a></span>
         {% endif %}
     </header>
 
@@ -432,7 +458,6 @@
         }
         setInterval(loadMsgs, 4000); loadMsgs();
 
-        // 🤖 BOT FONKSİYONLARI
         function toggleBot() {
             const win = document.getElementById('bot-window');
             win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
